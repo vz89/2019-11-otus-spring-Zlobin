@@ -34,7 +34,7 @@ public class TestingServiceImpl implements TestingService {
                 System.out.println(question.getAnswers().get(i - 1));
             }
 
-            System.out.println("Введите свой вариант ответа цифрой от 1 до 4");
+            System.out.println("Введите свой вариант ответа цифрой от 1 до 4 ");
             boolean answerType = false;
             int answerIndex = 0;
             while (!answerType) {
