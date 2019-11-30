@@ -15,10 +15,10 @@ public class Main {
     public static void main(String[] args) {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/spring-context.xml");
 
-        System.out.println("Р’РІРµРґРёС‚Рµ РёРјСЏ");
+        System.out.println("Введите имя");
         Scanner sc = new Scanner(System.in);
         String firstName = sc.nextLine();
-        System.out.println("Р’РІРµРґРёС‚Рµ С„Р°РјРёР»РёСЋ");
+        System.out.println("Введите фамилию");
         String secondName = sc.nextLine();
 
         PersonService personService = context.getBean(PersonService.class);

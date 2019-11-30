@@ -27,21 +27,21 @@ public class TestingServiceImpl implements TestingService {
         for (Question question : testing.getQuestions()
         ) {
             currentQuestion++;
-            System.out.print("Р’РѕРїСЂРѕСЃ в„–" + currentQuestion + ": ");
+            System.out.print("Вопрос №" + currentQuestion + ": ");
             System.out.println(question.getQuestion());
             for (int i = 1; i <= question.getAnswers().size(); i++) {
-                System.out.print("Р’Р°СЂРёР°РЅС‚ РѕС‚РІРµС‚Р° в„–" + i + ": ");
+                System.out.print("Вариант ответа №" + i + ": ");
                 System.out.println(question.getAnswers().get(i - 1));
             }
 
-            System.out.println("Р’РІРµРґРёС‚Рµ СЃРІРѕР№ РІР°СЂРёР°РЅС‚ РѕС‚РІРµС‚Р° С†РёС„СЂРѕР№ РѕС‚ 1 РґРѕ 4");
+            System.out.println("Введите свой вариант ответа цифрой от 1 до 4");
             boolean answerType = false;
             int answerIndex = 0;
             while (!answerType) {
                 answerIndex = sc.nextInt();
                 if (answerIndex < 1 || answerIndex > question.getAnswers().size()) {
                     answerType = false;
-                    System.out.print(" Р’РІРµРґРёС‚Рµ С†РёС„СЂСѓ РѕС‚ 1 РґРѕ " + question.getAnswers().size());
+                    System.out.print(" Введите цифру от 1 до " + question.getAnswers().size());
                 } else answerType = true;
             }
             if (answerIndex != question.getRightAnswer()) {
@@ -49,14 +49,14 @@ public class TestingServiceImpl implements TestingService {
             }
         }
         testing.setResult(correctAnswers >= testing.getQuestions().size() / 2);
-        String testResult = (testing.isResult()) ? "РїСЂРѕР№РґРµРЅ" : "РЅРµ РїСЂРѕР№РґРµРЅ";
+        String testResult = (testing.isResult()) ? "пройден" : "не пройден";
 
-        System.out.println("TecС‚ РѕРєРѕРЅС‡РµРЅ!");
-        System.out.println("Р РµР·СѓР»СЊС‚Р°С‚С‹ С‚РµСЃС‚Р°:");
-        System.out.println("РўРµСЃС‚РёСЂСѓРµРјС‹Р№: " + testing.getPerson().getSecondName() + " " + testing.getPerson().getFirstName());
-        System.out.println("РљРѕР»РёС‡РµСЃС‚РІРѕ РІРѕРїСЂРѕСЃРѕРІ: " + testing.getQuestions().size());
-        System.out.println("РџСЂР°РІРёР»СЊРЅС‹С… РѕС‚РІРµС‚РѕРІ: " + correctAnswers);
-        System.out.println("РўРµСЃС‚ " + testResult);
+        System.out.println("Tecт окончен!");
+        System.out.println("Результаты теста:");
+        System.out.println("Тестируемый: " + testing.getPerson().getSecondName() + " " + testing.getPerson().getFirstName());
+        System.out.println("Количество вопросов: " + testing.getQuestions().size());
+        System.out.println("Правильных ответов: " + correctAnswers);
+        System.out.println("Тест " + testResult);
     }
 
 
