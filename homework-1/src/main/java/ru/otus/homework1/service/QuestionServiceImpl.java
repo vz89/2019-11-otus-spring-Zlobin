@@ -6,30 +6,18 @@ import ru.otus.homework1.domain.Question;
 import java.util.List;
 
 public class QuestionServiceImpl implements QuestionService {
-    private QuestionDao questionDao;
-    private String fileName;
+    final private QuestionDao questionDao;
 
     public QuestionServiceImpl(QuestionDao questionDao) {
         this.questionDao = questionDao;
     }
 
     public List<Question> getQuestions() {
-        return questionDao.getQuestions(fileName);
+        return questionDao.getQuestions();
     }
 
     public QuestionDao getQuestionDao() {
         return questionDao;
     }
 
-    public void setQuestionDao(QuestionDao questionDao) {
-        this.questionDao = questionDao;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
 }

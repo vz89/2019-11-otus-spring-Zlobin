@@ -1,47 +1,43 @@
 package ru.otus.homework1.service;
 
-import ru.otus.homework1.dao.TestingDao;
 import ru.otus.homework1.domain.Person;
 import ru.otus.homework1.domain.Question;
 import ru.otus.homework1.domain.Testing;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class TestingServiceImpl implements TestingService {
-    private TestingDao testingDao;
-    private Scanner sc = new Scanner(System.in);
+    private final IOService ioService;
 
-    public TestingServiceImpl(TestingDao testingDao) {
-        this.testingDao = testingDao;
+    public TestingServiceImpl(IOService ioService) {
+
+        this.ioService = ioService;
     }
 
-    public Testing createTest(Person person, List<Question> questionsByFileName) {
-        return testingDao.create(person, questionsByFileName);
+    public Testing createTest(Person person, List<Question> questions) {
+        return  new Testing(person, questions);
     }
 
     public void run(Testing testing) {
-        System.out.println();
+        ioService.write("");
         int correctAnswers = testing.getQuestions().size();
         int currentQuestion = 0;
         for (Question question : testing.getQuestions()
         ) {
             currentQuestion++;
-            System.out.print("Вопрос №" + currentQuestion + ": ");
-            System.out.println(question.getQuestion());
+            ioService.write("Вопрос №" + currentQuestion + ": ");
+            ioService.write(question.getQuestion());
             for (int i = 1; i <= question.getAnswers().size(); i++) {
-                System.out.print("Ответ №" + i + ": ");
-                System.out.println(question.getAnswers().get(i - 1));
+                ioService.write("Ответ №" + i + ": " + question.getAnswers().get(i - 1));
             }
-
-            System.out.println("Введите вариант ответа цифрой от 1 до 4 ");
+            ioService.write("Введите вариант ответа цифрой от 1 до 4 ");
             boolean answerType = false;
             int answerIndex = 0;
             while (!answerType) {
-                answerIndex = sc.nextInt();
+                answerIndex = ioService.readInt();
                 if (answerIndex < 1 || answerIndex > question.getAnswers().size()) {
                     answerType = false;
-                    System.out.println(" Введите цифру от 1 до " + question.getAnswers().size());
+                    ioService.write("Введите цифру от 1 до " + question.getAnswers().size());
                 } else answerType = true;
             }
             if (answerIndex != question.getRightAnswer()) {
@@ -51,20 +47,12 @@ public class TestingServiceImpl implements TestingService {
         testing.setResult(correctAnswers >= testing.getQuestions().size() / 2);
         String testResult = (testing.isResult()) ? "Пройден" : "не пройден";
 
-        System.out.println("Tecт окончен!");
-        System.out.println("Результаты:");
-        System.out.println("Тестируемый: " + testing.getPerson().getSecondName() + " " + testing.getPerson().getFirstName());
-        System.out.println("Количество вопросов: " + testing.getQuestions().size());
-        System.out.println("Количество правильных ответов: " + correctAnswers);
-        System.out.println("Тест: " + testResult);
-    }
+        ioService.write("Tecт окончен!");
+        ioService.write("Результаты:");
+        ioService.write("Тестируемый: " + testing.getPerson().getSecondName() + " " + testing.getPerson().getFirstName());
+        ioService.write("Количество вопросов: " + testing.getQuestions().size());
+        ioService.write("Количество правильных ответов: " + correctAnswers);
+        ioService.write("Тест: " + testResult);
 
-
-    public TestingDao getTestingDao() {
-        return testingDao;
-    }
-
-    public void setTestingDao(TestingDao testingDao) {
-        this.testingDao = testingDao;
     }
 }

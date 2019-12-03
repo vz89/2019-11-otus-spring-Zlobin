@@ -6,21 +6,28 @@
 
     <context:property-placeholder location="classpath:app.properties"/>
 
-    <bean id="personDao" class="ru.otus.homework1.dao.PersonDaoImpl"/>
     <bean id="personService" class="ru.otus.homework1.service.PersonServiceImpl">
-        <constructor-arg name="personDao" ref="personDao"/>
     </bean>
 
-    <bean id="questionDao" class="ru.otus.homework1.dao.QuestionDaoImpl"/>
+    <bean id="questionDao" class="ru.otus.homework1.dao.QuestionDaoImpl">
+        <constructor-arg value="${filename}"/>
+    </bean>
+
     <bean id="questionService" class="ru.otus.homework1.service.QuestionServiceImpl">
         <constructor-arg name="questionDao" ref="questionDao"/>
-        <property name="fileName" value="${filename}"/>
     </bean>
 
-    <bean id="testingDao" class="ru.otus.homework1.dao.TestingDaoImpl"/>
     <bean id="testingService" class="ru.otus.homework1.service.TestingServiceImpl">
-        <constructor-arg name="testingDao" ref="testingDao"/>
+        <constructor-arg name="ioService" ref="ioService"/>
     </bean>
 
+    <bean id="ioService" class="ru.otus.homework1.service.IOServiceImpl"/>
+
+    <bean id="runnerService" class="ru.otus.homework1.service.RunnerServiceImpl">
+        <constructor-arg name="personService" ref="personService"/>
+        <constructor-arg name="questionService" ref="questionService"/>
+        <constructor-arg name="testingService" ref="testingService"/>
+        <constructor-arg name="ioService" ref="ioService"/>
+    </bean>
 
 </beans>

@@ -2,7 +2,6 @@ package ru.otus.homework1.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.otus.homework1.dao.TestingDao;
 import ru.otus.homework1.domain.Person;
 import ru.otus.homework1.domain.Question;
 import ru.otus.homework1.domain.Testing;
@@ -28,11 +27,9 @@ public class TestServiceImplTest {
 
         Person personMock = mock(Person.class);
         Testing testing = new Testing(personMock, questions);
-        TestingDao testingDaoMock = mock(TestingDao.class);
 
-        TestingServiceImpl testService = new TestingServiceImpl(testingDaoMock);
 
-        testService.run(testing);
+
 
     }
 
