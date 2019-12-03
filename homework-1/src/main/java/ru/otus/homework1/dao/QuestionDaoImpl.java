@@ -4,6 +4,7 @@ import org.springframework.util.ResourceUtils;
 import ru.otus.homework1.domain.Question;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -15,7 +16,7 @@ public class QuestionDaoImpl implements QuestionDao {
         try {
             File file = ResourceUtils.getFile("classpath:"+filename);
            // BufferedReader reader = new BufferedReader(new FileReader(file));
-            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file),"windows-1251"));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
             String line = null;
             Scanner scanner = null;
             int index = 0;
