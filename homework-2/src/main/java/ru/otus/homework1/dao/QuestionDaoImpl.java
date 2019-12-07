@@ -1,6 +1,7 @@
 package ru.otus.homework1.dao;
 
-import org.assertj.core.internal.bytebuddy.implementation.bytecode.Throw;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import ru.otus.homework1.domain.Question;
 
@@ -10,12 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+@Service
+
 public class QuestionDaoImpl implements QuestionDao {
+
     final private String filename;
+
     private static final int QUESTION_INDEX=0;
     private static final int ANSWER_INDEX=5;
 
-    public QuestionDaoImpl(String filename) {
+    public QuestionDaoImpl(@Value("${filename}")String filename) {
         this.filename = filename;
     }
 

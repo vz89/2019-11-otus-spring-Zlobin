@@ -1,17 +1,21 @@
 package ru.otus.homework1.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.otus.homework1.domain.Person;
 import ru.otus.homework1.domain.Question;
 import ru.otus.homework1.domain.Testing;
 
 import java.util.List;
 
+@Service
 public class RunnerServiceImpl implements RunnerService {
     final private PersonService personService;
     final private QuestionService questionService;
     final private TestingService testingService;
     final private IOService ioService;
 
+    @Autowired
     public RunnerServiceImpl(PersonService personService, QuestionService questionService, TestingService testingService, IOService ioService) {
         this.personService = personService;
         this.questionService = questionService;

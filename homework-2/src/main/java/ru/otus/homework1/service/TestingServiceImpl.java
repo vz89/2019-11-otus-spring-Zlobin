@@ -1,14 +1,18 @@
 package ru.otus.homework1.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.otus.homework1.domain.Person;
 import ru.otus.homework1.domain.Question;
 import ru.otus.homework1.domain.Testing;
 
 import java.util.List;
 
+@Service
 public class TestingServiceImpl implements TestingService {
     private final IOService ioService;
 
+    @Autowired
     public TestingServiceImpl(IOService ioService) {
 
         this.ioService = ioService;

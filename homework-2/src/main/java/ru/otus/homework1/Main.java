@@ -1,21 +1,17 @@
 package ru.otus.homework1;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ru.otus.homework1.domain.Person;
-import ru.otus.homework1.domain.Question;
-import ru.otus.homework1.domain.Testing;
-import ru.otus.homework1.service.PersonService;
-import ru.otus.homework1.service.QuestionService;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import ru.otus.homework1.service.RunnerService;
-import ru.otus.homework1.service.TestingService;
 
-import java.util.List;
-import java.util.Scanner;
-
+@Configuration
+@ComponentScan
+@PropertySource("classpath:application.properties")
 public class Main {
     public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/spring-context.xml");
-
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Main.class);
         RunnerService runnerService = context.getBean(RunnerService.class);
         runnerService.run();
     }
