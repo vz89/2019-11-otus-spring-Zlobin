@@ -44,7 +44,7 @@ public class TestingServiceImpl implements TestingService {
                 correctAnswers--;
             }
         }
-        testing.setResult(correctAnswers >= testing.getQuestions().size() / 2);
+        testing.setResult(correctAnswers > testing.getQuestions().size() / 2);
         String testResult = (testing.isResult()) ? "Пройден" : "не пройден";
 
         ioService.write("Tecт окончен!");
