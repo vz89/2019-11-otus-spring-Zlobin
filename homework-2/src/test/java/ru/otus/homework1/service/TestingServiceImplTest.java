@@ -3,12 +3,14 @@ package ru.otus.homework1.service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.context.MessageSource;
 import ru.otus.homework1.domain.Person;
 import ru.otus.homework1.domain.Question;
 import ru.otus.homework1.domain.Testing;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -41,7 +43,10 @@ class TestingServiceImplTest {
         Mockito.when(ioServiceMock.readInt()).thenReturn(RIGHT_ANSWER);
         doNothing().when(ioServiceMock).write("");
 
-        TestingServiceImpl testingService = new TestingServiceImpl(ioServiceMock);
+        MessageSource messageSource = mock(MessageSource.class);
+        Locale locale = mock(Locale.class);
+
+        TestingServiceImpl testingService = new TestingServiceImpl(ioServiceMock, messageSource, locale, 1);
 
         testingService.run(testing);
 

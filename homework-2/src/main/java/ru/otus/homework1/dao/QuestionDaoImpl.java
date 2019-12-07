@@ -1,5 +1,6 @@
 package ru.otus.homework1.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
@@ -12,22 +13,22 @@ import java.util.List;
 import java.util.Scanner;
 
 @Service
-
 public class QuestionDaoImpl implements QuestionDao {
 
-    final private String filename;
+    final private String csvFileName;
 
     private static final int QUESTION_INDEX=0;
     private static final int ANSWER_INDEX=5;
 
-    public QuestionDaoImpl(@Value("${filename}")String filename) {
-        this.filename = filename;
+    @Autowired
+    public QuestionDaoImpl(String filename) {
+        this.csvFileName = filename;
     }
 
     public List<Question> getQuestions() {
         List<Question> questions = new ArrayList<>();
         try {
-            File file = ResourceUtils.getFile("classpath:" + filename);
+            File file = ResourceUtils.getFile("classpath:" + csvFileName);
             // BufferedReader reader = new BufferedReader(new FileReader(file));
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
             String line = null;
