@@ -1,9 +1,10 @@
-package ru.otus.homework1.service;
+package ru.otus.homework.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.otus.homework1.dao.QuestionDao;
-import ru.otus.homework1.domain.Question;
+import ru.otus.homework.dao.QuestionDao;
+import ru.otus.homework.domain.Question;
+import ru.otus.homework.exception.InvalidCsvDataException;
 
 import java.util.List;
 
@@ -17,7 +18,13 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     public List<Question> getQuestions() {
-        return questionDao.getQuestions();
+        List<Question> questions = null;
+        try {
+            questions = questionDao.getQuestions();
+        } catch (InvalidCsvDataException e) {
+            e.getMessage();
+        }
+        return questions;
     }
 
     public QuestionDao getQuestionDao() {

@@ -1,7 +1,7 @@
-package ru.otus.homework1.service;
+package ru.otus.homework.service;
 
 import org.springframework.stereotype.Service;
-import ru.otus.homework1.domain.Person;
+import ru.otus.homework.domain.Person;
 
 @Service
 public class PersonServiceImpl implements PersonService {

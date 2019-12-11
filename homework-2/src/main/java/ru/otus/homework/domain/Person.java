@@ -1,4 +1,4 @@
-package ru.otus.homework1.domain;
+package ru.otus.homework.domain;
 
 public class Person {
     private String firstName;

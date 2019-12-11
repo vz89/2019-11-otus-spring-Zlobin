@@ -1,4 +1,4 @@
-package ru.otus.homework1.config;
+package ru.otus.homework.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -17,10 +17,5 @@ public class MessageSourceConfig {
         messageSource.setBasename("classpath:messages");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
-    }
-
-    @Bean
-    public Locale getLocale(@Value("${language}") String language) {
-        return new Locale(language);
     }
 }

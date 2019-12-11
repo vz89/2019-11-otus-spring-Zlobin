@@ -1,10 +1,11 @@
-package ru.otus.homework1.dao;
+package ru.otus.homework.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
-import ru.otus.homework1.domain.Question;
+import ru.otus.homework.config.ApplicationConfig;
+import ru.otus.homework.domain.Question;
+import ru.otus.homework.exception.InvalidCsvDataException;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -17,15 +18,17 @@ public class QuestionDaoImpl implements QuestionDao {
 
     final private String csvFileName;
 
+    @Autowired
+    public QuestionDaoImpl(ApplicationConfig applicationConfig) {
+        this.csvFileName = applicationConfig.getCsvFileName();
+    }
+
     private static final int QUESTION_INDEX=0;
     private static final int ANSWER_INDEX=5;
 
-    @Autowired
-    public QuestionDaoImpl(String filename) {
-        this.csvFileName = filename;
-    }
 
-    public List<Question> getQuestions() {
+
+    public List<Question> getQuestions() throws InvalidCsvDataException{
         List<Question> questions = new ArrayList<>();
         try {
             File file = ResourceUtils.getFile("classpath:" + csvFileName);
@@ -36,7 +39,7 @@ public class QuestionDaoImpl implements QuestionDao {
             int index = 0;
 
             while ((line = reader.readLine()) != null) {
-                ArrayList<String> answers = new ArrayList<>();
+                List<String> answers = new ArrayList<>();
                 Question question = new Question();
 
                 scanner = new Scanner(line);
@@ -49,7 +52,7 @@ public class QuestionDaoImpl implements QuestionDao {
                         answers.add(data);
                     } else if (index == ANSWER_INDEX) {
                         question.setRightAnswer(Integer.parseInt(data));
-                    } else throw new Error("Неправильный формат данных СSV файла");
+                    } else throw new InvalidCsvDataException("Неправильный формат данных СSV файла");
                     index++;
                 }
                 index = 0;
@@ -61,5 +64,4 @@ public class QuestionDaoImpl implements QuestionDao {
         }
         return questions;
     }
-
 }

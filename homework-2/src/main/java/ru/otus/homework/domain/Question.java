@@ -1,13 +1,13 @@
-package ru.otus.homework1.domain;
+package ru.otus.homework.domain;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Question {
     private String question;
-    private ArrayList<String> answers;
+    private List<String> answers;
     private int rightAnswer;
 
-    public Question(String question, ArrayList<String> answers, int rightAnswer) {
+    public Question(String question, List<String> answers, int rightAnswer) {
         this.question = question;
         this.answers = answers;
         this.rightAnswer = rightAnswer;
@@ -24,11 +24,11 @@ public class Question {
         this.question = question;
     }
 
-    public ArrayList<String> getAnswers() {
+    public List<String> getAnswers() {
         return answers;
     }
 
-    public void setAnswers(ArrayList<String> answers) {
+    public void setAnswers(List<String> answers) {
         this.answers = answers;
     }
 

@@ -1,4 +1,4 @@
-package ru.otus.homework1.service;
+package ru.otus.homework.service;
 
 public interface IOService {
     void write(String text);

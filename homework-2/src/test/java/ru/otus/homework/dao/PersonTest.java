@@ -1,8 +1,8 @@
-package ru.otus.homework1.dao;
+package ru.otus.homework.dao;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.otus.homework1.domain.Person;
+import ru.otus.homework.domain.Person;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;

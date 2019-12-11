@@ -1,13 +1,11 @@
-package ru.otus.homework1.service;
+package ru.otus.homework.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import ru.otus.homework1.domain.Person;
-import ru.otus.homework1.domain.Question;
-import ru.otus.homework1.domain.Testing;
+import ru.otus.homework.domain.Person;
+import ru.otus.homework.domain.Question;
+import ru.otus.homework.domain.Testing;
 
 import java.util.List;
 import java.util.Locale;
@@ -18,25 +16,24 @@ public class RunnerServiceImpl implements RunnerService {
     final private QuestionService questionService;
     final private TestingService testingService;
     final private IOService ioService;
-    final private MessageSource messageSource;
-    final private Locale locale;
+    final private MessageSourceService messageSourceService;
 
     @Autowired
     public RunnerServiceImpl(PersonService personService, QuestionService questionService,
-                             TestingService testingService, IOService ioService, MessageSource messageSource, Locale locale) {
+                             TestingService testingService, IOService ioService, MessageSourceService messageSourceService) {
         this.personService = personService;
         this.questionService = questionService;
         this.testingService = testingService;
         this.ioService = ioService;
-        this.messageSource = messageSource;
-        this.locale = locale;
+        this.messageSourceService = messageSourceService;
+
     }
 
     @Override
     public void run() {
-        ioService.write(messageSource.getMessage("person.firstname", null, locale));
+        ioService.write(messageSourceService.getMessage("person.firstname"));
         String firstName = ioService.read();
-        ioService.write(messageSource.getMessage("person.secondname", null, locale));
+        ioService.write(messageSourceService.getMessage("person.secondname"));
         String secondName = ioService.read();
 
         Person person = personService.get(firstName, secondName);

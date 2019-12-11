@@ -1,10 +1,10 @@
-package ru.otus.homework1;
+package ru.otus.homework;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import ru.otus.homework1.service.RunnerService;
+import ru.otus.homework.service.RunnerService;
 
 @Configuration
 @ComponentScan

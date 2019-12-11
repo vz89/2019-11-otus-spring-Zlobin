@@ -1,4 +1,4 @@
-package ru.otus.homework1.domain;
+package ru.otus.homework.domain;
 
 import java.util.List;
 

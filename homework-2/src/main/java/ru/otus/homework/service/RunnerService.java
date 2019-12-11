@@ -1,4 +1,4 @@
-package ru.otus.homework1.service;
+package ru.otus.homework.service;
 
 public interface RunnerService {
      void run();

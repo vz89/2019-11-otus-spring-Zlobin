@@ -1,6 +1,6 @@
-package ru.otus.homework1.service;
+package ru.otus.homework.service;
 
-import ru.otus.homework1.domain.Person;
+import ru.otus.homework.domain.Person;
 
 public interface PersonService {
     Person get(String firstName, String secondname);
