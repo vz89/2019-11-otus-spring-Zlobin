@@ -25,7 +25,7 @@ public class TestingServiceImpl implements TestingService {
     }
 
     public Testing createTest(Person person, List<Question> questions) {
-        return  new Testing(person, questions);
+        return new Testing(person, questions);
     }
 
     public void run(Testing testing) {
@@ -34,26 +34,14 @@ public class TestingServiceImpl implements TestingService {
         for (Question question : testing.getQuestions()
         ) {
             currentQuestion++;
-            ioService.write(messageSourceService.getMessage("test.question") + currentQuestion + ": ");
-            ioService.write(question.getQuestion());
-            for (int i = 1; i <= question.getAnswers().size(); i++) {
-                ioService.write(messageSourceService.getMessage("test.answer") + i + ": " + question.getAnswers().get(i - 1));
-            }
-            ioService.write(messageSourceService.getMessage("test.getanswer"));
-            boolean answerType = false;
-            int answerIndex = 0;
-            while (!answerType) {
-                answerIndex = ioService.readInt();
-                if (answerIndex < 1 || answerIndex > question.getAnswers().size()) {
-                    answerType = false;
-                    ioService.write(messageSourceService.getMessage("test.wrongnumber") + question.getAnswers().size());
-                } else answerType = true;
-            }
-            if (answerIndex != question.getRightAnswer()) {
-                correctAnswers--;
-            }
+            displayQuestion(currentQuestion, question);
+            correctAnswers = getCorrectAnswers(correctAnswers, question);
         }
         testing.setResult(correctAnswers >= applicationConfig.getMinRightAnswer());
+        displayResult(testing, correctAnswers);
+    }
+
+    private void displayResult(Testing testing, int correctAnswers) {
         String testResult = (testing.isResult()) ? messageSourceService.getMessage("test.passed") : messageSourceService.getMessage("test.notpassed");
 
         ioService.write(messageSourceService.getMessage("test.end"));
@@ -62,6 +50,30 @@ public class TestingServiceImpl implements TestingService {
         ioService.write(messageSourceService.getMessage("test.questioncount") + testing.getQuestions().size());
         ioService.write(messageSourceService.getMessage("test.rightanswerscount") + correctAnswers);
         ioService.write(messageSourceService.getMessage("test.test") + testResult);
+    }
 
+    private int getCorrectAnswers(int correctAnswers, Question question) {
+        boolean answerType = false;
+        int answerIndex = 0;
+        while (!answerType) {
+            answerIndex = ioService.readInt();
+            if (answerIndex < 1 || answerIndex > question.getAnswers().size()) {
+                answerType = false;
+                ioService.write(messageSourceService.getMessage("test.wrongnumber") + question.getAnswers().size());
+            } else answerType = true;
+        }
+        if (answerIndex != question.getRightAnswer()) {
+            correctAnswers--;
+        }
+        return correctAnswers;
+    }
+
+    private void displayQuestion(int currentQuestion, Question question) {
+        ioService.write(messageSourceService.getMessage("test.question") + currentQuestion + ": ");
+        ioService.write(question.getQuestion());
+        for (int i = 1; i <= question.getAnswers().size(); i++) {
+            ioService.write(messageSourceService.getMessage("test.answer") + i + ": " + question.getAnswers().get(i - 1));
+        }
+        ioService.write(messageSourceService.getMessage("test.getanswer"));
     }
 }

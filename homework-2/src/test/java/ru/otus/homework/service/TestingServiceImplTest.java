@@ -36,7 +36,6 @@ class TestingServiceImplTest {
 
         questions.add(new Question("Какого цвета небо?", answers, 1));
 
-
         Person person = new Person("Ivanov", "Petr");
         Testing testing = new Testing(person, questions);
 
@@ -47,7 +46,6 @@ class TestingServiceImplTest {
         Mockito.when(ioServiceMock.read()).thenReturn("");
         Mockito.when(ioServiceMock.readInt()).thenReturn(RIGHT_ANSWER);
         doNothing().when(ioServiceMock).write("");
-
 
         TestingServiceImpl testingService = new TestingServiceImpl(ioServiceMock, applicationConfig, messageSourceService);
 

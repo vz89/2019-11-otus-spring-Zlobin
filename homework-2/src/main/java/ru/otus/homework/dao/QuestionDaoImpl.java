@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import ru.otus.homework.config.ApplicationConfig;
 import ru.otus.homework.domain.Question;
+import ru.otus.homework.exception.CSVFileReadingFailedException;
 import ru.otus.homework.exception.InvalidCsvDataException;
 
 import java.io.*;
@@ -23,12 +24,11 @@ public class QuestionDaoImpl implements QuestionDao {
         this.csvFileName = applicationConfig.getCsvFileName();
     }
 
-    private static final int QUESTION_INDEX=0;
-    private static final int ANSWER_INDEX=5;
+    private static final int QUESTION_INDEX = 0;
+    private static final int ANSWER_INDEX = 5;
 
 
-
-    public List<Question> getQuestions() throws InvalidCsvDataException{
+    public List<Question> getQuestions() throws CSVFileReadingFailedException{
         List<Question> questions = new ArrayList<>();
         try {
             File file = ResourceUtils.getFile("classpath:" + csvFileName);
@@ -41,27 +41,33 @@ public class QuestionDaoImpl implements QuestionDao {
             while ((line = reader.readLine()) != null) {
                 List<String> answers = new ArrayList<>();
                 Question question = new Question();
-
                 scanner = new Scanner(line);
                 scanner.useDelimiter(";");
-                while (scanner.hasNext()) {
-                    String data = scanner.next();
-                    if (index == QUESTION_INDEX) {
-                        question.setQuestion(data);
-                    } else if ((index > QUESTION_INDEX) && (index < ANSWER_INDEX)) {
-                        answers.add(data);
-                    } else if (index == ANSWER_INDEX) {
-                        question.setRightAnswer(Integer.parseInt(data));
-                    } else throw new InvalidCsvDataException("Неправильный формат данных СSV файла");
-                    index++;
-                }
+                parseCsvString(scanner, index, answers, question);
                 index = 0;
                 question.setAnswers(answers);
                 questions.add(question);
             }
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            throw new CSVFileReadingFailedException("Невозможно прочитать CSV файд",e);
+        }
+        catch (InvalidCsvDataException e){
+            System.out.println("Неправильный формат данных СSV файла");
         }
         return questions;
+    }
+
+    private void parseCsvString(Scanner scanner, int index, List<String> answers, Question question) throws InvalidCsvDataException {
+        while (scanner.hasNext()) {
+            String data = scanner.next();
+            if (index == QUESTION_INDEX) {
+                question.setQuestion(data);
+            } else if ((index > QUESTION_INDEX) && (index < ANSWER_INDEX)) {
+                answers.add(data);
+            } else if (index == ANSWER_INDEX) {
+                question.setRightAnswer(Integer.parseInt(data));
+            } else throw new InvalidCsvDataException("Неправильный формат данных СSV файла");
+            index++;
+        }
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.otus.homework.dao.QuestionDao;
 import ru.otus.homework.domain.Question;
+import ru.otus.homework.exception.CSVFileReadingFailedException;
 import ru.otus.homework.exception.InvalidCsvDataException;
 
 import java.util.List;
@@ -20,15 +21,13 @@ public class QuestionServiceImpl implements QuestionService {
     public List<Question> getQuestions() {
         List<Question> questions = null;
         try {
-            questions = questionDao.getQuestions();
-        } catch (InvalidCsvDataException e) {
-            e.getMessage();
+            questions= questionDao.getQuestions();
+        } catch (CSVFileReadingFailedException e) {
+            e.printStackTrace();
         }
         return questions;
     }
 
-    public QuestionDao getQuestionDao() {
-        return questionDao;
-    }
+
 
 }
