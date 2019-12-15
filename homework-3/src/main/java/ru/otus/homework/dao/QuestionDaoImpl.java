@@ -3,7 +3,7 @@ package ru.otus.homework.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
-import ru.otus.homework.config.ApplicationConfig;
+import ru.otus.homework.config.ApplicationSettings;
 import ru.otus.homework.domain.Question;
 import ru.otus.homework.exception.CSVFileReadingFailedException;
 import ru.otus.homework.exception.InvalidCsvDataException;
@@ -20,8 +20,8 @@ public class QuestionDaoImpl implements QuestionDao {
     final private String csvFileName;
 
     @Autowired
-    public QuestionDaoImpl(ApplicationConfig applicationConfig) {
-        this.csvFileName = applicationConfig.getCsvFileName();
+    public QuestionDaoImpl(ApplicationSettings settings) {
+        this.csvFileName = settings.getCsvFileName();
     }
 
     private static final int QUESTION_INDEX = 0;

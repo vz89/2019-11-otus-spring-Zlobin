@@ -1,9 +1,8 @@
 package ru.otus.homework.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
-import ru.otus.homework.config.ApplicationConfig;
+import ru.otus.homework.config.ApplicationSettings;
 import ru.otus.homework.domain.Person;
 import ru.otus.homework.domain.Question;
 import ru.otus.homework.domain.Testing;
@@ -13,14 +12,14 @@ import java.util.List;
 @Service
 public class TestingServiceImpl implements TestingService {
     private final IOService ioService;
-    private final ApplicationConfig applicationConfig;
+    private final ApplicationSettings settings;
     private final MessageSourceService messageSourceService;
 
 
     @Autowired
-    public TestingServiceImpl(IOService ioService, ApplicationConfig applicationConfig, MessageSourceService messageSourceService) {
+    public TestingServiceImpl(IOService ioService, ApplicationSettings settings, MessageSourceService messageSourceService) {
         this.ioService = ioService;
-        this.applicationConfig = applicationConfig;
+        this.settings = settings;
         this.messageSourceService = messageSourceService;
     }
 
@@ -37,7 +36,7 @@ public class TestingServiceImpl implements TestingService {
             displayQuestion(currentQuestion, question);
             correctAnswers = getCorrectAnswers(correctAnswers, question);
         }
-        testing.setResult(correctAnswers >= applicationConfig.getMinRightAnswer());
+        testing.setResult(correctAnswers >= settings.getMinRightAnswer());
         displayResult(testing, correctAnswers);
     }
 

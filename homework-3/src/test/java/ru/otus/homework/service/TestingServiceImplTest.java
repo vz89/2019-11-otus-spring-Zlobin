@@ -3,15 +3,14 @@ package ru.otus.homework.service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.context.MessageSource;
-import ru.otus.homework.config.ApplicationConfig;
+import org.springframework.boot.test.context.SpringBootTest;
+import ru.otus.homework.config.ApplicationSettings;
 import ru.otus.homework.domain.Person;
 import ru.otus.homework.domain.Question;
 import ru.otus.homework.domain.Testing;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -22,7 +21,7 @@ import static org.mockito.Mockito.mock;
 class TestingServiceImplTest {
 
 
-    @DisplayName("корректно работают тестирование")
+    @DisplayName("корректно работает тестирование")
     @Test
     void shouldHaveCorrectTest() {
         int RIGHT_ANSWER = 1;
@@ -40,7 +39,7 @@ class TestingServiceImplTest {
         Testing testing = new Testing(person, questions);
 
         IOService ioServiceMock = mock(IOService.class);
-        ApplicationConfig applicationConfig = mock(ApplicationConfig.class);
+        ApplicationSettings applicationConfig = mock(ApplicationSettings.class);
         MessageSourceService messageSourceService = mock(MessageSourceService.class);
 
         Mockito.when(ioServiceMock.read()).thenReturn("");
