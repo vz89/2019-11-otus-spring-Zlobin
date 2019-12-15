@@ -7,16 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import ru.otus.homework.service.RunnerService;
 
 @SpringBootApplication
-public class Homework3Application implements CommandLineRunner {
-	@Autowired
-	RunnerService runnerService;
-
+public class Homework3Application{
 	public static void main(String[] args) {
 		SpringApplication.run(Homework3Application.class, args);
-	}
-
-	@Override
-	public void run(String... args) throws Exception {
-		runnerService.run();
 	}
 }

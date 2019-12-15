@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import ru.otus.homework.config.ApplicationSettings;
 import ru.otus.homework.domain.Question;
-import ru.otus.homework.exception.CSVFileReadingFailedException;
-import ru.otus.homework.exception.InvalidCsvDataException;
+import ru.otus.homework.exception.QuestionsReadingFailedException;
+import ru.otus.homework.exception.InvalidQuestionsDataException;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -28,7 +28,7 @@ public class QuestionDaoImpl implements QuestionDao {
     private static final int ANSWER_INDEX = 5;
 
 
-    public List<Question> getQuestions() throws CSVFileReadingFailedException{
+    public List<Question> getQuestions() throws QuestionsReadingFailedException {
         List<Question> questions = new ArrayList<>();
         try {
             File file = ResourceUtils.getFile("classpath:" + csvFileName);
@@ -49,15 +49,15 @@ public class QuestionDaoImpl implements QuestionDao {
                 questions.add(question);
             }
         } catch (IOException e) {
-            throw new CSVFileReadingFailedException("Невозможно прочитать CSV файд",e);
+            throw new QuestionsReadingFailedException("Невозможно прочитать CSV файд",e);
         }
-        catch (InvalidCsvDataException e){
+        catch (InvalidQuestionsDataException e){
             System.out.println("Неправильный формат данных СSV файла");
         }
         return questions;
     }
 
-    private void parseCsvString(Scanner scanner, int index, List<String> answers, Question question) throws InvalidCsvDataException {
+    private void parseCsvString(Scanner scanner, int index, List<String> answers, Question question) throws InvalidQuestionsDataException {
         while (scanner.hasNext()) {
             String data = scanner.next();
             if (index == QUESTION_INDEX) {
@@ -66,7 +66,7 @@ public class QuestionDaoImpl implements QuestionDao {
                 answers.add(data);
             } else if (index == ANSWER_INDEX) {
                 question.setRightAnswer(Integer.parseInt(data));
-            } else throw new InvalidCsvDataException("Неправильный формат данных СSV файла");
+            } else throw new InvalidQuestionsDataException("Неправильный формат данных СSV файла");
             index++;
         }
     }
