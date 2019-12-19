@@ -3,7 +3,12 @@ package ru.otus.homework.service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.shell.jline.InteractiveShellApplicationRunner;
 import org.springframework.shell.jline.ScriptShellApplicationRunner;
 import ru.otus.homework.config.ApplicationSettings;
@@ -14,14 +19,35 @@ import ru.otus.homework.domain.Testing;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
 
 @DisplayName("Класс TestingServiceImpl")
+@SpringBootTest(properties = {
+        InteractiveShellApplicationRunner.SPRING_SHELL_INTERACTIVE_ENABLED + "=false",
+        ScriptShellApplicationRunner.SPRING_SHELL_SCRIPT_ENABLED + "=false"
+})
 class TestingServiceImplTest {
 
+    @MockBean
+    private IOService ioServiceMock;
+
+    @MockBean
+    private ApplicationSettings applicationSettings;
+
+    @MockBean
+    MessageSourceService messageSourceService;
+
+    @Configuration
+    class TestConfiguration {
+        @Bean
+        public TestingService testingService() {
+            return new TestingServiceImpl(ioServiceMock, applicationSettings, messageSourceService);
+        }
+    }
+
+    @Autowired
+    TestingService testingService;
 
     @DisplayName("корректно работает тестирование")
     @Test
@@ -35,20 +61,14 @@ class TestingServiceImplTest {
         answers.add("Белое");
         answers.add("Красное");
 
-        questions.add(new Question("Какого цвета небо?", answers, 1));
+        questions.add(new Question("Какого цвета небо?", answers, RIGHT_ANSWER));
 
         Person person = new Person("Ivanov", "Petr");
         Testing testing = new Testing(person, questions);
 
-        IOService ioServiceMock = mock(IOService.class);
-        ApplicationSettings applicationConfig = mock(ApplicationSettings.class);
-        MessageSourceService messageSourceService = mock(MessageSourceService.class);
-
         Mockito.when(ioServiceMock.read()).thenReturn("");
         Mockito.when(ioServiceMock.readInt()).thenReturn(RIGHT_ANSWER);
         doNothing().when(ioServiceMock).write("");
-
-        TestingServiceImpl testingService = new TestingServiceImpl(ioServiceMock, applicationConfig, messageSourceService);
 
         testingService.run(testing);
 
