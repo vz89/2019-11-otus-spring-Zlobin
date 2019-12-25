@@ -1,14 +1,16 @@
-package ru.otus.homework.dao;
+package ru.otus.homework.service;
 
 import ru.otus.homework.domain.Book;
 
 import java.util.List;
 
-public interface BookDao {
+public interface BookService {
+    List<Book> getAll();
     int getCount();
     void insert(Book book);
     Book getById(long id);
-    List<Book> getAll();
     void deleteById(long id);
 
+
+    Book getNewBook();
 }
