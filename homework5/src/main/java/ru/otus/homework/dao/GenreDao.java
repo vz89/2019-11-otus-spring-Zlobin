@@ -1,16 +1,14 @@
 package ru.otus.homework.dao;
 
-import ru.otus.homework.domain.Book;
+import org.springframework.stereotype.Repository;
 import ru.otus.homework.domain.Genre;
 
-import java.util.List;
-
+@Repository
 public interface GenreDao {
-    int getCount();
+
+
     void insert(Genre genre);
     Genre getById(long id);
-    List<Genre> getAll();
-    void deleteById(long id);
-    public boolean checkByName(String genreName);
+    boolean checkByName(String genreName);
     Genre getByName(String genreName);
 }

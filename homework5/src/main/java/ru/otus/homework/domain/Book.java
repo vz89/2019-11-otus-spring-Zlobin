@@ -11,9 +11,10 @@ public class Book {
         this.title = title;
     }
 
-    public Book(String title, Genre genre) {
+    public Book(String title, Genre genre, Author author) {
         this.id = id;
         this.title = title;
+        this.author = author;
         this.genre = genre;
     }
 
