@@ -53,12 +53,12 @@ public class Book {
         this.genre = genre;
     }
 
-
     @Override
     public String toString() {
         return "Book{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
+                ", genre=" + genre.getName() +
                 '}';
     }
 }

@@ -21,7 +21,7 @@ public class ShellController {
         this.ioService = ioService;
     }
 
-    @ShellMethod(key = {"allBooks", "ab"}, value = "start app")
+    @ShellMethod(key = {"book list", "all"}, value = "show all books")
     public void allBooks() {
         List<Book> allBooks = bookService.getAll();
         allBooks.forEach(book -> ioService.write(book.toString()));
