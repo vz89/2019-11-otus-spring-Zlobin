@@ -23,8 +23,7 @@ public class GenreServiceImpl implements GenreService{
         return genreDao.getByName(genreName);
     }
     private boolean checkGenreInBase(String genreName){
-        Genre genre = genreDao.getByName(genreName);
-        if (genre==null) return false;
-        else return true;
+        boolean inBase = genreDao.checkByName(genreName);
+        return inBase;
     }
 }

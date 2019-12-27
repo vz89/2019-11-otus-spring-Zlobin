@@ -57,12 +57,19 @@ public class GenreDaoImpl implements GenreDao {
     }
 
     @Override
-    public boolean getByName(String genreName) {
+    public boolean checkByName(String genreName) {
         final Map<String, Object> params = new HashMap<>(1);
         params.put("name", genreName);
         List queryResult =  jdbcOperations.query("select * from genre where name = :name",
                 params,new GenreMapper());
-        if
+        return queryResult.size() != 0;
+    }
+    @Override
+    public Genre getByName(String genreName) {
+        final Map<String, Object> params = new HashMap<>(1);
+        params.put("name", genreName);
+        return jdbcOperations.queryForObject("select * from genre where name = :name",
+                params,new GenreMapper());
     }
 
     private static class GenreMapper implements RowMapper<Genre> {
