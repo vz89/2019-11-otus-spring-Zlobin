@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.otus.homework.dao.BookDao;
 import ru.otus.homework.domain.Book;
+import ru.otus.homework.domain.Genre;
 
 import java.util.List;
 
@@ -11,12 +12,14 @@ import java.util.List;
 public class BookServiceImpl implements BookService {
     final private IOService ioService;
     final private BookDao bookDao;
+    final private  GenreService genreService;
 
 
     @Autowired
-    public BookServiceImpl(IOService ioService, BookDao bookDao) {
+    public BookServiceImpl(IOService ioService, BookDao bookDao, GenreService genreService) {
         this.ioService = ioService;
         this.bookDao = bookDao;
+        this.genreService = genreService;
     }
     public List<Book> getAll(){
         return bookDao.getAll();
@@ -44,12 +47,15 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book getNewBook() {
-        long id = ioService.readInt();
+        ioService.write("Введите наименование книги");
         String title = ioService.read();
-        return new Book(id,title);
+        ioService.write("Введите жанр");
+        String genreName = ioService.read();
+        Genre genre = genreService.getGenre(genreName);
+        return new Book(title,genre);
     }
 
-    ;
+
 
 
 }

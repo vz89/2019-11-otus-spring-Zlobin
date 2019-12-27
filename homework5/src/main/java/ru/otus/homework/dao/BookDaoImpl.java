@@ -1,7 +1,10 @@
 package ru.otus.homework.dao;
 
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.otus.homework.domain.Book;
 
@@ -25,11 +28,13 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public void insert(Book book) {
-        final Map<String, Object> params = new HashMap<>(2);
-        params.put("id", book.getId());
-        params.put("title",book.getTitle());
-        jdbcOperations.update("insert into book(id,title) values(:id,:title)",params);
+    public long insert(Book book) {
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("title",book.getTitle());
+        params.addValue("genreId",book.getGenre().getId());
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcOperations.update("insert into book (title,genreid) value(:title,:genreId)",params,keyHolder);
+        return keyHolder.getKey().longValue();
     }
 
     @Override

@@ -14,7 +14,6 @@ public class IOServiceImpl implements IOService {
 
     @Override
     public String read() {
-        sc.nextLine();
         return sc.nextLine();
     }
 

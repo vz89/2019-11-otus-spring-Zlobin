@@ -3,7 +3,7 @@ Spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/library?serverTimezone=Europe/Moscow&useSSL=false
     username: root
-    password: root
+    password: mavric
     schema: schema.sql
     data: data.sql
     initialization-mode: always

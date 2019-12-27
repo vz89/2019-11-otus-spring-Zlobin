@@ -11,6 +11,16 @@ public class Book {
         this.title = title;
     }
 
+    public Book(String title, Genre genre) {
+        this.id = id;
+        this.title = title;
+        this.genre = genre;
+    }
+
+    public Book(String title) {
+        this.title = title;
+    }
+
     public Long getId() {
         return id;
     }
