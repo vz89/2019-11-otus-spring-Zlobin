@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import ru.otus.homework.dao.ext.BookResultSetExtractor;
 import ru.otus.homework.domain.Book;
 
 import java.sql.ResultSet;
@@ -24,17 +25,17 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public int getCount() {
-        return jdbcOperations.queryForObject("select count(*) from book",new HashMap<>(1),Integer.class);
+        return jdbcOperations.queryForObject("select count(*) from book", new HashMap<>(1), Integer.class);
     }
 
     @Override
     public long insert(Book book) {
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("title",book.getTitle());
-        params.addValue("genreId",book.getGenre().getId());
-        params.addValue("authorId",book.getAuthor().getId());
+        params.addValue("title", book.getTitle());
+        params.addValue("genreId", book.getGenre().getId());
+        params.addValue("authorId", book.getAuthor().getId());
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcOperations.update("insert into book (title,genreid,authorId) value(:title,:genreId,:authorId)",params,keyHolder);
+        jdbcOperations.update("insert into book (title,genreid,authorId) value(:title,:genreId,:authorId)", params, keyHolder);
         return keyHolder.getKey().longValue();
     }
 
@@ -46,15 +47,20 @@ public class BookDaoImpl implements BookDao {
         return jdbcOperations.queryForObject("select * from book where id = :id",
                 params, new BookMapper());
     }
+
     @Override
     public List<Book> getAll() {
-        return jdbcOperations.query("select * from book", new BookMapper());
+        return jdbcOperations.query("select b.id, b.title, b.genreId, b.authorId, a.name authorName, g.name genreName " +
+                "from (book b left join author a on b.authorId = a.id) " +
+                "left join genre g on b.genreId = g.id",
+                new BookResultSetExtractor());
+        //return jdbcOperations.query("select * from book", new BookMapper());
     }
 
-    public void deleteById(long id){
+    public void deleteById(long id) {
         final Map<String, Object> params = new HashMap<>(1);
         params.put("id", id);
-        jdbcOperations.update("delete from book where id=:id",params);
+        jdbcOperations.update("delete from book where id=:id", params);
     }
 
     private static class BookMapper implements RowMapper<Book> {

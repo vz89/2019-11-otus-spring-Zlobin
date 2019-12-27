@@ -12,14 +12,10 @@ public class Book {
     }
 
     public Book(String title, Genre genre, Author author) {
-        this.id = id;
+
         this.title = title;
         this.author = author;
         this.genre = genre;
-    }
-
-    public Book(String title) {
-        this.title = title;
     }
 
     public Long getId() {
@@ -56,10 +52,9 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", genre=" + genre.getName() +
-                '}';
+        return id +
+                " Наименование: " + title +
+                ". Автор: " + author.getName() +
+                ". Жанр: " + genre.getName();
     }
 }
