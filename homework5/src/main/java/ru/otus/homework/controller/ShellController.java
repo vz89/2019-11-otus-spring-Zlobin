@@ -5,6 +5,7 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import ru.otus.homework.domain.Book;
 import ru.otus.homework.service.BookService;
+import ru.otus.homework.service.GenreService;
 import ru.otus.homework.service.IOService;
 
 import java.util.List;
@@ -13,12 +14,14 @@ import java.util.List;
 public class ShellController {
     private final BookService bookService;
     private final IOService ioService;
+    private final GenreService genreService;
 
 
     @Autowired
-    public ShellController(BookService bookService, IOService ioService) {
+    public ShellController(BookService bookService, IOService ioService, GenreService genreService) {
         this.bookService = bookService;
         this.ioService = ioService;
+        this.genreService = genreService;
     }
 
     @ShellMethod(key = {"book list", "all"}, value = "show all books")
