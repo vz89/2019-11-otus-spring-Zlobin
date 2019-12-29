@@ -4,6 +4,6 @@ Spring:
     url: jdbc:mysql://localhost:3306/librarytest?serverTimezone=Europe/Moscow&useSSL=false
     username: root
     password: root
-    schema: schema.sql
-    data: data.sql
+    schema: testschema.sql
+    data: testdata.sql
     initialization-mode: always
