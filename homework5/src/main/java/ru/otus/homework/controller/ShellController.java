@@ -14,14 +14,11 @@ import java.util.List;
 public class ShellController {
     private final BookService bookService;
     private final IOService ioService;
-    private final GenreService genreService;
-
 
     @Autowired
-    public ShellController(BookService bookService, IOService ioService, GenreService genreService) {
+    public ShellController(BookService bookService, IOService ioService) {
         this.bookService = bookService;
         this.ioService = ioService;
-        this.genreService = genreService;
     }
 
     @ShellMethod(key = {"book list", "all"}, value = "show all books")

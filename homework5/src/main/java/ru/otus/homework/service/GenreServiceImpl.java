@@ -5,7 +5,7 @@ import ru.otus.homework.dao.GenreDao;
 import ru.otus.homework.domain.Genre;
 
 @Service
-public class GenreServiceImpl implements GenreService{
+public class GenreServiceImpl implements GenreService {
     final private GenreDao genreDao;
 
     public GenreServiceImpl(GenreDao genreDao) {
@@ -22,7 +22,8 @@ public class GenreServiceImpl implements GenreService{
         if (!checkGenreInBase(genreName)) genreDao.insert(new Genre(genreName));
         return genreDao.getByName(genreName);
     }
-    private boolean checkGenreInBase(String genreName){
+
+    private boolean checkGenreInBase(String genreName) {
         return genreDao.checkByName(genreName);
     }
 }

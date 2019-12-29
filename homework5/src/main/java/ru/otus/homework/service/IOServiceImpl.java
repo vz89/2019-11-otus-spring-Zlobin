@@ -7,6 +7,7 @@ import java.util.Scanner;
 @Service
 public class IOServiceImpl implements IOService {
     private Scanner sc = new Scanner(System.in);
+
     @Override
     public void write(String text) {
         System.out.println(text);

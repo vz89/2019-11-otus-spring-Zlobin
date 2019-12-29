@@ -26,9 +26,9 @@ public class GenreDaoImpl implements GenreDao {
     @Override
     public void insert(Genre genre) {
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("name",genre.getName());
+        params.addValue("name", genre.getName());
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcOperations.update("insert into genre (name) value(:name)",params,keyHolder);
+        jdbcOperations.update("insert into genre (name) value(:name)", params, keyHolder);
 
     }
 
@@ -45,16 +45,17 @@ public class GenreDaoImpl implements GenreDao {
     public boolean checkByName(String genreName) {
         final Map<String, Object> params = new HashMap<>(1);
         params.put("name", genreName);
-        List queryResult =  jdbcOperations.query("select * from genre where name = :name",
-                params,new GenreMapper());
+        List queryResult = jdbcOperations.query("select * from genre where name = :name",
+                params, new GenreMapper());
         return queryResult.size() != 0;
     }
+
     @Override
     public Genre getByName(String genreName) {
         final Map<String, Object> params = new HashMap<>(1);
         params.put("name", genreName);
         return jdbcOperations.queryForObject("select * from genre where name = :name",
-                params,new GenreMapper());
+                params, new GenreMapper());
     }
 
     private static class GenreMapper implements RowMapper<Genre> {
