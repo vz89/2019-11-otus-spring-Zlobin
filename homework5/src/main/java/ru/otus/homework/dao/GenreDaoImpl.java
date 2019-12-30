@@ -28,7 +28,7 @@ public class GenreDaoImpl implements GenreDao {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("name", genre.getName());
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcOperations.update("insert into genre (name) value(:name)", params, keyHolder);
+        jdbcOperations.update("insert into genre (name) values(:name)", params, keyHolder);
 
     }
 

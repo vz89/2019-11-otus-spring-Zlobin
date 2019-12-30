@@ -39,7 +39,7 @@ public class BookDaoImpl implements BookDao {
         params.addValue("genreId", book.getGenre().getId());
         params.addValue("authorId", book.getAuthor().getId());
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcOperations.update("insert into book (title,genreid,authorId) value(:title,:genreId,:authorId)", params, keyHolder);
+        jdbcOperations.update("insert into book (title,genreid,authorId) values(:title,:genreId,:authorId)", params, keyHolder);
         return keyHolder.getKey().longValue();
     }
 

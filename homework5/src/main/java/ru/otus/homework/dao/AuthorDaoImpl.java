@@ -27,7 +27,7 @@ public class AuthorDaoImpl implements AuthorDao {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("name", genre.getName());
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcOperations.update("insert into author (name) value(:name)", params, keyHolder);
+        jdbcOperations.update("insert into author (name) values(:name)", params, keyHolder);
     }
 
     @Override
