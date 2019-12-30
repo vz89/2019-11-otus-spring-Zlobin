@@ -20,3 +20,11 @@ create table author
     id   bigint primary key auto_increment,
     name  varchar(255) unique
 );
+
+alter table book
+add constraint fk_bookGenre
+foreign key (genreId) references genre(Id);
+
+alter table book
+add constraint fk_bookAuthor
+foreign key (authorId) references author(Id);

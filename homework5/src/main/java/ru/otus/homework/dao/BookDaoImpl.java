@@ -59,7 +59,7 @@ public class BookDaoImpl implements BookDao {
         return jdbcOperations.query("select b.id, b.title, b.genreId, b.authorId, a.name authorName, g.name genreName " +
                         "from (book b left join author a on b.authorId = a.id) " +
                         "left join genre g on b.genreId = g.id",
-                new BookResultSetExtractor());
+                new BookMapper());
         //return jdbcOperations.query("select * from book", new BookMapper());
     }
 
@@ -75,8 +75,7 @@ public class BookDaoImpl implements BookDao {
         public Book mapRow(ResultSet resultSet, int i) throws SQLException {
             long id = resultSet.getLong("id");
             String title = resultSet.getString("title");
-            Book book = new Book(id,
-                    resultSet.getString("title"));
+            Book book = new Book(id, title);
             book.setAuthor(new Author(resultSet.getLong("authorId"), resultSet.getString("authorName")));
             book.setGenre(new Genre(resultSet.getLong("genreId"), resultSet.getString("genreName")));
             return book;

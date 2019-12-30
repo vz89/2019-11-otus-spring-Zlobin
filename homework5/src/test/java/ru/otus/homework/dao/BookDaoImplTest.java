@@ -18,7 +18,7 @@ import java.util.List;
 @DisplayName("Dao для работы с книгами")
 @JdbcTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import(BookDaoImpl.class)
+@Import({BookDaoImpl.class,GenreDaoImpl.class,AuthorDaoImpl.class})
 class BookDaoImplTest {
 
     private static final int EXPECTED_BOOKS_COUNT = 3;
@@ -33,6 +33,12 @@ class BookDaoImplTest {
     @Autowired
     private BookDaoImpl bookDao;
 
+    @Autowired
+    private GenreDaoImpl genreDao;
+
+    @Autowired
+    private AuthorDaoImpl authorDao;
+
     @DisplayName("возращать правильное количество книг")
     @Test
     void shouldReturnCorrectBookCount() {
@@ -43,6 +49,8 @@ class BookDaoImplTest {
     @Test
     void shouldInsertBook() {
         Book book = new Book(NEW_BOOK_ID, NEW_BOOK_TITLE, new Author(NEW_AUTHOR_ID), new Genre(NEW_GENRE_ID));
+        genreDao.insert(new Genre(NEW_GENRE_ID));
+        authorDao.insert(new Author(NEW_AUTHOR_ID));
         bookDao.insert(book);
         Book actualBook = bookDao.getById(NEW_BOOK_ID);
         Assertions.assertThat(actualBook).isEqualTo(book);
