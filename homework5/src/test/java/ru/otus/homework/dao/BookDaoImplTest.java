@@ -18,26 +18,16 @@ import java.util.List;
 @DisplayName("Dao для работы с книгами")
 @JdbcTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import({BookDaoImpl.class,GenreDaoImpl.class,AuthorDaoImpl.class})
+@Import(BookDaoImpl.class)
 class BookDaoImplTest {
 
     private static final int EXPECTED_BOOKS_COUNT = 3;
 
     private static final String NEW_BOOK_TITLE = "new book";
-    private static final String NEW_GENRE_NAME = "new genre";
-    private static final String NEW_AUTHOR_NAME = "new Author";
     private static final long NEW_BOOK_ID = 4;
-    private static final long NEW_AUTHOR_ID = 4;
-    private static final long NEW_GENRE_ID = 4;
     private static final long GET_BOOK_ID = 1;
     @Autowired
     private BookDaoImpl bookDao;
-
-    @Autowired
-    private GenreDaoImpl genreDao;
-
-    @Autowired
-    private AuthorDaoImpl authorDao;
 
     @DisplayName("возращать правильное количество книг")
     @Test
@@ -48,9 +38,7 @@ class BookDaoImplTest {
     @DisplayName("добавлять книгу в БД")
     @Test
     void shouldInsertBook() {
-        Book book = new Book(NEW_BOOK_ID, NEW_BOOK_TITLE, new Author(NEW_AUTHOR_ID), new Genre(NEW_GENRE_ID));
-        genreDao.insert(new Genre(NEW_GENRE_ID));
-        authorDao.insert(new Author(NEW_AUTHOR_ID));
+        Book book = new Book(NEW_BOOK_ID, NEW_BOOK_TITLE, new Author(new Long(1),"Достоевский"), new Genre(new Long(2),"Комедия"));
         bookDao.insert(book);
         Book actualBook = bookDao.getById(NEW_BOOK_ID);
         Assertions.assertThat(actualBook).isEqualTo(book);
