@@ -5,5 +5,6 @@ public interface IOService {
     String read();
     Integer readInt();
 
-    void write(int count);
+    void write(long count);
+
 }

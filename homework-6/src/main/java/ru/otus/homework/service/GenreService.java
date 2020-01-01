@@ -2,8 +2,16 @@ package ru.otus.homework.service;
 
 import ru.otus.homework.domain.Genre;
 
-public interface GenreService {
-    Genre getById(long id);
+import java.util.List;
+import java.util.Optional;
 
-    Genre getGenre(String genreName);
+public interface GenreService {
+    Genre save (Genre genre);
+    Optional<Genre> findById(long id);
+
+    List<Genre> findAll();
+    List<Genre> findByName(String name);
+
+    void updateNameById(long id);
+    void deleteById(long id);
 }

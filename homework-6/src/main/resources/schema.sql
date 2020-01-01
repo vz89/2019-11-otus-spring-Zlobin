@@ -3,8 +3,8 @@ create table book
 (
     id      bigint primary key auto_increment,
     title   varchar(255),
-    genreId bigint,
-    authorId bigint
+    genre_id bigint,
+    author_id bigint
 );
 
 drop table if exists genre;
@@ -23,8 +23,16 @@ create table author
 
 alter table book
 add constraint fk_bookGenre
-foreign key (genreId) references genre(Id);
+foreign key (genre_id) references genre(Id);
 
 alter table book
 add constraint fk_bookAuthor
-foreign key (authorId) references author(Id);
+foreign key (author_id) references author(Id);
+
+drop table if exists comment;
+create table comment
+(
+    id   bigint primary key auto_increment,
+    text varchar(255),
+    book_id bigint
+);

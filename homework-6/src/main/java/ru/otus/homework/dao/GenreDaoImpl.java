@@ -1,70 +1,54 @@
 package ru.otus.homework.dao;
 
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import ru.otus.homework.domain.Author;
 import ru.otus.homework.domain.Genre;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashMap;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @Repository
+@Transactional
 public class GenreDaoImpl implements GenreDao {
 
-    private final NamedParameterJdbcOperations jdbcOperations;
-
-    public GenreDaoImpl(NamedParameterJdbcOperations jdbcOperations) {
-        this.jdbcOperations = jdbcOperations;
-    }
+    @PersistenceContext
+    private EntityManager em;
 
     @Override
-    public void insert(Genre genre) {
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("name", genre.getName());
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcOperations.update("insert into genre (name) values(:name)", params, keyHolder);
-
-    }
-
-    @Override
-    public Genre getById(long id) {
-        final Map<String, Object> params = new HashMap<>(1);
-        params.put("id", id);
-
-        return jdbcOperations.queryForObject("select * from genre where id = :id",
-                params, new GenreMapper());
-    }
-
-    @Override
-    public boolean checkByName(String genreName) {
-        final Map<String, Object> params = new HashMap<>(1);
-        params.put("name", genreName);
-        List queryResult = jdbcOperations.query("select * from genre where name = :name",
-                params, new GenreMapper());
-        return queryResult.size() != 0;
-    }
-
-    @Override
-    public Genre getByName(String genreName) {
-        final Map<String, Object> params = new HashMap<>(1);
-        params.put("name", genreName);
-        return jdbcOperations.queryForObject("select * from genre where name = :name",
-                params, new GenreMapper());
-    }
-
-    private static class GenreMapper implements RowMapper<Genre> {
-
-        @Override
-        public Genre mapRow(ResultSet resultSet, int i) throws SQLException {
-            long id = resultSet.getLong("id");
-            String name = resultSet.getString("name");
-            return new Genre(id, name);
+    public Genre save(Genre genre) {
+        if (genre.getId() == null) {
+            em.persist(genre);
+            return genre;
+        } else {
+            return em.merge(genre);
         }
+    }
+
+    @Override
+    public Optional<Genre> findById(long id) {
+        return Optional.ofNullable(em.find(Genre.class,id));
+    }
+
+    @Override
+    public List<Genre> findAll() {
+        return null;
+    }
+
+    @Override
+    public List<Genre> findByName(String name) {
+        return null;
+    }
+
+    @Override
+    public void updateNameById(long id) {
+
+    }
+
+    @Override
+    public void deleteById(long id) {
+
     }
 }

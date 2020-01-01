@@ -2,9 +2,16 @@ package ru.otus.homework.dao;
 
 import ru.otus.homework.domain.Author;
 
+import java.util.List;
+import java.util.Optional;
+
 public interface AuthorDao {
-    void insert(Author genre);
-    Author getById(long id);
-    boolean checkByName(String genreName);
-    Author getByName(String genreName);
+    Author save (Author author);
+    Optional<Author> findById(long id);
+
+    List<Author> findAll();
+    List<Author> findByName(String name);
+
+    void updateNameById(long id);
+    void deleteById(long id);
 }

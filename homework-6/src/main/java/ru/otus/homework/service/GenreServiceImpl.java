@@ -4,6 +4,9 @@ import org.springframework.stereotype.Service;
 import ru.otus.homework.dao.GenreDao;
 import ru.otus.homework.domain.Genre;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class GenreServiceImpl implements GenreService {
     final private GenreDao genreDao;
@@ -13,17 +16,32 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public Genre getById(long id) {
-        return genreDao.getById(id);
+    public Genre save(Genre genre) {
+        return genreDao.save(genre);
     }
 
     @Override
-    public Genre getGenre(String genreName) {
-        if (!checkGenreInBase(genreName)) genreDao.insert(new Genre(genreName));
-        return genreDao.getByName(genreName);
+    public Optional<Genre> findById(long id) {
+        return genreDao.findById(id);
     }
 
-    private boolean checkGenreInBase(String genreName) {
-        return genreDao.checkByName(genreName);
+    @Override
+    public List<Genre> findAll() {
+        return genreDao.findAll();
+    }
+
+    @Override
+    public List<Genre> findByName(String name) {
+        return genreDao.findByName(name);
+    }
+
+    @Override
+    public void updateNameById(long id) {
+        genreDao.updateNameById(id);
+    }
+
+    @Override
+    public void deleteById(long id) {
+        genreDao.deleteById(id);
     }
 }

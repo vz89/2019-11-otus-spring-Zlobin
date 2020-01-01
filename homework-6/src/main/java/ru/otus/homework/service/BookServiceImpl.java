@@ -8,6 +8,7 @@ import ru.otus.homework.domain.Book;
 import ru.otus.homework.domain.Genre;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -25,24 +26,29 @@ public class BookServiceImpl implements BookService {
         this.authorService = authorService;
     }
 
-    public List<Book> getAll() {
-        return bookDao.getAll();
+    @Override
+    public Book save(Book book) {
+        return bookDao.save(book);
     }
 
     @Override
-    public int getCount() {
-        return bookDao.getCount();
+    public Book findById(long id) {
+        return bookDao.findById(id).get();
     }
 
     @Override
-    public void insert(Book book) {
-        bookDao.insert(book);
+    public List<Book> findAll() {
+        return bookDao.findAll();
     }
 
     @Override
-    public Book getById(long id) {
-        Book book = bookDao.getById(id);
-        return book;
+    public List<Book> findByName(String name) {
+        return bookDao.findByName(name);
+    }
+
+    @Override
+    public void updateNameById(long id, String name) {
+        bookDao.updateNameById(id,name);
     }
 
     @Override
@@ -51,15 +57,21 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book getNewBook() {
+    public void addNewBook() {
         ioService.write("Введите наименование книги");
         String title = ioService.read();
         ioService.write("Введите жанр");
         String genreName = ioService.read();
         ioService.write("Введите автора");
         String authorName = ioService.read();
-        Genre genre = genreService.getGenre(genreName);
-        Author author = authorService.getAuthor(authorName);
-        return new Book(title, genre, author);
+        Author author = new Author(authorName);
+        Genre genre = new Genre(genreName);
+        Book book = new Book(title, author, genre);
+        bookDao.save(book);
+    }
+
+    @Override
+    public long getCount() {
+        return bookDao.getCount();
     }
 }

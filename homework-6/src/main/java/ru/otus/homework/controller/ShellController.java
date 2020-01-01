@@ -21,22 +21,21 @@ public class ShellController {
         this.ioService = ioService;
     }
 
-    @ShellMethod(key = {"book list", "all"}, value = "show all books")
+    @ShellMethod(key = {"list", "all"}, value = "show all books")
     public void allBooks() {
-        List<Book> allBooks = bookService.getAll();
+        List<Book> allBooks = bookService.findAll();
         allBooks.forEach(book -> ioService.write(book.toString()));
     }
 
     @ShellMethod(key = {"add"}, value = "add book to library")
     public void addBook() {
-        Book book = bookService.getNewBook();
-        bookService.insert(book);
+       bookService.addNewBook();
     }
 
     @ShellMethod(key = {"getById", "gbi"}, value = "get book by Id")
     public void getBookById() {
         long id = ioService.readInt();
-        ioService.write(bookService.getById(id).toString());
+        ioService.write(bookService.findById(id).toString());
     }
 
     @ShellMethod(key = {"deleteById", "dbi"}, value = "delete book by Id")
@@ -50,5 +49,20 @@ public class ShellController {
         ioService.write(bookService.getCount());
     }
 
+    @ShellMethod(key = {"updateNameById","unbi"},value = "update book name by Id")
+    public void updateBookNameById(){
+        ioService.write("Введите Id книги, которую необходимо изменить");
+        long id = ioService.readInt();
+        ioService.write("Введите новое название книги");
+        String name = ioService.read();
+        bookService.updateNameById(id,name);
+    }
 
+    @ShellMethod (key ={"findByName","fbn"},value = "find book by name")
+    public void findBookByName(){
+        ioService.write("Введите имя книги, которую необходимо найти");
+        String name = ioService.read();
+        List<Book> allBooks = bookService.findByName(name);
+        allBooks.forEach(book -> ioService.write(book.toString()));
+    }
 }
