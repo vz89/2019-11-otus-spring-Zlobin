@@ -38,7 +38,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void updateTextById(long id, String text) {
-        commentDao.updateTextById(id,text);
+        commentDao.updateTextById(id, text);
     }
 
     @Override
@@ -48,20 +48,16 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void addNewComment() {
-        ioService.write("Введите id книги, которой добавить комментарий");
+        ioService.write("Введите id книги, которой хотите добавить комментарий");
         int bookId = ioService.readInt();
         Book book = bookService.findById(bookId);
-        if (book!=null) {
-            ioService.write("Введите комментарий для книги - "+ book.getTitle());
+        if (book != null) {
+            ioService.write("Введите комментарий для книги - " + book.getTitle());
             String commentText = ioService.read();
-            Comment comment = new Comment(commentText,book);
+            Comment comment = new Comment(commentText, book);
             commentDao.save(comment);
-        }
-        else {
+        } else {
             ioService.write("Книги по такому ID не существует.");
         }
-
-
-
     }
 }

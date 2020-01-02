@@ -48,7 +48,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void updateNameById(long id, String name) {
-        bookDao.updateNameById(id,name);
+        bookDao.updateNameById(id, name);
     }
 
     @Override
@@ -64,8 +64,10 @@ public class BookServiceImpl implements BookService {
         String genreName = ioService.read();
         ioService.write("Введите автора");
         String authorName = ioService.read();
-        Author author = new Author(authorName);
-        Genre genre = new Genre(genreName);
+        Author author = authorService.findByName(authorName);
+        if (author == null) author = new Author(authorName);
+        Genre genre = genreService.findByName(genreName);
+        if (genre == null) genre = new Genre(genreName);
         Book book = new Book(title, author, genre);
         bookDao.save(book);
     }

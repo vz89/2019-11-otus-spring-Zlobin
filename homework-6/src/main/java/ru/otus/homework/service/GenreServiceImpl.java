@@ -31,7 +31,7 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public List<Genre> findByName(String name) {
+    public Genre findByName(String name) {
         return genreDao.findByName(name);
     }
 

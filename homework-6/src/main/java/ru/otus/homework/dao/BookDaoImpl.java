@@ -17,12 +17,7 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public Book save(Book book) {
-        if (book.getId() == null) {
-            em.persist(book);
-            return book;
-        } else {
-            return em.merge(book);
-        }
+        return em.merge(book);
     }
 
     @Override
