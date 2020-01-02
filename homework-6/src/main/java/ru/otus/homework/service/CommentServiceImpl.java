@@ -32,18 +32,13 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> findByBookName(String name) {
-        return commentDao.findByBookName(name);
-    }
-
-    @Override
     public void updateTextById(long id, String text) {
         commentDao.updateTextById(id, text);
     }
 
     @Override
     public void deleteById(long id) {
-
+        commentDao.deleteById(id);
     }
 
     @Override

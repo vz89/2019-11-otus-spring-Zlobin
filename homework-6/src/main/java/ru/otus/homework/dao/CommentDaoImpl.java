@@ -28,10 +28,7 @@ public class CommentDaoImpl implements CommentDao {
         return query.getResultList();
     }
 
-    @Override
-    public List<Comment> findByBookName(String name) {
-        return null;
-    }
+
 
     @Override
     public void updateTextById(long id, String text) {
@@ -40,6 +37,7 @@ public class CommentDaoImpl implements CommentDao {
 
     @Override
     public void deleteById(long id) {
+        em.remove(em.find(Comment.class,id));
 
     }
 }

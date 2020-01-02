@@ -9,8 +9,6 @@ public interface CommentService {
 
     List<Comment> findByBookId(long id);
 
-    List<Comment> findByBookName(String name);
-
     void updateTextById(long id, String text);
 
     void deleteById(long id);
