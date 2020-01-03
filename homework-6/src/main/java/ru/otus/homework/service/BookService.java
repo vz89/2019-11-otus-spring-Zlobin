@@ -18,4 +18,6 @@ public interface BookService {
     void addNewBook();
 
     long getCount();
+
+    List<Book> findAllBooksByAuthorId(long id);
 }

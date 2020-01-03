@@ -22,8 +22,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Import(BookDaoImpl.class)
 class BookDaoImplTest {
 
-    private static final int EXPECTED_BOOK_COUNT = 3;
-    private static final int EXPECTED_NUMBER_OF_BOOKS = 3;
+    private static final int EXPECTED_BOOK_COUNT = 4;
+    private static final int EXPECTED_NUMBER_OF_BOOKS = 4;
     private static final long FIRST_BOOK_ID = 1;
     private static final String NEW_BOOK_TITLE = "new book";
     private static final String FIRST_BOOK_NAME = "Идиот";
@@ -80,7 +80,7 @@ class BookDaoImplTest {
     void shouldUpdateBookNameById() {
         val firstBook = em.find(Book.class, FIRST_BOOK_ID);
         String oldName = firstBook.getTitle();
-        em.detach(firstBook);
+        em.clear();
 
         bookDaoImpl.updateNameById(FIRST_BOOK_ID, NEW_BOOK_TITLE);
         val updatedBook = em.find(Book.class, FIRST_BOOK_ID);

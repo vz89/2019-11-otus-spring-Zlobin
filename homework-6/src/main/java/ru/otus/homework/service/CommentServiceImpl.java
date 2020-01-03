@@ -55,4 +55,9 @@ public class CommentServiceImpl implements CommentService {
             ioService.write("Книги по такому ID не существует.");
         }
     }
+
+    @Override
+    public List<Comment> findAllCommentsByAuthorId(long id) {
+        return commentDao.findAllCommentsByAuthorId(id);
+    }
 }

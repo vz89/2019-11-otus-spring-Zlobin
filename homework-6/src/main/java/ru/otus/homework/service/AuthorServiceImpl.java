@@ -5,7 +5,6 @@ import ru.otus.homework.dao.AuthorDao;
 import ru.otus.homework.domain.Author;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AuthorServiceImpl implements AuthorService {
@@ -21,8 +20,8 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public Optional<Author> findById(long id) {
-        return authorDao.findById(id);
+    public Author findById(long id) {
+        return authorDao.findById(id).get();
     }
 
     @Override
@@ -35,13 +34,5 @@ public class AuthorServiceImpl implements AuthorService {
         return authorDao.findByName(name);
     }
 
-    @Override
-    public void updateNameById(long id) {
-        authorDao.updateNameById(id);
-    }
 
-    @Override
-    public void deleteById(long id) {
-        authorDao.deleteById(id);
-    }
 }

@@ -6,6 +6,7 @@ import ru.otus.homework.domain.Comment;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -28,16 +29,24 @@ public class CommentDaoImpl implements CommentDao {
         return query.getResultList();
     }
 
-
-
     @Override
     public void updateTextById(long id, String text) {
-
+        Query query = em.createQuery("update Comment c set c.text=:text where c.id=:id");
+        query.setParameter("id", id);
+        query.setParameter("text", text);
+        query.executeUpdate();
     }
 
     @Override
     public void deleteById(long id) {
-        em.remove(em.find(Comment.class,id));
+        em.remove(em.find(Comment.class, id));
 
+    }
+
+    @Override
+    public List<Comment> findAllCommentsByAuthorId(long id) {
+        TypedQuery<Comment> query = em.createQuery("select c from Comment c left join c.book b where b.author.id=:id",Comment.class);
+        query.setParameter("id", id);
+        return query.getResultList();
     }
 }

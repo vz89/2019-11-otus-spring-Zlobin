@@ -14,4 +14,6 @@ public interface CommentService {
     void deleteById(long id);
 
     void addNewComment();
+
+    List<Comment> findAllCommentsByAuthorId(long id);
 }

@@ -34,11 +34,6 @@ public class GenreDaoImpl implements GenreDao {
     }
 
     @Override
-    public List<Genre> findAll() {
-        return null;
-    }
-
-    @Override
     public Genre findByName(String name) {
         try {
             TypedQuery<Genre> query = em.createQuery("select g from Genre g where g.name=:name", Genre.class);
@@ -49,13 +44,4 @@ public class GenreDaoImpl implements GenreDao {
         }
     }
 
-    @Override
-    public void updateNameById(long id) {
-
-    }
-
-    @Override
-    public void deleteById(long id) {
-
-    }
 }

@@ -11,7 +11,4 @@ public interface AuthorDao {
 
     List<Author> findAll();
     Author findByName(String name);
-
-    void updateNameById(long id);
-    void deleteById(long id);
 }

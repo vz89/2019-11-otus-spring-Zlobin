@@ -76,4 +76,10 @@ public class BookServiceImpl implements BookService {
     public long getCount() {
         return bookDao.getCount();
     }
+
+    @Override
+    public List<Book> findAllBooksByAuthorId(long id) {
+        return bookDao.findAllBooksByAuthorId(id);
+    }
+
 }

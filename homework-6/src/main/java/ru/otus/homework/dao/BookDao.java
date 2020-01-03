@@ -16,4 +16,6 @@ public interface BookDao {
     void deleteById(long id);
 
     long getCount();
+
+    List<Book> findAllBooksByAuthorId(long id);
 }

@@ -1,15 +1,10 @@
 package ru.otus.homework.dao;
 
-import org.junit.platform.commons.function.Try;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.homework.domain.Author;
-import ru.otus.homework.domain.Book;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,12 +16,7 @@ public class AuthorDaoImpl implements AuthorDao {
 
     @Override
     public Author save(Author author) {
-        if (author.getId() == null) {
-            em.persist(author);
-            return author;
-        } else {
-            return em.merge(author);
-        }
+        return em.merge(author);
     }
 
     @Override
@@ -36,7 +26,10 @@ public class AuthorDaoImpl implements AuthorDao {
 
     @Override
     public List<Author> findAll() {
-        return null;
+        EntityGraph<?> entityGraph = em.getEntityGraph("book_entity_graph");
+        TypedQuery<Author> query = em.createQuery("select a from Author a", Author.class);
+        query.setHint("javax.persistence.fetchgraph",entityGraph);
+        return query.getResultList();
     }
 
     @Override
@@ -50,14 +43,5 @@ public class AuthorDaoImpl implements AuthorDao {
         }
     }
 
-    @Override
-    public void updateNameById(long id) {
-
-    }
-
-    @Override
-    public void deleteById(long id) {
-
-    }
 }
 

@@ -58,5 +58,12 @@ public class BookDaoImpl implements BookDao {
         return em.createQuery("select count(b) from Book b",Long.class).getSingleResult();
     }
 
+    @Override
+    public List<Book> findAllBooksByAuthorId(long id) {
+        TypedQuery<Book> query = em.createQuery("select b from Book b where b.author.id=:id",Book.class);
+        query.setParameter("id", id);
+        return query.getResultList();
+    }
+
 
 }
