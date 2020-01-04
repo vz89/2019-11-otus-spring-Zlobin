@@ -19,7 +19,12 @@ public class CommentDaoImpl implements CommentDao {
 
     @Override
     public Comment save(Comment comment) {
-        return em.merge(comment);
+        if (comment.getId() == null) {
+            em.persist(comment);
+            return comment;
+        } else {
+            return em.merge(comment);
+        }
     }
 
     @Override
@@ -39,8 +44,11 @@ public class CommentDaoImpl implements CommentDao {
 
     @Override
     public void deleteById(long id) {
-        em.remove(em.find(Comment.class, id));
-
+        Query query = em.createQuery("delete " +
+                "from Comment c " +
+                "where c.id = :id");
+        query.setParameter("id", id);
+        query.executeUpdate();
     }
 
     @Override
@@ -48,5 +56,14 @@ public class CommentDaoImpl implements CommentDao {
         TypedQuery<Comment> query = em.createQuery("select c from Comment c left join c.book b where b.author.id=:id",Comment.class);
         query.setParameter("id", id);
         return query.getResultList();
+    }
+
+    @Override
+    public void deleteByBookId(long id) {
+        Query query = em.createQuery("delete " +
+                "from Comment c " +
+                "where c.book.id = :id");
+        query.setParameter("id", id);
+        query.executeUpdate();
     }
 }

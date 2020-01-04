@@ -35,8 +35,10 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public List<Book> findByName(String title) {
+        EntityGraph<?> entityGraph = em.getEntityGraph("author_genre_entity_graph");
         TypedQuery<Book> query = em.createQuery("select b from Book b where b.title=:title", Book.class);
         query.setParameter("title", title);
+        query.setHint("javax.persistence.fetchgraph",entityGraph);
         return query.getResultList();
     }
 
@@ -50,7 +52,11 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public void deleteById(long id) {
-        em.remove(em.find(Book.class,id));
+        Query query = em.createQuery("delete " +
+                "from Book b " +
+                "where b.id = :id");
+        query.setParameter("id", id);
+        query.executeUpdate();
     }
 
     @Override
@@ -60,8 +66,18 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public List<Book> findAllBooksByAuthorId(long id) {
+        EntityGraph<?> entityGraph = em.getEntityGraph("author_genre_entity_graph");
         TypedQuery<Book> query = em.createQuery("select b from Book b where b.author.id=:id",Book.class);
         query.setParameter("id", id);
+        query.setHint("javax.persistence.fetchgraph",entityGraph);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Book> findAllWithComments() {
+        EntityGraph<?> entityGraph = em.getEntityGraph("comment_author_genre_entity_graph");
+        TypedQuery<Book> query = em.createQuery("select b from Book b", Book.class);
+        query.setHint("javax.persistence.fetchgraph",entityGraph);
         return query.getResultList();
     }
 

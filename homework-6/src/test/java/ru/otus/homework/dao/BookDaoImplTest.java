@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Dao для работы с книгами")
 @DataJpaTest
-@Import(BookDaoImpl.class)
+@Import({BookDaoImpl.class,CommentDaoImpl.class})
 class BookDaoImplTest {
 
     private static final int EXPECTED_BOOK_COUNT = 4;
@@ -30,6 +30,8 @@ class BookDaoImplTest {
     @Autowired
     private BookDaoImpl bookDaoImpl;
 
+    @Autowired
+    private  CommentDaoImpl commentDao;
     @Autowired
     private TestEntityManager em;
 
@@ -91,6 +93,8 @@ class BookDaoImplTest {
     @DisplayName(" должен удалять нужную книгу по ее Id")
     @Test
     void shouldDeleteBookNameById() {
+        em.clear();
+        commentDao.deleteByBookId(FIRST_BOOK_ID);
         bookDaoImpl.deleteById(FIRST_BOOK_ID);
         val deletedBook = em.find(Book.class, FIRST_BOOK_ID);
         assertThat(deletedBook).isNull();

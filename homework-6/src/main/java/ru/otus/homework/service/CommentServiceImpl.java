@@ -60,4 +60,9 @@ public class CommentServiceImpl implements CommentService {
     public List<Comment> findAllCommentsByAuthorId(long id) {
         return commentDao.findAllCommentsByAuthorId(id);
     }
+
+    @Override
+    public void deleteByBookId(long id) {
+        commentDao.deleteByBookId(id);
+    }
 }

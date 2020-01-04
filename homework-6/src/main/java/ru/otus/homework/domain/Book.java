@@ -13,11 +13,12 @@ import java.util.List;
 @Entity
 @Table(name = "book")
 @NamedEntityGraph(name = "author_genre_entity_graph", attributeNodes = {@NamedAttributeNode("author"), @NamedAttributeNode("genre")})
+@NamedEntityGraph(name = "comment_author_genre_entity_graph",attributeNodes = {@NamedAttributeNode("comments"),@NamedAttributeNode("author"), @NamedAttributeNode("genre")})
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
+    @Column (name = "title")
     private String title;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
@@ -63,4 +64,12 @@ public class Book {
                 ". Автор: " + author.getName() +
                 ". Жанр: " + genre.getName();
     }
+    public String toStringWithCommentsCount() {
+        return id +
+                " Наименование: " + title +
+                ". Автор: " + author.getName() +
+                ". Жанр: " + genre.getName() +
+                " Кол. комментариев: " + comments.size();
+    }
+
 }

@@ -18,4 +18,6 @@ public interface BookDao {
     long getCount();
 
     List<Book> findAllBooksByAuthorId(long id);
+
+    List<Book> findAllWithComments();
 }

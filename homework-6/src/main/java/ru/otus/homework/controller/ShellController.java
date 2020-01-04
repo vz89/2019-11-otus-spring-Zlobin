@@ -11,6 +11,8 @@ import ru.otus.homework.service.BookService;
 import ru.otus.homework.service.CommentService;
 import ru.otus.homework.service.IOService;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @ShellComponent
@@ -125,6 +127,13 @@ public class ShellController {
         List<Comment> comments = commentService.findAllCommentsByAuthorId(id);
         ioService.write("Комментарии к книгам автора: " + authorService.findById(id).getName());
         comments.forEach(comment -> ioService.write("Книга: "+ comment.getBook().getTitle() + ". Комментарий: " + comment.getText()));
+    }
+
+    @ShellMethod(key = {"bookListWithCommentsCount", "blwcc"}, value = "show all books and comments counts")
+    public void showAllBooksWithCommentsCount() {
+        List<Book> books = bookService.findAllWithComments();
+        books.sort((o1, o2) -> o2.getComments().size()-o1.getComments().size());
+        books.forEach(book -> ioService.write(book.toStringWithCommentsCount()));
     }
 
 

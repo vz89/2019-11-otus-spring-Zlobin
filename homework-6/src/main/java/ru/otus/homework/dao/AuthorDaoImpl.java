@@ -16,7 +16,12 @@ public class AuthorDaoImpl implements AuthorDao {
 
     @Override
     public Author save(Author author) {
-        return em.merge(author);
+        if (author.getId() == null) {
+            em.persist(author);
+            return author;
+        } else {
+            return em.merge(author);
+        }
     }
 
     @Override

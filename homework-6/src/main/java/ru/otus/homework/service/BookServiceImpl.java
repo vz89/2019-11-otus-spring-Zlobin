@@ -8,7 +8,6 @@ import ru.otus.homework.domain.Book;
 import ru.otus.homework.domain.Genre;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -16,6 +15,7 @@ public class BookServiceImpl implements BookService {
     final private BookDao bookDao;
     final private GenreService genreService;
     final private AuthorService authorService;
+    private CommentService commentService;
 
 
     @Autowired
@@ -24,6 +24,10 @@ public class BookServiceImpl implements BookService {
         this.bookDao = bookDao;
         this.genreService = genreService;
         this.authorService = authorService;
+    }
+    @Autowired
+    public void setCommentService(CommentService commentService) {
+        this.commentService = commentService;
     }
 
     @Override
@@ -53,6 +57,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void deleteById(long id) {
+        commentService.deleteByBookId(id);
         bookDao.deleteById(id);
     }
 
@@ -80,6 +85,11 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<Book> findAllBooksByAuthorId(long id) {
         return bookDao.findAllBooksByAuthorId(id);
+    }
+
+    @Override
+    public List<Book> findAllWithComments() {
+        return bookDao.findAllWithComments();
     }
 
 }
