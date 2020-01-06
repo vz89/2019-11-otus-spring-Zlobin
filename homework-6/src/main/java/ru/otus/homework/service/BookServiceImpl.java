@@ -18,7 +18,6 @@ public class BookServiceImpl implements BookService {
     final private BookDao bookDao;
     final private GenreService genreService;
     final private AuthorService authorService;
-    private CommentService commentService;
 
 
     @Autowired
@@ -27,10 +26,6 @@ public class BookServiceImpl implements BookService {
         this.bookDao = bookDao;
         this.genreService = genreService;
         this.authorService = authorService;
-    }
-    @Autowired
-    public void setCommentService(CommentService commentService) {
-        this.commentService = commentService;
     }
 
     @Override
@@ -60,7 +55,6 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void deleteById(long id) {
-        //commentService.deleteByBookId(id);
         bookDao.deleteById(id);
     }
 
