@@ -1,8 +1,10 @@
 package ru.otus.homework.dao;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.homework.domain.Book;
+
 
 import javax.persistence.*;
 import java.util.List;
@@ -75,11 +77,13 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public List<Book> findAllWithComments() {
-        EntityGraph<?> entityGraph = em.getEntityGraph("comment_author_genre_entity_graph");
-        TypedQuery<Book> query = em.createQuery("select b from Book b", Book.class);
-        query.setHint("javax.persistence.fetchgraph",entityGraph);
-        return query.getResultList();
+        return null;
     }
 
+    @Override
+    public List<ImmutablePair<Book,Long>> findAllBooksWithCommentsCount() {
+        Query query = em.createQuery("select new org.apache.commons.lang3.tuple.ImmutablePair (c.book, count(c)) from Comment c group by c.book");
+        return query.getResultList();
+    }
 
 }

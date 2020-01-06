@@ -1,5 +1,6 @@
 package ru.otus.homework.service;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.otus.homework.dao.BookDao;
@@ -7,7 +8,9 @@ import ru.otus.homework.domain.Author;
 import ru.otus.homework.domain.Book;
 import ru.otus.homework.domain.Genre;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -57,7 +60,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void deleteById(long id) {
-        commentService.deleteByBookId(id);
+        //commentService.deleteByBookId(id);
         bookDao.deleteById(id);
     }
 
@@ -90,6 +93,15 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<Book> findAllWithComments() {
         return bookDao.findAllWithComments();
+    }
+
+    @Override
+    public Map<Book, Long> findAllBooksWithCommentsCount() {
+        List<ImmutablePair<Book, Long>> pairList= bookDao.findAllBooksWithCommentsCount();
+        Map<Book,Long> bookMap = new HashMap<>();
+        for (ImmutablePair pair: pairList)
+            bookMap.put((Book)pair.left,(long)pair.right);
+        return bookMap;
     }
 
 }

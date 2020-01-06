@@ -40,4 +40,4 @@ foreign key (author_id) references author(Id);
 
 alter table comment
 add constraint fk_commentBook
-foreign key (book_id) references book(Id);
+foreign key (book_id) references book(Id) ON DELETE CASCADE;

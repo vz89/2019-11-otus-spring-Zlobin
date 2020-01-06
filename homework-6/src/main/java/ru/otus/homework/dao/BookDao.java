@@ -1,5 +1,6 @@
 package ru.otus.homework.dao;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import ru.otus.homework.domain.Book;
 
 import java.util.List;
@@ -20,4 +21,7 @@ public interface BookDao {
     List<Book> findAllBooksByAuthorId(long id);
 
     List<Book> findAllWithComments();
+
+    List<ImmutablePair<Book,Long>> findAllBooksWithCommentsCount();
+
 }

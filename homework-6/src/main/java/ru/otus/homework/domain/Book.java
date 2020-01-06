@@ -13,7 +13,6 @@ import java.util.List;
 @Entity
 @Table(name = "book")
 @NamedEntityGraph(name = "author_genre_entity_graph", attributeNodes = {@NamedAttributeNode("author"), @NamedAttributeNode("genre")})
-@NamedEntityGraph(name = "comment_author_genre_entity_graph",attributeNodes = {@NamedAttributeNode("comments"),@NamedAttributeNode("author"), @NamedAttributeNode("genre")})
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,9 +27,9 @@ public class Book {
     @JoinColumn(name = "genre_id")
     private Genre genre;
 
-    @OneToMany(mappedBy ="book", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+   //@OneToMany(mappedBy ="book", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     //@JoinColumn(name = "book_id")
-    private List<Comment> comments;
+    //private List<Comment> comments;
 
     public Book(long id, String title, Author author, Genre genre) {
         this.title = title;
@@ -68,8 +67,7 @@ public class Book {
         return id +
                 " Наименование: " + title +
                 ". Автор: " + author.getName() +
-                ". Жанр: " + genre.getName() +
-                " Кол. комментариев: " + comments.size();
+                ". Жанр: " + genre.getName();
     }
 
 }

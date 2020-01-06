@@ -1,5 +1,6 @@
 package ru.otus.homework.controller;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -14,6 +15,7 @@ import ru.otus.homework.service.IOService;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 @ShellComponent
 public class ShellController {
@@ -120,20 +122,22 @@ public class ShellController {
         books.forEach(book -> ioService.write(book.getTitle()));
     }
 
-    @ShellMethod(key = {"commentListByAuthorId","clbai"},value = "show all comments to all books by author id")
-    public void showAllCommentsByAuthorId(){
+    @ShellMethod(key = {"commentListByAuthorId", "clbai"}, value = "show all comments to all books by author id")
+    public void showAllCommentsByAuthorId() {
         ioService.write("Введите Id автора для отображения всех комментариев к его книгам");
         long id = ioService.readInt();
         List<Comment> comments = commentService.findAllCommentsByAuthorId(id);
         ioService.write("Комментарии к книгам автора: " + authorService.findById(id).getName());
-        comments.forEach(comment -> ioService.write("Книга: "+ comment.getBook().getTitle() + ". Комментарий: " + comment.getText()));
+        comments.forEach(comment -> ioService.write("Книга: " + comment.getBook().getTitle() + ". Комментарий: " + comment.getText()));
     }
 
-    @ShellMethod(key = {"bookListWithCommentsCount", "blwcc"}, value = "show all books and comments counts")
-    public void showAllBooksWithCommentsCount() {
-        List<Book> books = bookService.findAllWithComments();
-        books.sort((o1, o2) -> o2.getComments().size()-o1.getComments().size());
-        books.forEach(book -> ioService.write(book.toStringWithCommentsCount()));
+    @ShellMethod(key = {"bookListWithCommentsCountGroupBy", "blwc"}, value = "show all books and comments counts")
+    public void showAllBooksWithComments() {
+        Map<Book,Long> books = bookService.findAllBooksWithCommentsCount();
+        for(Map.Entry<Book,Long> entry: books.entrySet()){
+            ioService.write(entry.getKey().toString());
+            ioService.write("Колличество комментариев: " + entry.getValue());
+        }
     }
 
 

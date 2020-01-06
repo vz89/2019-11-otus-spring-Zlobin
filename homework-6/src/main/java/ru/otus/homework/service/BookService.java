@@ -3,7 +3,7 @@ package ru.otus.homework.service;
 import ru.otus.homework.domain.Book;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 public interface BookService {
     Book save(Book book);
@@ -22,4 +22,6 @@ public interface BookService {
     List<Book> findAllBooksByAuthorId(long id);
 
     List<Book> findAllWithComments();
+
+    Map<Book, Long> findAllBooksWithCommentsCount();
 }
