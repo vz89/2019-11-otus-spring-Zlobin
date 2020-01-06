@@ -27,10 +27,6 @@ public class Book {
     @JoinColumn(name = "genre_id")
     private Genre genre;
 
-   //@OneToMany(mappedBy ="book", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    //@JoinColumn(name = "book_id")
-    //private List<Comment> comments;
-
     public Book(long id, String title, Author author, Genre genre) {
         this.title = title;
         this.author = author;
