@@ -1,0 +1,14 @@
+Spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/library?serverTimezone=Europe/Moscow&useSSL=false
+    username: root
+    password: root
+    schema: schema.sql
+    data: data.sql
+    initialization-mode: always
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    show-sql: true
