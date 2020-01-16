@@ -23,8 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Dao для работы с книгами")
 @DataJpaTest
-@Import({BookDaoImpl.class,CommentDaoImpl.class})
-class BookDaoImplTest {
+class BookRepositoryTest {
 
     private static final int EXPECTED_BOOK_COUNT = 4;
     private static final int EXPECTED_NUMBER_OF_BOOKS = 4;

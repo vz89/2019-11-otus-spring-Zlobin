@@ -28,7 +28,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findBooksByAuthor_Id(long id);
 
     @Query("select new org.apache.commons.lang3.tuple.ImmutablePair (c.book, count(c)) from Comment c group by c.book")
-    public List<ImmutablePair<Book,Long>> findAllBooksWithCommentsCount();
+    List<ImmutablePair<Book,Long>> findAllBooksWithCommentsCount();
 
 
 }

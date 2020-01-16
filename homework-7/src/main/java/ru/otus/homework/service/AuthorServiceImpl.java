@@ -1,8 +1,6 @@
 package ru.otus.homework.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import ru.otus.homework.dao.AuthorDao;
 import ru.otus.homework.domain.Author;
 import ru.otus.homework.repo.AuthorRepository;
 
@@ -10,7 +8,6 @@ import java.util.List;
 
 @Service
 public class AuthorServiceImpl implements AuthorService {
-    //final private AuthorDao authorDao;
     final private AuthorRepository authorRepository;
 
     public AuthorServiceImpl(AuthorRepository authorRepository) {

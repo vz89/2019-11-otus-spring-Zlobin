@@ -16,8 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Dao для работы с комментариями")
 @DataJpaTest
-@Import(CommentDaoImpl.class)
-class CommentDaoImplTest {
+class CommentRepositoryTest {
 
     private static final String NEW_COMMENT_TEXT = "new comment text";
     private static final long FIRST_BOOK_ID = 1;

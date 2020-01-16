@@ -1,11 +1,9 @@
 package ru.otus.homework.service;
 
 import org.springframework.stereotype.Service;
-import ru.otus.homework.dao.GenreDao;
 import ru.otus.homework.domain.Genre;
 import ru.otus.homework.repo.GenreRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
