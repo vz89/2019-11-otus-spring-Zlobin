@@ -20,15 +20,15 @@ public class BookDaoImpl implements BookDao {
     @Override
     public Book save(Book book) {
         return em.merge(book);
-    }
+    } //+ save
 
     @Override
     public Optional<Book> findById(long id) {
         return Optional.ofNullable(em.find(Book.class, id));
-    }
+    } //+ getOne
 
     @Override
-    public List<Book> findAll() {
+    public List<Book> findAll() { //+ findAll
         EntityGraph<?> entityGraph = em.getEntityGraph("author_genre_entity_graph");
         TypedQuery<Book> query = em.createQuery("select b from Book b", Book.class);
         query.setHint("javax.persistence.fetchgraph",entityGraph);
@@ -36,7 +36,7 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public List<Book> findByName(String title) {
+    public List<Book> findByName(String title) { //+ findBooksByTitle
         EntityGraph<?> entityGraph = em.getEntityGraph("author_genre_entity_graph");
         TypedQuery<Book> query = em.createQuery("select b from Book b where b.title=:title", Book.class);
         query.setParameter("title", title);
@@ -44,7 +44,7 @@ public class BookDaoImpl implements BookDao {
         return query.getResultList();
     }
 
-    @Override
+    @Override //+updateNameById
     public void updateNameById(long id, String name) {
         Query query = em.createQuery("update Book b set b.title=:name where b.id=:id");
         query.setParameter("id", id);
@@ -53,7 +53,7 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public void deleteById(long id) {
+    public void deleteById(long id) { //+deleteById();
         Query query = em.createQuery("delete " +
                 "from Book b " +
                 "where b.id = :id");
@@ -64,10 +64,10 @@ public class BookDaoImpl implements BookDao {
     @Override
     public long getCount() {
         return em.createQuery("select count(b) from Book b",Long.class).getSingleResult();
-    }
+    } //+get count
 
     @Override
-    public List<Book> findAllBooksByAuthorId(long id) {
+    public List<Book> findAllBooksByAuthorId(long id) { //+
         EntityGraph<?> entityGraph = em.getEntityGraph("author_genre_entity_graph");
         TypedQuery<Book> query = em.createQuery("select b from Book b where b.author.id=:id",Book.class);
         query.setParameter("id", id);

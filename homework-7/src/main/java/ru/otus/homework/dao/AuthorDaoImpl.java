@@ -15,7 +15,7 @@ public class AuthorDaoImpl implements AuthorDao {
     private EntityManager em;
 
     @Override
-    public Author save(Author author) {
+    public Author save(Author author) { //+save
         if (author.getId() == null) {
             em.persist(author);
             return author;
@@ -27,10 +27,10 @@ public class AuthorDaoImpl implements AuthorDao {
     @Override
     public Optional<Author> findById(long id) {
         return Optional.ofNullable(em.find(Author.class, id));
-    }
+    } //getOne
 
     @Override
-    public List<Author> findAll() {
+    public List<Author> findAll() { //+find all
         EntityGraph<?> entityGraph = em.getEntityGraph("book_entity_graph");
         TypedQuery<Author> query = em.createQuery("select a from Author a", Author.class);
         query.setHint("javax.persistence.fetchgraph",entityGraph);

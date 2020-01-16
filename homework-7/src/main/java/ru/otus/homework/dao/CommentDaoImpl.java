@@ -18,7 +18,7 @@ public class CommentDaoImpl implements CommentDao {
     private EntityManager em;
 
     @Override
-    public Comment save(Comment comment) {
+    public Comment save(Comment comment) { //+save
         if (comment.getId() == null) {
             em.persist(comment);
             return comment;
@@ -28,14 +28,14 @@ public class CommentDaoImpl implements CommentDao {
     }
 
     @Override
-    public List<Comment> findByBookId(long id) {
+    public List<Comment> findByBookId(long id) { //+findByBook_Id
         TypedQuery<Comment> query = em.createQuery("select c from Comment c where c.book.id=:id", Comment.class);
         query.setParameter("id", id);
         return query.getResultList();
     }
 
     @Override
-    public void updateTextById(long id, String text) {
+    public void updateTextById(long id, String text) { //+updateTextById
         Query query = em.createQuery("update Comment c set c.text=:text where c.id=:id");
         query.setParameter("id", id);
         query.setParameter("text", text);
@@ -43,7 +43,7 @@ public class CommentDaoImpl implements CommentDao {
     }
 
     @Override
-    public void deleteById(long id) {
+    public void deleteById(long id) { //delete
         Query query = em.createQuery("delete " +
                 "from Comment c " +
                 "where c.id = :id");
@@ -52,7 +52,7 @@ public class CommentDaoImpl implements CommentDao {
     }
 
     @Override
-    public List<Comment> findAllCommentsByAuthorId(long id) {
+    public List<Comment> findAllCommentsByAuthorId(long id) { //findAllByBookAuthor_Id
         TypedQuery<Comment> query = em.createQuery("select c from Comment c left join c.book b where b.author.id=:id",Comment.class);
         query.setParameter("id", id);
         return query.getResultList();

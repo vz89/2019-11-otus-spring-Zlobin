@@ -19,7 +19,7 @@ public class GenreDaoImpl implements GenreDao {
     private EntityManager em;
 
     @Override
-    public Genre save(Genre genre) {
+    public Genre save(Genre genre) { //+
         if (genre.getId() == null) {
             em.persist(genre);
             return genre;
@@ -31,10 +31,10 @@ public class GenreDaoImpl implements GenreDao {
     @Override
     public Optional<Genre> findById(long id) {
         return Optional.ofNullable(em.find(Genre.class, id));
-    }
+    } // getOne
 
     @Override
-    public Genre findByName(String name) {
+    public Genre findByName(String name) { //findByName
         try {
             TypedQuery<Genre> query = em.createQuery("select g from Genre g where g.name=:name", Genre.class);
             query.setParameter("name", name);
