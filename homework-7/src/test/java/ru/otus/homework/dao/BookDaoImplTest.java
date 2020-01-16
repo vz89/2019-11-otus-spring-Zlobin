@@ -8,9 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.homework.domain.Author;
 import ru.otus.homework.domain.Book;
 import ru.otus.homework.domain.Genre;
+import ru.otus.homework.repo.BookRepository;
+import ru.otus.homework.repo.CommentRepository;
+import ru.otus.homework.service.BookService;
 
 import java.util.List;
 
@@ -28,20 +32,19 @@ class BookDaoImplTest {
     private static final String NEW_BOOK_TITLE = "new book";
     private static final String FIRST_BOOK_NAME = "Идиот";
     @Autowired
-    private BookDaoImpl bookDaoImpl;
+    private BookRepository bookRepository;
 
-    @Autowired
-    private  CommentDaoImpl commentDao;
     @Autowired
     private TestEntityManager em;
 
     @DisplayName("должен корректно сохранять книгу в бд")
     @Test
+    @Transactional
     void shouldSaveBook() {
-        val author = new Author(1L, "Достоевский");
-        val genre = new Genre(1L, "Роман");
+        val author = new Author("Гоголь");
+        val genre = new Genre("Пьеса");
         var book = new Book(NEW_BOOK_TITLE, author, genre);
-        book = bookDaoImpl.save(book);
+        book = bookRepository.save(book);
 
         assertThat(book.getId()).isGreaterThan(0);
 
@@ -54,7 +57,7 @@ class BookDaoImplTest {
     @DisplayName("должен загружать информацию о нужной книге по её Id")
     @Test
     void shouldFindBookById() {
-        val optionalActualBook = bookDaoImpl.findById(FIRST_BOOK_ID);
+        val optionalActualBook = bookRepository.findById(FIRST_BOOK_ID);
         val expectedBook = em.find(Book.class, FIRST_BOOK_ID);
         assertThat(optionalActualBook).isPresent().get().isEqualTo(expectedBook);
     }
@@ -62,7 +65,7 @@ class BookDaoImplTest {
     @DisplayName("должен загружать список всех книг с информацией об авторе и жанре")
     @Test
     void shouldReturnCorrectBookListWithGenreAndAuthor() {
-        val books = bookDaoImpl.findAll();
+        val books = bookRepository.findAll();
         assertThat(books).isNotNull().hasSize(EXPECTED_NUMBER_OF_BOOKS)
                 .allMatch(book -> !book.getTitle().equals(""))
                 .allMatch(book -> book.getGenre() != null)
@@ -73,7 +76,7 @@ class BookDaoImplTest {
     @Test
     void shouldFindBookByName() {
         val firstBook = em.find(Book.class, FIRST_BOOK_ID);
-        List<Book> books = bookDaoImpl.findByName(FIRST_BOOK_NAME);
+        List<Book> books = bookRepository.findBooksByTitle(FIRST_BOOK_NAME);
         assertThat(books).containsOnlyOnce(firstBook);
     }
 
@@ -84,7 +87,7 @@ class BookDaoImplTest {
         String oldName = firstBook.getTitle();
         em.clear();
 
-        bookDaoImpl.updateNameById(FIRST_BOOK_ID, NEW_BOOK_TITLE);
+        bookRepository.updateNameById(FIRST_BOOK_ID, NEW_BOOK_TITLE);
         val updatedBook = em.find(Book.class, FIRST_BOOK_ID);
 
         assertThat(updatedBook.getTitle()).isNotEqualTo(oldName).isEqualTo(NEW_BOOK_TITLE);
@@ -94,8 +97,7 @@ class BookDaoImplTest {
     @Test
     void shouldDeleteBookNameById() {
         em.clear();
-        commentDao.deleteByBookId(FIRST_BOOK_ID);
-        bookDaoImpl.deleteById(FIRST_BOOK_ID);
+        bookRepository.deleteById(FIRST_BOOK_ID);
         val deletedBook = em.find(Book.class, FIRST_BOOK_ID);
         assertThat(deletedBook).isNull();
     }
@@ -103,7 +105,7 @@ class BookDaoImplTest {
     @DisplayName(" должен выводить правильное количество книг")
     @Test
     void shouldReturnCorrectBookCount() {
-        long count = bookDaoImpl.getCount();
+        long count = bookRepository.count();
         assertThat(count).isEqualTo(EXPECTED_BOOK_COUNT);
     }
 

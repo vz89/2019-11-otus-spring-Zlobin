@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import ru.otus.homework.domain.Book;
 import ru.otus.homework.domain.Comment;
+import ru.otus.homework.repo.CommentRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -23,7 +24,7 @@ class CommentDaoImplTest {
     private static final int EXPECTED_NUMBER_OF_COMMENTS = 2;
     private static final long FIRST_COMMENT_ID = 1;
     @Autowired
-    private CommentDaoImpl commentDao;
+    private CommentRepository commentRepository;
 
     @Autowired
     private TestEntityManager em;
@@ -33,7 +34,7 @@ class CommentDaoImplTest {
     void shouldSaveComment() {
         Book book = em.find(Book.class, FIRST_BOOK_ID);
         var comment = new Comment(NEW_COMMENT_TEXT, book);
-        comment = commentDao.save(comment);
+        comment = commentRepository.save(comment);
 
         assertThat(comment.getId()).isGreaterThan(0);
 
@@ -45,7 +46,7 @@ class CommentDaoImplTest {
     @DisplayName("должен загружать все комментарии к книге по её Id")
     @Test
     void shouldFindAllCommentsByBookId() {
-        val comments = commentDao.findByBookId(FIRST_BOOK_ID);
+        val comments = commentRepository.findAllByBook_Id(FIRST_BOOK_ID);
         assertThat(comments).isNotNull().hasSize(EXPECTED_NUMBER_OF_COMMENTS)
                 .allMatch(comment -> !comment.getText().equals(""))
                 .allMatch(comment -> comment.getBook().getTitle() != null);
@@ -54,7 +55,7 @@ class CommentDaoImplTest {
     @DisplayName(" должен удалять комментарий по его Id")
     @Test
     void shouldDeleteBookNameById() {
-        commentDao.deleteById(FIRST_COMMENT_ID);
+        commentRepository.deleteById(FIRST_COMMENT_ID);
         val deletedComment = em.find(Comment.class, FIRST_COMMENT_ID);
         assertThat(deletedComment).isNull();
     }
@@ -66,7 +67,7 @@ class CommentDaoImplTest {
         String oldText = firstComment.getText();
         em.clear();
 
-        commentDao.updateTextById(FIRST_COMMENT_ID,NEW_COMMENT_TEXT);
+        commentRepository.updateTextById(FIRST_COMMENT_ID,NEW_COMMENT_TEXT);
         val updateComment = em.find(Comment.class,FIRST_COMMENT_ID);
 
         assertThat(updateComment.getText()).isNotEqualTo(oldText).isEqualTo(NEW_COMMENT_TEXT);
