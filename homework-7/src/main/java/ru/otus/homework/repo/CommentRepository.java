@@ -13,7 +13,7 @@ public interface CommentRepository extends JpaRepository<Comment,Long> {
 
     @Modifying
     @Query("update Comment c set c.text=:text where c.id=:id")
-    void updateTextById(@Param("text") String text, @Param("id") Long id);
+    void updateTextById(@Param("id") Long id,@Param("text") String text);
 
     List<Comment> findAllByBookAuthor_Id(long id);
 }

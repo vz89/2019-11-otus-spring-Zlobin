@@ -11,17 +11,18 @@ import ru.otus.homework.domain.Book;
 import java.util.List;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
+
+    @EntityGraph(value = "author_genre_entity_graph")
+    List<Book> findAll();
+
     @EntityGraph(value = "author_genre_entity_graph")
     List<Book> findBooksByTitle(String title);
 
     @Modifying
     @Query("update Book b set b.title=:name where b.id=:id")
-    void updateNameById(@Param("name") String name, @Param("id") Long id);
+    void updateNameById(@Param("id") Long id,@Param("name") String name);
 
     void deleteById(long Id);
-
-    //@Query("select count(b) from Book b")
-    long countAll();
 
     @EntityGraph(value = "author_genre_entity_graph")
     List<Book> findBooksByAuthor_Id(long id);

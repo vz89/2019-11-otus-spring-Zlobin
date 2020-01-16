@@ -21,7 +21,5 @@ public interface BookService {
 
     List<Book> findAllBooksByAuthorId(long id);
 
-    List<Book> findAllWithComments();
-
     Map<Book, Long> findAllBooksWithCommentsCount();
 }
