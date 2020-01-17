@@ -27,7 +27,10 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @EntityGraph(value = "author_genre_entity_graph")
     List<Book> findBooksByAuthor_Id(long id);
 
-    @Query("select new org.apache.commons.lang3.tuple.ImmutablePair (c.book, count(c)) from Comment c group by c.book")
+    @Query("select new org.apache.commons.lang3.tuple.ImmutablePair (b, count(c))"+
+            "                        from Book b left join Comment c on b.id = c.book.id "+
+            "                        group by c.book")
+
     List<ImmutablePair<Book,Long>> findAllBooksWithCommentsCount();
 
 

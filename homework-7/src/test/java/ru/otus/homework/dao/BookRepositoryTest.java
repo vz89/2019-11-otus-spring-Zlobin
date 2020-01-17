@@ -38,7 +38,6 @@ class BookRepositoryTest {
 
     @DisplayName("должен корректно сохранять книгу в бд")
     @Test
-    @Transactional
     void shouldSaveBook() {
         val author = new Author("Гоголь");
         val genre = new Genre("Пьеса");
