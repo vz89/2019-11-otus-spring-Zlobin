@@ -9,4 +9,5 @@ public interface BookRepo extends MongoRepository<Book, Long> {
 
     Book findById(long id);
     List<Book> findAllByTitle(String title);
+
 }

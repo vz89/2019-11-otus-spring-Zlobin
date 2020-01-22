@@ -86,6 +86,12 @@ public class BookServiceImpl implements BookService {
         }
     }
 
+    @Override
+    public List<Comment> findCommentsByBookId(long id) {
+        Book book = bookRepo.findById(id);
+        return book.getComments();
+    }
+
     private List<Comment> getCommentList(Book book, Comment comment) {
         if (book.getComments() == null) {
             List<Comment> comments = new ArrayList<>();

@@ -10,7 +10,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.math.BigInteger;
 import java.util.List;
 
 @Data
@@ -34,8 +33,7 @@ public class Book {
         this.genre = genre;
     }
 
-    @Override
-    public String toString() {
+    public String toJsonString() {
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = "";
         try {
@@ -45,5 +43,16 @@ public class Book {
             e.printStackTrace();
         }
         return jsonString;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", genre='" + genre + '\'' +
+                ", comments=" + comments +
+                '}';
     }
 }

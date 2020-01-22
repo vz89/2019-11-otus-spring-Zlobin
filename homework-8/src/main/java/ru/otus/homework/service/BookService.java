@@ -1,6 +1,7 @@
 package ru.otus.homework.service;
 
 import ru.otus.homework.domain.Book;
+import ru.otus.homework.domain.Comment;
 
 import java.util.List;
 
@@ -20,4 +21,6 @@ public interface BookService {
     List<Book> findByName(String name);
 
     void addComment();
+
+    List<Comment> findCommentsByBookId(long id);
 }

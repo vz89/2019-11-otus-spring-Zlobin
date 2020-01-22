@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import ru.otus.homework.domain.Book;
+import ru.otus.homework.domain.Comment;
 import ru.otus.homework.service.BookService;
 import ru.otus.homework.service.IOService;
 
@@ -23,7 +24,7 @@ public class ShellController {
     @ShellMethod(key = {"bookList", "bl"}, value = "show all books")
     public void allBooks() {
         List<Book> allBooks = bookService.findAll();
-        allBooks.forEach(book -> ioService.write(book.toString()));
+        allBooks.forEach(book -> ioService.write(book.toJsonString()));
     }
 
     @ShellMethod(key = {"bookAdd", "ba"}, value = "add book to library")
@@ -69,16 +70,18 @@ public class ShellController {
     public void addCommentToBookById() {
         bookService.addComment();
     }
-/*
+
     @ShellMethod(key = {"commentShowAll", "csha"}, value = "show all comments to book by Id")
     public void showAllCommentsToBookById() {
         ioService.write("Введите Id книги, по которой отобразить комментарии");
         long id = ioService.readInt();
-        List<Comment> allComments = commentService.findByBookId(id);
+        List<Comment> allComments = bookService.findCommentsByBookId(id);
         ioService.write("Комментарии к книге " + bookService.findById(id).getTitle());
-        allComments.forEach(comment -> ioService.write(comment.toString()));
+        if (allComments != null) {
+            allComments.forEach(comment -> ioService.write(comment.toString()));
+        } else ioService.write("У книги отсутствуют комментарии");
     }
-
+/*
     @ShellMethod(key = {"commentDeleteById", "cdbid"}, value = "delete comment by Id")
     public void deleteCommentById() {
         ioService.write("Введите Id комментария, который надо удалить");
