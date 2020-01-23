@@ -5,7 +5,7 @@ import ru.otus.homework.domain.Book;
 
 import java.util.List;
 
-public interface BookRepo extends MongoRepository<Book, Long> {
+public interface BookRepo extends MongoRepository<Book, Long>,BookRepoCustom{
 
     Book findById(long id);
     List<Book> findAllByTitle(String title);

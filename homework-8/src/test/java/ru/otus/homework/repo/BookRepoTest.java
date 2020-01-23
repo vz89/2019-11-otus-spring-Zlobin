@@ -21,17 +21,6 @@ class BookRepoTest {
     @Autowired
     private MongoClient mongo;
 
-    @TestConfiguration
-    public class Configuration {
-        @Bean
-        public Mongobee mongobee(Environment environment) {
-            Mongobee runner = new Mongobee(mongo);
-            runner.setDbName("company");
-            runner.setChangeLogsScanPackage(DatabaseChangeLog.class.getPackage().getName());
-            runner.setSpringEnvironment(environment);
-            return runner;
-        }
-    }
 
     @Test
     void shouldStartTest() {

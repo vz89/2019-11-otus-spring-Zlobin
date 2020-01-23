@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
@@ -23,11 +24,13 @@ public class Book {
     @Id
     private long id;
     private String title;
-    private String author;
+    @DBRef
+    private Author author;
     private String genre;
+    @DBRef
     private List<Comment> comments;
 
-    public Book(String title, String author, String genre) {
+    public Book(String title, Author author, String genre) {
         this.title = title;
         this.author = author;
         this.genre = genre;
@@ -50,9 +53,17 @@ public class Book {
         return "Book{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", author='" + author + '\'' +
+                ", author='" + author.toString() + '\'' +
                 ", genre='" + genre + '\'' +
                 ", comments=" + comments +
+                '}';
+    }
+
+    public String toStringWithCommentCount() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", comments=" + ((comments==null) ? "0":comments.size()) +
                 '}';
     }
 }

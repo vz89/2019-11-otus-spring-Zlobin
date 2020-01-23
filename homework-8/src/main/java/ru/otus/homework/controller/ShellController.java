@@ -3,9 +3,13 @@ package ru.otus.homework.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
+import ru.otus.homework.domain.Author;
+import ru.otus.homework.domain.AuthorBookCount;
 import ru.otus.homework.domain.Book;
 import ru.otus.homework.domain.Comment;
+import ru.otus.homework.service.AuthorService;
 import ru.otus.homework.service.BookService;
+import ru.otus.homework.service.CommentService;
 import ru.otus.homework.service.IOService;
 
 import java.util.List;
@@ -14,17 +18,21 @@ import java.util.List;
 public class ShellController {
     private final BookService bookService;
     private final IOService ioService;
+    private final CommentService commentService;
+    private final AuthorService authorService;
 
     @Autowired
-    public ShellController(BookService bookService, IOService ioService) {
+    public ShellController(BookService bookService, IOService ioService, CommentService commentService, AuthorService authorService) {
         this.bookService = bookService;
         this.ioService = ioService;
+        this.commentService = commentService;
+        this.authorService = authorService;
     }
 
     @ShellMethod(key = {"bookList", "bl"}, value = "show all books")
     public void allBooks() {
         List<Book> allBooks = bookService.findAll();
-        allBooks.forEach(book -> ioService.write(book.toJsonString()));
+        allBooks.forEach(book -> ioService.write(book.toString()));
     }
 
     @ShellMethod(key = {"bookAdd", "ba"}, value = "add book to library")
@@ -81,7 +89,7 @@ public class ShellController {
             allComments.forEach(comment -> ioService.write(comment.toString()));
         } else ioService.write("У книги отсутствуют комментарии");
     }
-/*
+
     @ShellMethod(key = {"commentDeleteById", "cdbid"}, value = "delete comment by Id")
     public void deleteCommentById() {
         ioService.write("Введите Id комментария, который надо удалить");
@@ -89,26 +97,23 @@ public class ShellController {
         commentService.deleteById(id);
     }
 
-    @ShellMethod(key = {"commentEditTextByID", "cetbid"}, value = "edit comment text by id")
-    public void editCommentById() {
-        ioService.write("Введите Id комментария, который необходимо изменить");
-        long id = ioService.readInt();
-        ioService.write("Введите новый комментарий");
-        String text = ioService.read();
-        commentService.updateTextById(id, text);
-    }
-
     @ShellMethod(key = {"authorList", "al"}, value = "show all authors and count of books")
     public void showAllAuthors() {
-        List<Author> authors = authorService.findAll();
+        List<AuthorBookCount> authors = bookService.findAllAuthorsWithBooksCount();
         authors.forEach(author -> ioService.write(author.toString()));
     }
+    @ShellMethod(key = {"authorListAlternativeMethod", "alam"}, value = "show all authors and count of books alternative method")
+    public void showAllAuthorsAlternative() {
+        List<Author> authors = authorService.findAllWithBooksCount();
+        authors.forEach(author -> ioService.write(author.toStringWithBookCount()));
+    }
+
 
     @ShellMethod(key = {"bookListByAuthorId", "blai"}, value = "show all books by author id")
     public void showAllBooksByAuthorId() {
         ioService.write("Введите Id автора для отображения списка его книг");
         long id = ioService.readInt();
-        List<Book> books = bookService.findAllBooksByAuthorId(id);
+        List<Book> books = authorService.findAllBooksByAuthorId(id);
         ioService.write("Книги автора: " + authorService.findById(id).getName());
         books.forEach(book -> ioService.write(book.getTitle()));
     }
@@ -117,17 +122,21 @@ public class ShellController {
     public void showAllCommentsByAuthorId() {
         ioService.write("Введите Id автора для отображения всех комментариев к его книгам");
         long id = ioService.readInt();
-        List<Comment> comments = commentService.findAllCommentsByAuthorId(id);
+        List<Book> books = authorService.findAllBooksByAuthorId(id);
         ioService.write("Комментарии к книгам автора: " + authorService.findById(id).getName());
-        comments.forEach(comment -> ioService.write("Книга: " + comment.getBook().getTitle() + ". Комментарий: " + comment.getText()));
+        books.forEach(book -> {
+            if (book.getComments() != null)
+                ioService.write("Книга: " + book.getTitle() + ". Комментарии: " + book.getComments().toString());
+            else ioService.write("Книга: " + book.getTitle() + ". Комментарии: 0");
+        });
     }
 
     @ShellMethod(key = {"bookListWithCommentsCountGroupBy", "blwc"}, value = "show all books and comments counts")
     public void showAllBooksWithComments() {
-        Map<Book,Long> books = bookService.findAllBooksWithCommentsCount();
-        for(Map.Entry<Book,Long> entry: books.entrySet()){
-            ioService.write(entry.getKey().toString());
-            ioService.write("Колличество комментариев: " + entry.getValue());
-        }
-    }*/
+        List<Book> books = bookService.findAll();
+        books.forEach(author ->
+        {
+            ioService.write(author.toStringWithCommentCount());
+        });
+    }
 }
