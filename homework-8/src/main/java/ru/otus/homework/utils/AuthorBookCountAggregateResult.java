@@ -1,13 +1,14 @@
-package ru.otus.homework.domain;
+package ru.otus.homework.utils;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.otus.homework.domain.Author;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthorBookCount {
+public class AuthorBookCountAggregateResult {
     private Author author;
     private int count;
 

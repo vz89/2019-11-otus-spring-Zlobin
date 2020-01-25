@@ -19,18 +19,19 @@ import java.util.List;
 @Document(collection = "book")
 public class Book {
     @Transient
-    public static final String SEQUENCE_NAME ="books_sequence";
+    public static final String SEQUENCE_NAME = "books_sequence";
 
     @Id
     private long id;
     private String title;
     @DBRef
     private Author author;
-    private String genre;
+
+    private Genre genre;
     @DBRef
     private List<Comment> comments;
 
-    public Book(String title, Author author, String genre) {
+    public Book(String title, Author author, Genre genre) {
         this.title = title;
         this.author = author;
         this.genre = genre;
@@ -42,7 +43,7 @@ public class Book {
         try {
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
             jsonString = mapper.writeValueAsString(this);
-        } catch (JsonProcessingException e){
+        } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
         return jsonString;
@@ -53,8 +54,8 @@ public class Book {
         return "Book{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", author='" + author.toString() + '\'' +
-                ", genre='" + genre + '\'' +
+                ", author='" + author.getName() + '\'' +
+                ", genre='" + genre.getName() + '\'' +
                 ", comments=" + comments +
                 '}';
     }
@@ -63,7 +64,7 @@ public class Book {
         return "Book{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", comments=" + ((comments==null) ? "0":comments.size()) +
+                ", comments=" + ((comments == null) ? "0" : comments.size()) +
                 '}';
     }
 }

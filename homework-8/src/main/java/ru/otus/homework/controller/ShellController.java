@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import ru.otus.homework.domain.Author;
-import ru.otus.homework.domain.AuthorBookCount;
+import ru.otus.homework.utils.AuthorBookCountAggregateResult;
 import ru.otus.homework.domain.Book;
 import ru.otus.homework.domain.Comment;
 import ru.otus.homework.service.AuthorService;
@@ -99,13 +99,13 @@ public class ShellController {
 
     @ShellMethod(key = {"authorList", "al"}, value = "show all authors and count of books")
     public void showAllAuthors() {
-        List<AuthorBookCount> authors = bookService.findAllAuthorsWithBooksCount();
-        authors.forEach(author -> ioService.write(author.toString()));
+        List<Author> authors = authorService.findAllWithBooksCount();
+        authors.forEach(author -> ioService.write(author.toStringWithBookCount()));
     }
     @ShellMethod(key = {"authorListAlternativeMethod", "alam"}, value = "show all authors and count of books alternative method")
     public void showAllAuthorsAlternative() {
-        List<Author> authors = authorService.findAllWithBooksCount();
-        authors.forEach(author -> ioService.write(author.toStringWithBookCount()));
+        List<AuthorBookCountAggregateResult> list = bookService.findAllAuthorsWithBooksCount();
+        list.forEach(author -> ioService.write(author.toString()));
     }
 
 
