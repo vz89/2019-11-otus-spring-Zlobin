@@ -1,31 +1,38 @@
 package ru.otus.homework.repo;
 
-import com.github.mongobee.Mongobee;
-import com.mongodb.MongoClient;
-import org.junit.After;
+import lombok.val;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import ru.otus.homework.bee.changelog.DatabaseChangeLog;
+import org.springframework.context.annotation.ComponentScan;
 
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DataMongoTest
-@ExtendWith(SpringExtension.class)
+@EnableConfigurationProperties
+@ComponentScan({"ru.otus.homework.config", "ru.otus.homework.repositories"})
+@DisplayName("Repository для работы с книгами")
 class BookRepoTest {
+    private static final int COMMENT_ID = 1;
+    private static final int BOOK_ID = 1;
     @Autowired
-    private MongoClient mongo;
-
+    private BookRepo bookRepo;
 
     @Test
-    void shouldStartTest() {
-
+    @DisplayName("корректное количество книг")
+    void shouldReturnCorrectBookList() {
+        val books = bookRepo.findAll();
+        assertThat(books).isNotNull().hasSize(5);
     }
 
+    @Test
+    @DisplayName("корректно удалять комментарий из книги")
+    void shouldCorrectDeleteCommentById() {
+        bookRepo.deleteCommentById(COMMENT_ID);
+        assertThat(bookRepo.findById(BOOK_ID).getComments()).hasSize(1);
+    }
 
 }

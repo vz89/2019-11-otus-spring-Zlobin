@@ -5,5 +5,5 @@ import ru.otus.homework.utils.AuthorBookCountAggregateResult;
 import java.util.List;
 
 public interface BookRepoCustom {
-    List<AuthorBookCountAggregateResult> findAllAuthorsWithBooksCount();
+    void deleteCommentById(long id);
 }

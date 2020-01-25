@@ -25,5 +25,4 @@ public interface BookService {
 
     List<Comment> findCommentsByBookId(long id);
 
-    List<AuthorBookCountAggregateResult> findAllAuthorsWithBooksCount();
 }

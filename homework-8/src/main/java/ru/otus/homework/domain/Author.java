@@ -18,13 +18,17 @@ public class Author {
     @Transient
     public static final String SEQUENCE_NAME ="authors_sequence";
     @Id
-    private long id;
+    private Long id;
     private String name;
-    @DBRef (db = "test",lazy = true)
+    @DBRef (lazy = true)
     List<Book> books;
 
     public Author(long id, String name) {
         this.id = id;
+        this.name = name;
+    }
+
+    public Author(String name) {
         this.name = name;
     }
 
@@ -42,5 +46,16 @@ public class Author {
                 ", name='" + name + '\'' +
                 "количество книг: " + books.size() +
                 "  } ";
+    }
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj.getClass() != this.getClass()) return false;
+        Author author = (Author) obj;
+        if (this.name != null && author.name != null)
+            return (this.id.equals(author.getId()) &&
+                    this.name.equals(author.name));
+        else return (this.id.equals(author.id) &&
+                this.name == author.name);
+
     }
 }

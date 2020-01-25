@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import ru.otus.homework.domain.Author;
 import ru.otus.homework.domain.Book;
 import ru.otus.homework.repo.AuthorRepo;
+import ru.otus.homework.utils.AuthorBookCountAggregateResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +23,8 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public Author getAuthor(String authorName) {
         Author author = authorRepo.findByName(authorName);
-        if (author==null) {
-            return authorRepo.save(new Author(sequenceGeneratorService.generateSequence(Author.SEQUENCE_NAME),authorName));
+        if (author == null) {
+            return authorRepo.save(new Author(sequenceGeneratorService.generateSequence(Author.SEQUENCE_NAME), authorName));
         } else return author;
     }
 
@@ -33,8 +34,7 @@ public class AuthorServiceImpl implements AuthorService {
             List<Book> books = new ArrayList<>();
             books.add(book);
             return books;
-        }
-        else {
+        } else {
             List<Book> books = author.getBooks();
             books.add(book);
             return books;
@@ -54,5 +54,10 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public Author findById(long id) {
         return authorRepo.findById(id).get();
+    }
+
+    @Override
+    public List<AuthorBookCountAggregateResult> findAllAuthorsWithBooksCount() {
+        return authorRepo.findAllAuthorsWithBooksCount();
     }
 }

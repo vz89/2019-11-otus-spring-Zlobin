@@ -104,7 +104,7 @@ public class ShellController {
     }
     @ShellMethod(key = {"authorListAlternativeMethod", "alam"}, value = "show all authors and count of books alternative method")
     public void showAllAuthorsAlternative() {
-        List<AuthorBookCountAggregateResult> list = bookService.findAllAuthorsWithBooksCount();
+        List<AuthorBookCountAggregateResult> list = authorService.findAllAuthorsWithBooksCount();
         list.forEach(author -> ioService.write(author.toString()));
     }
 

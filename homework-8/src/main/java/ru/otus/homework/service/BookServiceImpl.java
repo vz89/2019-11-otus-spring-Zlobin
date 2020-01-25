@@ -66,6 +66,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void deleteById(long id) {
+        bookRepo.findById(id).getComments().forEach(commentRepo::delete);
+        authorRepo.deleteBookById(id);
         bookRepo.deleteById(id);
     }
 
@@ -110,10 +112,7 @@ public class BookServiceImpl implements BookService {
         return book.getComments();
     }
 
-    @Override
-    public List<AuthorBookCountAggregateResult> findAllAuthorsWithBooksCount() {
-        return bookRepo.findAllAuthorsWithBooksCount();
-    }
+
 
     private List<Comment> addCommentToBookCommentList(Book book, Comment comment) {
         if (book.getComments() == null) {

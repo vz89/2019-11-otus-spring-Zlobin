@@ -1,5 +1,5 @@
 Spring:
   data:
     mongodb:
-      database: test
+      database: test2
       port: 0

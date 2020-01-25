@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.otus.homework.domain.Author;
 
+import java.util.Objects;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,4 +20,15 @@ public class AuthorBookCountAggregateResult {
                 "author=" + author +
                         ", count=" + count;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AuthorBookCountAggregateResult that = (AuthorBookCountAggregateResult) o;
+        return count == that.count &&
+                author.equals(that.author);
+    }
+
+
 }
