@@ -47,10 +47,6 @@ public class DatabaseChangeLog {
         List<Book> author3books = new ArrayList<>();
         author3books.add(book5);
 
-        author1.setBooks(author1books);
-        author2.setBooks(author2books);
-        author3.setBooks(author3books);
-
         mongoTemplate.save(genre1);
         mongoTemplate.save(genre2);
         mongoTemplate.save(author1);

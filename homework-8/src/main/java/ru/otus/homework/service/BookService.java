@@ -1,6 +1,5 @@
 package ru.otus.homework.service;
 
-import ru.otus.homework.utils.AuthorBookCountAggregateResult;
 import ru.otus.homework.domain.Book;
 import ru.otus.homework.domain.Comment;
 
@@ -25,4 +24,5 @@ public interface BookService {
 
     List<Comment> findCommentsByBookId(long id);
 
+    List<Book> findAllBooksByAuthorId(long id);
 }

@@ -6,7 +6,6 @@ import ru.otus.homework.domain.*;
 import ru.otus.homework.repo.AuthorRepo;
 import ru.otus.homework.repo.BookRepo;
 import ru.otus.homework.repo.CommentRepo;
-import ru.otus.homework.utils.AuthorBookCountAggregateResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,9 +48,6 @@ public class BookServiceImpl implements BookService {
         Book book = new Book(title, author, genre);
         book.setId(sequenceGeneratorService.generateSequence(Book.SEQUENCE_NAME));
         bookRepo.save(book);
-        author.setBooks(authorService.addBookToAuthorsBookList(author,book));
-        authorRepo.save(author);
-
     }
 
     @Override
@@ -67,7 +63,6 @@ public class BookServiceImpl implements BookService {
     @Override
     public void deleteById(long id) {
         bookRepo.findById(id).getComments().forEach(commentRepo::delete);
-        authorRepo.deleteBookById(id);
         bookRepo.deleteById(id);
     }
 
@@ -112,6 +107,10 @@ public class BookServiceImpl implements BookService {
         return book.getComments();
     }
 
+    @Override
+    public List<Book> findAllBooksByAuthorId(long id) {
+        return bookRepo.findAllByAuthorId(id);
+    }
 
 
     private List<Comment> addCommentToBookCommentList(Book book, Comment comment) {

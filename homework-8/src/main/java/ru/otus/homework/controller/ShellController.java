@@ -3,10 +3,9 @@ package ru.otus.homework.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
-import ru.otus.homework.domain.Author;
-import ru.otus.homework.utils.AuthorBookCountAggregateResult;
 import ru.otus.homework.domain.Book;
 import ru.otus.homework.domain.Comment;
+import ru.otus.homework.dto.AuthorBookCountAggregateResult;
 import ru.otus.homework.service.AuthorService;
 import ru.otus.homework.service.BookService;
 import ru.otus.homework.service.CommentService;
@@ -97,11 +96,6 @@ public class ShellController {
         commentService.deleteById(id);
     }
 
-    @ShellMethod(key = {"authorList", "al"}, value = "show all authors and count of books")
-    public void showAllAuthors() {
-        List<Author> authors = authorService.findAllWithBooksCount();
-        authors.forEach(author -> ioService.write(author.toStringWithBookCount()));
-    }
     @ShellMethod(key = {"authorListAlternativeMethod", "alam"}, value = "show all authors and count of books alternative method")
     public void showAllAuthorsAlternative() {
         List<AuthorBookCountAggregateResult> list = authorService.findAllAuthorsWithBooksCount();
@@ -113,7 +107,7 @@ public class ShellController {
     public void showAllBooksByAuthorId() {
         ioService.write("Введите Id автора для отображения списка его книг");
         long id = ioService.readInt();
-        List<Book> books = authorService.findAllBooksByAuthorId(id);
+        List<Book> books = bookService.findAllBooksByAuthorId(id);
         ioService.write("Книги автора: " + authorService.findById(id).getName());
         books.forEach(book -> ioService.write(book.getTitle()));
     }
@@ -122,7 +116,7 @@ public class ShellController {
     public void showAllCommentsByAuthorId() {
         ioService.write("Введите Id автора для отображения всех комментариев к его книгам");
         long id = ioService.readInt();
-        List<Book> books = authorService.findAllBooksByAuthorId(id);
+        List<Book> books = bookService.findAllBooksByAuthorId(id);
         ioService.write("Комментарии к книгам автора: " + authorService.findById(id).getName());
         books.forEach(book -> {
             if (book.getComments() != null)
