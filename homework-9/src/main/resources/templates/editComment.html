@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Edit comment</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
 <body>
 <div class="container mt-5">
     <h1 class="h1" th:if="${comment.id}">Edit comment</h1>
     <h1 class="h1" th:unless="${comment.id}">New comment</h1>
-    <form action="#" th:action="@{/comment/addcomment}" th:object="${comment}" method="post">
-        <input type="hidden" th:field="*{id}">
+    <form action="#" method="post" th:action="@{/comment/addcomment}" th:object="${comment}">
+        <input th:field="*{id}" type="hidden">
         <div class="form-group">
             <label for="title">Комментарий</label>
-            <input class="form-control" type="text" id="title" th:field="*{text}">
+            <input class="form-control" id="title" th:field="*{text}" type="text">
         </div>
-        <input th:type="hidden" th:field="*{book}">
+        <input th:field="*{book}" th:type="hidden">
         <button>Сохранить</button>
     </form>
 
