@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Book library</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<body>
+<div class="container mt-5">
+    <h1 class="h1">Book library</h1>
+    <table class="table">
+        <thead class="thead-light">
+        <tr>
+            <th>#</th>
+            <th>BookName</th>
+            <th>GenreName</th>
+            <th>AuthorName</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody >
+        <tr th:each="book,itemStat : ${books}">
+            <td th:text="${itemStat.index}"></td>
+            <td><a href="showBook.html" th:href="@{/book/__${book.id}__}" th:text="${book.title}"></a></td>
+            <td th:text="${book.genre.name}"></td>
+            <td th:text="${book.author.name}"></td>
+            <td> <a href = "editBook.html" th:href="@{/edit/{id}(id=${book.id})}">Edit</a> <a th:href="@{/delete/{id}(id=${book.id})}">Delete</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <a class="btn btn-primary" href="/addbook">Добавить новую книгу</a>
+</div>
+
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</body>
+
+</html>
