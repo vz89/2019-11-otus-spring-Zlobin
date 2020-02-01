@@ -9,6 +9,7 @@ public interface BookService {
 
     List<Book> findAll();
 
+    void addOrSaveBook(Book book);
 
-    void addBook(String title, String authorName, String genreName);
+    void delete(Book book);
 }

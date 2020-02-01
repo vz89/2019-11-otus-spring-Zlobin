@@ -2,12 +2,12 @@ package ru.otus.homework.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.homework.domain.Author;
 import ru.otus.homework.domain.Book;
 import ru.otus.homework.domain.Genre;
 import ru.otus.homework.repo.BookRepository;
 
-import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
@@ -24,14 +24,21 @@ public class BookServiceImpl implements BookService {
 
     @Transactional
     @Override
-    public void addBook(String title, String authorName, String genreName) {
-        Author author = authorService.findByName(authorName);
-        if (author == null) author = new Author(authorName);
-        Genre genre = genreService.findByName(genreName);
-        if (genre == null) genre = new Genre(genreName);
-        Book book = new Book(title, author, genre);
+    public void addOrSaveBook(Book book) {
+        Author author = authorService.findByName(book.getAuthor().getName());
+        if (author == null) author = new Author(book.getAuthor().getName());
+        Genre genre = genreService.findByName(book.getGenre().getName());
+        if (genre == null) genre = new Genre(book.getGenre().getName());
+        book.setAuthor(author);
+        book.setGenre(genre);
         bookRepository.save(book);
     }
+
+    @Override
+    public void delete(Book book) {
+        bookRepository.delete(book);
+    }
+
 
 
 

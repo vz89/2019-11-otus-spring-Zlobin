@@ -13,18 +13,19 @@
         <tr>
             <th>#</th>
             <th>BookName</th>
-            <th>GenreName</th>
             <th>AuthorName</th>
+            <th>GenreName</th>
             <th>Actions</th>
         </tr>
         </thead>
-        <tbody >
+        <tbody>
         <tr th:each="book,itemStat : ${books}">
-            <td th:text="${itemStat.index}"></td>
-            <td><a href="showBook.html" th:href="@{/book/__${book.id}__}" th:text="${book.title}"></a></td>
-            <td th:text="${book.genre.name}"></td>
+            <td th:text="${itemStat.index}+1"></td>
+            <td><a href="showBook.html" th:href="@{/view/__${book.id}__}" th:text="${book.title}"></a></td>
             <td th:text="${book.author.name}"></td>
-            <td> <a href = "editBook.html" th:href="@{/edit/{id}(id=${book.id})}">Edit</a> <a th:href="@{/delete/{id}(id=${book.id})}">Delete</a></td>
+            <td th:text="${book.genre.name}"></td>
+            <td><a href="editBook.html" th:href="@{/edit/{id}(id=${book.id})}">Edit</a> <a
+                    th:href="@{/delete/{id}(id=${book.id})}">Delete</a></td>
         </tr>
         </tbody>
     </table>
