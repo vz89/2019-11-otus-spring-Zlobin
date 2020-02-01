@@ -16,7 +16,7 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column (name = "title")
+    @Column(name = "title")
     private String title;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
@@ -63,6 +63,7 @@ public class Book {
                 ". Автор: " + author.getName() +
                 ". Жанр: " + genre.getName();
     }
+
     public String toStringWithCommentsCount() {
         return id +
                 " Наименование: " + title +

@@ -1,6 +1,5 @@
 package ru.otus.homework.service;
 
-import org.springframework.stereotype.Service;
 import ru.otus.homework.domain.Book;
 
 import java.util.List;

@@ -20,12 +20,14 @@ public class CommentController {
         commentService.deleteComment(comment);
         return "redirect:/view/" + id;
     }
-    @GetMapping(value = "/addcomment",params = "bookId")
+
+    @GetMapping(value = "/addcomment", params = "bookId")
     public String addComment(@RequestParam("bookId") Book book,
-            Model model) {
-        model.addAttribute("comment",new Comment("",book));
+                             Model model) {
+        model.addAttribute("comment", new Comment("", book));
         return "editComment";
     }
+
     @PostMapping("/addcomment")
     public String addBook(@ModelAttribute Comment comment) {
         commentService.addOrSaveComment(comment);
@@ -33,7 +35,7 @@ public class CommentController {
     }
 
     @GetMapping("/edit/{comment}")
-    public String editComment(@PathVariable Comment comment, Model model){
+    public String editComment(@PathVariable Comment comment, Model model) {
         model.addAttribute("comment", comment);
         return "editComment";
     }

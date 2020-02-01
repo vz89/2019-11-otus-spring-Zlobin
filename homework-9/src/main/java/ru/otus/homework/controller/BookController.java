@@ -57,7 +57,7 @@ public class BookController {
     public String showBook(@PathVariable Book book, Model model) {
         model.addAttribute("book", book);
         List<Comment> comments = commentService.findAllComments(book);
-        model.addAttribute("comments",comments);
+        model.addAttribute("comments", comments);
         return "view";
     }
 }
