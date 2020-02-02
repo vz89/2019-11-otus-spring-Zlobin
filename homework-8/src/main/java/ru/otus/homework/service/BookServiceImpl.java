@@ -2,8 +2,10 @@ package ru.otus.homework.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.otus.homework.domain.*;
-import ru.otus.homework.repo.AuthorRepo;
+import ru.otus.homework.domain.Author;
+import ru.otus.homework.domain.Book;
+import ru.otus.homework.domain.Comment;
+import ru.otus.homework.domain.Genre;
 import ru.otus.homework.repo.BookRepo;
 import ru.otus.homework.repo.CommentRepo;
 
@@ -12,39 +14,26 @@ import java.util.List;
 
 @Service
 public class BookServiceImpl implements BookService {
-    private final IOService ioService;
     private final BookRepo bookRepo;
     private final SequenceGeneratorService sequenceGeneratorService;
-    private final AuthorRepo authorRepo;
     private final AuthorService authorService;
     private final CommentRepo commentRepo;
     private final GenreService genreService;
 
 
     @Autowired
-    public BookServiceImpl(IOService ioService, BookRepo bookRepo, SequenceGeneratorService sequenceGeneratorService, AuthorRepo authorRepo, AuthorService authorService, CommentRepo commentRepo, GenreService genreService) {
-        this.ioService = ioService;
+    public BookServiceImpl(BookRepo bookRepo, SequenceGeneratorService sequenceGeneratorService, AuthorService authorService, CommentRepo commentRepo, GenreService genreService) {
         this.bookRepo = bookRepo;
         this.sequenceGeneratorService = sequenceGeneratorService;
-        this.authorRepo = authorRepo;
         this.authorService = authorService;
         this.commentRepo = commentRepo;
         this.genreService = genreService;
     }
 
     @Override
-    public void addBook() {
-        ioService.write("Введите наименование книги");
-        String title = ioService.read();
-        ioService.write("Введите жанр");
-        String genreName = ioService.read();
-        ioService.write("Введите автора");
-        String authorName = ioService.read();
-
+    public void addBook(String title, String authorName, String genreName) {
         Author author = authorService.getAuthor(authorName);
         Genre genre = genreService.getGenre(genreName);
-
-
         Book book = new Book(title, author, genre);
         book.setId(sequenceGeneratorService.generateSequence(Book.SEQUENCE_NAME));
         bookRepo.save(book);
@@ -84,20 +73,14 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void addComment() {
-        ioService.write("Введите id книги, которой хотите добавить комментарий");
-        int bookId = ioService.readInt();
+    public void addComment(long bookId, String commentText) {
         Book book = bookRepo.findById(bookId);
         if (book != null) {
-            ioService.write("Введите комментарий для книги - " + book.getTitle());
-            String commentText = ioService.read();
             Comment comment = new Comment(commentText);
             comment.setId(sequenceGeneratorService.generateSequence(Comment.SEQUENCE_NAME));
             commentRepo.save(comment);
-            book.setComments(addCommentToBookCommentList(book,comment));
+            book.setComments(addCommentToBookCommentList(book, comment));
             bookRepo.save(book);
-        } else {
-            ioService.write("Книги по такому ID не существует.");
         }
     }
 
@@ -118,8 +101,7 @@ public class BookServiceImpl implements BookService {
             List<Comment> comments = new ArrayList<>();
             comments.add(comment);
             return comments;
-        }
-        else {
+        } else {
             List<Comment> comments = book.getComments();
             comments.add(comment);
             return comments;

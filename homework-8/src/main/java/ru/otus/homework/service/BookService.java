@@ -6,7 +6,7 @@ import ru.otus.homework.domain.Comment;
 import java.util.List;
 
 public interface BookService {
-    void addBook();
+    void addBook(String title, String authorName, String genreName);
 
     List<Book> findAll();
 
@@ -20,7 +20,7 @@ public interface BookService {
 
     List<Book> findByName(String name);
 
-    void addComment();
+    void addComment(long bookId, String commentText);
 
     List<Comment> findCommentsByBookId(long id);
 

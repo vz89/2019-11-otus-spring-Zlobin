@@ -36,7 +36,13 @@ public class ShellController {
 
     @ShellMethod(key = {"bookAdd", "ba"}, value = "add book to library")
     public void addBook() {
-        bookService.addBook();
+        ioService.write("Введите наименование книги");
+        String title = ioService.read();
+        ioService.write("Введите жанр");
+        String genreName = ioService.read();
+        ioService.write("Введите автора");
+        String authorName = ioService.read();
+        bookService.addBook(title, authorName, genreName);
     }
 
     @ShellMethod(key = {"bookGetById", "bgbi"}, value = "get book by Id")
@@ -75,7 +81,16 @@ public class ShellController {
 
     @ShellMethod(key = {"commentAdd", "ca"}, value = "add comment to book by Id")
     public void addCommentToBookById() {
-        bookService.addComment();
+        ioService.write("Введите id книги, которой хотите добавить комментарий");
+        int bookId = ioService.readInt();
+        Book book = bookService.findById(bookId);
+        if (book != null) {
+            ioService.write("Введите комментарий для книги - " + book.getTitle());
+            String commentText = ioService.read();
+            bookService.addComment(bookId, commentText);
+        } else {
+            ioService.write("Книги по такому ID не существует.");
+        }
     }
 
     @ShellMethod(key = {"commentShowAll", "csha"}, value = "show all comments to book by Id")
