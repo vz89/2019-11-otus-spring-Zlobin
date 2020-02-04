@@ -14,7 +14,7 @@ import ru.otus.homework.service.CommentService;
 public class CommentController {
     private final CommentService commentService;
 
-    @RequestMapping("/delete/{comment}")
+    @PostMapping("/delete/{comment}")
     public String deleteComment(@PathVariable Comment comment) {
         long id = comment.getBook().getId();
         commentService.deleteComment(comment);
