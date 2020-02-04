@@ -3,10 +3,7 @@ package ru.otus.homework.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.otus.homework.domain.Author;
 import ru.otus.homework.domain.Book;
 import ru.otus.homework.domain.Comment;
@@ -41,7 +38,7 @@ public class BookController {
         return "redirect:/";
     }
 
-    @GetMapping("/delete/{book}")
+    @DeleteMapping("/delete/{book}")
     public String deleteBook(@PathVariable Book book) {
         bookService.delete(book);
         return "redirect:/";

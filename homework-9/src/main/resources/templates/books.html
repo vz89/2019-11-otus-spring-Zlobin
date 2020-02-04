@@ -24,8 +24,8 @@
             <td><a href="showBook.html" th:href="@{/view/__${book.id}__}" th:text="${book.title}"></a></td>
             <td th:text="${book.author.name}"></td>
             <td th:text="${book.genre.name}"></td>
-            <td><a href="editBook.html" th:href="@{/edit/{id}(id=${book.id})}">Edit</a> <a
-                    th:href="@{/delete/{id}(id=${book.id})}">Delete</a></td>
+            <td><a href="editBook.html" th:href="@{/edit/{id}(id=${book.id})}">Edit</a>
+                <a th:href="@{/delete/{id}(id=${book.id})}">Delete</a></td>
         </tr>
         </tbody>
     </table>
