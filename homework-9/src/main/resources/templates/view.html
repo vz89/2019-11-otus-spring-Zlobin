@@ -25,8 +25,12 @@
         <tr th:each="comment,itemStat : ${comments}">
             <td th:text="${itemStat.index}+1"></td>
             <td th:text="${comment.text}"></td>
-            <td><a href="editBook.html" th:href="@{/comment/edit/__${comment.id}__}">Edit</a> <a
-                    th:href="@{/comment/delete/__${comment.id}__}">Delete</a></td>
+            <td>
+                <form method="post" th:action="@{/comment/delete/__${comment.id}__}">
+                    <a role="button" class="btn btn-secondary btn-sm" href="editBook.html" th:href="@{/comment/edit/__${comment.id}__}">Edit</a>
+                    <button class="btn btn-secondary btn-sm">Delete</button>
+                </form>
+
         </tr>
         </tbody>
     </table>
