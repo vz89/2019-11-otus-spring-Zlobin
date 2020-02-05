@@ -1,5 +1,6 @@
 package ru.otus.homework.service;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.otus.homework.domain.Book;
 import ru.otus.homework.repo.BookRepo;
@@ -7,6 +8,7 @@ import ru.otus.homework.repo.BookRepo;
 import java.util.List;
 
 @Service
+@Qualifier("bookDBService")
 public class BookDBServiceImpl implements BookDBService {
     private final SequenceGeneratorService sequenceGeneratorService;
     private final BookRepo bookRepo;

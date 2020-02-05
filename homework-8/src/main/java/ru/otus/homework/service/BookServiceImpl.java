@@ -14,16 +14,14 @@ import java.util.List;
 public class BookServiceImpl implements BookService {
     private final AuthorService authorService;
     private final GenreService genreService;
-    private final BookDBService bookDBService;
-    private final CommentDBService commentDBService;
+    private final DBService dbService;
 
 
     @Autowired
-    public BookServiceImpl(AuthorService authorService, GenreService genreService, BookDBService bookDBService, CommentDBService commentDBService) {
+    public BookServiceImpl(AuthorService authorService, GenreService genreService, DBService dbService) {
         this.authorService = authorService;
         this.genreService = genreService;
-        this.bookDBService = bookDBService;
-        this.commentDBService = commentDBService;
+        this.dbService = dbService;
     }
 
     @Override
@@ -31,62 +29,62 @@ public class BookServiceImpl implements BookService {
         Author author = authorService.getAuthor(authorName);
         Genre genre = genreService.getGenre(genreName);
         Book book = new Book(title, author, genre);
-        bookDBService.save(book);
+        dbService.save(book);
     }
 
     @Override
     public List<Book> findAll() {
-        return bookDBService.findAll();
+        return dbService.findAll();
     }
 
     @Override
     public Book findById(long id) {
-        return bookDBService.findById(id);
+        return dbService.findById(id);
     }
 
     @Override
     public void deleteById(long id) {
-        bookDBService.findById(id).getComments().forEach(commentDBService::delete);
-        bookDBService.deleteById(id);
+        dbService.findById(id).getComments().forEach(dbService::delete);
+        dbService.deleteById(id);
     }
 
     @Override
     public long getCount() {
-        return bookDBService.count();
+        return dbService.count();
     }
 
     @Override
     public void updateNameById(long id, String name) {
-        Book book = bookDBService.findById(id);
+        Book book = dbService.findById(id);
         book.setTitle(name);
-        bookDBService.save(book);
+        dbService.save(book);
     }
 
     @Override
     public List<Book> findByName(String name) {
-        return bookDBService.findAllByTitle(name);
+        return dbService.findAllByTitle(name);
     }
 
     @Override
     public void addComment(long bookId, String commentText) {
-        Book book = bookDBService.findById(bookId);
+        Book book = dbService.findById(bookId);
         if (book != null) {
             Comment comment = new Comment(commentText);
-            commentDBService.save(comment);
+            dbService.save(comment);
             book.setComments(addCommentToBookCommentList(book, comment));
-            bookDBService.save(book);
+            dbService.save(book);
         }
     }
 
     @Override
     public List<Comment> findCommentsByBookId(long id) {
-        Book book = bookDBService.findById(id);
+        Book book = dbService.findById(id);
         return book.getComments();
     }
 
     @Override
     public List<Book> findAllBooksByAuthorId(long id) {
-        return bookDBService.findAllByAuthorId(id);
+        return dbService.findAllByAuthorId(id);
     }
 
 

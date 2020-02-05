@@ -1,10 +1,12 @@
 package ru.otus.homework.service;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.otus.homework.domain.Comment;
 import ru.otus.homework.repo.CommentRepo;
 
 @Service
+@Qualifier("commentDBService")
 public class CommentDBServiceImpl implements CommentDBService {
     private final SequenceGeneratorService sequenceGeneratorService;
     private final CommentRepo commentRepo;
