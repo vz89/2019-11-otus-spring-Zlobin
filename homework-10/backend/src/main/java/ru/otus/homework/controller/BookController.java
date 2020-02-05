@@ -1,57 +1,64 @@
 package ru.otus.homework.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import ru.otus.homework.domain.Author;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import ru.otus.homework.domain.Book;
-import ru.otus.homework.domain.Comment;
-import ru.otus.homework.domain.Genre;
 import ru.otus.homework.service.BookService;
 import ru.otus.homework.service.CommentService;
 
 import java.util.List;
 
-@Controller
+@RestController("/books")
 @RequiredArgsConstructor
 public class BookController {
     private final BookService bookService;
     private final CommentService commentService;
 
-    @GetMapping("/")
-    public String books(Model model) {
+    @GetMapping()
+    public ResponseEntity<List<Book>> readAll() {
         List<Book> books = bookService.findAll();
-        model.addAttribute("books", books);
-        return "books";
+        return books != null && !books.isEmpty()
+                ? new ResponseEntity<>(books, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/addbook")
-    public String addBook(Model model) {
-        model.addAttribute("book", new Book(new Author(), new Genre()));
-        return "edit";
+    @PostMapping()
+    //@ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity createBook(@RequestBody Book book) {
+        bookService.addBook(book);
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
-    @PostMapping("/addbook")
-    public String addBook(@ModelAttribute Book book) {
-        bookService.addOrSaveBook(book);
-        return "redirect:/";
+    @GetMapping("/{id}")
+    public ResponseEntity<Book> readBook(@PathVariable("id") long id) {
+        Book book = bookService.findById(id);
+        return book != null
+                ? new ResponseEntity<>(book, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/delete/{book}")
-    public String deleteBook(@PathVariable Book book) {
-        bookService.delete(book);
-        return "redirect:/";
+    @PutMapping("/{id}")
+    public ResponseEntity update(@PathVariable("id") long id, @RequestBody Book book) {
+        boolean updated = bookService.update(id, book);
+        return updated
+                ? new ResponseEntity<>(HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
-    @GetMapping("/edit/{book}")
-    public String editBook(@PathVariable Book book, Model model) {
-        model.addAttribute("book", book);
-        return "edit";
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteBook(@PathVariable("id") Long id) {
+        boolean deleted = bookService.deleteById(id);
+        return deleted
+                ? new ResponseEntity<>(HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
+
+  /*  @GetMapping("/update/{book}")
+    public void
+
+
 
     @GetMapping("/view/{book}")
     public String showBook(@PathVariable Book book, Model model) {
@@ -59,5 +66,5 @@ public class BookController {
         List<Comment> comments = commentService.findAllComments(book);
         model.addAttribute("comments", comments);
         return "view";
-    }
+    }*/
 }

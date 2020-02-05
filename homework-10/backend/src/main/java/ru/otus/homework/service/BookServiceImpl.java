@@ -24,7 +24,35 @@ public class BookServiceImpl implements BookService {
 
     @Transactional
     @Override
-    public void addOrSaveBook(Book book) {
+    public void addBook(Book book) {
+        addOrUpdateBook(book);
+    }
+
+    @Override
+    public void delete(Book book) {
+        bookRepository.delete(book);
+    }
+
+    @Override
+    public Book findById(long id) {
+        return bookRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public boolean update(long id, Book book) {
+        if (bookRepository.findById(id).orElse(null)!=null){
+            addOrUpdateBook(book);
+            return true;
+        }
+        else return false;
+    }
+
+    @Override
+    public boolean deleteById(Long id) {
+        return bookRepository.deleteBookById(id);
+}
+
+    private void addOrUpdateBook(Book book) {
         Author author = authorService.findByName(book.getAuthor().getName());
         if (author == null) author = new Author(book.getAuthor().getName());
         Genre genre = genreService.findByName(book.getGenre().getName());
@@ -32,11 +60,6 @@ public class BookServiceImpl implements BookService {
         book.setAuthor(author);
         book.setGenre(genre);
         bookRepository.save(book);
-    }
-
-    @Override
-    public void delete(Book book) {
-        bookRepository.delete(book);
     }
 
 
