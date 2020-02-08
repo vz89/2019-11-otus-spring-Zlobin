@@ -10,7 +10,7 @@ public interface CommentService {
 
     List<Comment> findAllComments(Book book);
 
-    void deleteComment(Comment comment);
-
     void addOrSaveComment(Comment comment);
+
+    void deleteById(Long id);
 }

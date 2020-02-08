@@ -29,16 +29,12 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void delete(Book book) {
-        bookRepository.delete(book);
-    }
-
-    @Override
     public Book findById(long id) {
         return bookRepository.findById(id).orElse(null);
     }
 
     @Override
+    @Transactional
     public boolean update(long id, Book book) {
         if (bookRepository.findById(id).orElse(null)!=null){
             addOrUpdateBook(book);
@@ -48,8 +44,9 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public boolean deleteById(Long id) {
-        return bookRepository.deleteBookById(id);
+    @Transactional
+    public void deleteById(Long id) {
+        bookRepository.deleteBookById(id);
 }
 
     private void addOrUpdateBook(Book book) {

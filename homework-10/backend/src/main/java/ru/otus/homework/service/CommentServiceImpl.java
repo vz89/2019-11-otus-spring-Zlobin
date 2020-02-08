@@ -18,13 +18,14 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.findAllByBook(book);
     }
 
-    @Override
-    public void deleteComment(Comment comment) {
-        commentRepository.delete(comment);
-    }
 
     @Override
     public void addOrSaveComment(Comment comment) {
         commentRepository.save(comment);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        commentRepository.deleteById(id);
     }
 }

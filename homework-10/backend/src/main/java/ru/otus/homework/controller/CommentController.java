@@ -1,6 +1,8 @@
 package ru.otus.homework.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -8,36 +10,23 @@ import ru.otus.homework.domain.Book;
 import ru.otus.homework.domain.Comment;
 import ru.otus.homework.service.CommentService;
 
-@Controller
+@RestController
+@CrossOrigin
 @RequestMapping("/comment")
 @RequiredArgsConstructor
 public class CommentController {
     private final CommentService commentService;
-
-    @PostMapping("/delete/{comment}")
-    public String deleteComment(@PathVariable Comment comment) {
-        long id = comment.getBook().getId();
-        commentService.deleteComment(comment);
-        return "redirect:/view/" + id;
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteComment(@PathVariable("id") Long id) {
+        commentService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping(value = "/addcomment", params = "bookId")
-    public String addComment(@RequestParam("bookId") Book book,
-                             Model model) {
-        model.addAttribute("comment", new Comment("", book));
-        return "editComment";
-    }
-
-    @PostMapping("/addcomment")
-    public String addBook(@ModelAttribute Comment comment) {
+    @PostMapping("/")
+    public ResponseEntity createComment(@RequestBody Comment comment) {
         commentService.addOrSaveComment(comment);
-        return "redirect:/view/" + comment.getBook().getId();
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
-    @GetMapping("/edit/{comment}")
-    public String editComment(@PathVariable Comment comment, Model model) {
-        model.addAttribute("comment", comment);
-        return "editComment";
-    }
 
 }
