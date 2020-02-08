@@ -3,10 +3,7 @@ package ru.otus.homework.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.otus.homework.domain.Book;
 import ru.otus.homework.domain.Comment;
 import ru.otus.homework.service.CommentService;
 
@@ -16,6 +13,7 @@ import ru.otus.homework.service.CommentService;
 @RequiredArgsConstructor
 public class CommentController {
     private final CommentService commentService;
+
     @DeleteMapping("/{id}")
     public ResponseEntity deleteComment(@PathVariable("id") Long id) {
         commentService.deleteById(id);

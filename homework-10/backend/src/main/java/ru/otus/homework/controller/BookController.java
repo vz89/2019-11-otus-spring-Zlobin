@@ -46,8 +46,7 @@ public class BookController {
             List<Comment> comments = commentService.findAllComments(book);
             BookCommentsDTO bookCommentsDTO = new BookCommentsDTO(book, comments);
             return new ResponseEntity<>(bookCommentsDTO, HttpStatus.OK);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

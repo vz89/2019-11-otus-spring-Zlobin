@@ -70,7 +70,7 @@ class BookControllerTest {
         Book book = new Book(BOOK_ID, BOOK_TITLE, new Author(1L, AUTHOR_NAME), new Genre(1L, GENRE_NAME));
         Gson gson = new Gson();
         String json = gson.toJson(book);
-        given(bookService.update(1,book)).willReturn(true);
+        given(bookService.update(1, book)).willReturn(true);
         mockMvc.perform(put("/books/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
@@ -78,7 +78,7 @@ class BookControllerTest {
     }
 
     @Test
-    void shouldDeleteBook() throws Exception{
+    void shouldDeleteBook() throws Exception {
         mockMvc.perform(delete("/books/1"))
                 .andExpect(status().isOk());
     }

@@ -36,18 +36,17 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public boolean update(long id, Book book) {
-        if (bookRepository.findById(id).orElse(null)!=null){
+        if (bookRepository.findById(id).orElse(null) != null) {
             addOrUpdateBook(book);
             return true;
-        }
-        else return false;
+        } else return false;
     }
 
     @Override
     @Transactional
     public void deleteById(Long id) {
         bookRepository.deleteBookById(id);
-}
+    }
 
     private void addOrUpdateBook(Book book) {
         Author author = authorService.findByName(book.getAuthor().getName());
