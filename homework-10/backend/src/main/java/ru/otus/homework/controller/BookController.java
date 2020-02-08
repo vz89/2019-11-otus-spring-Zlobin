@@ -1,6 +1,5 @@
 package ru.otus.homework.controller;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +14,15 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @RequestMapping("/")
-@RequiredArgsConstructor
 public class BookController {
     private final BookService bookService;
     private final CommentService commentService;
+
+    public BookController(BookService bookService, CommentService commentService) {
+        this.bookService = bookService;
+        this.commentService = commentService;
+    }
+
 
     @GetMapping("/books")
     public ResponseEntity<List<Book>> readAll() {
