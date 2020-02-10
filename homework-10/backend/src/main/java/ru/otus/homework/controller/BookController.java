@@ -33,12 +33,13 @@ public class BookController {
     }
 
     @PostMapping("/books")
-    public ResponseEntity<?> createBook(@RequestBody Book book) {
+    public ResponseEntity createBook(@RequestBody Book book) {
         bookService.addBook(book);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @GetMapping("/books/{id}")
+    @ResponseBody
     public ResponseEntity<BookCommentsDTO> readBook(@PathVariable("id") long id) {
         try {
             Book book = bookService.findById(id);
@@ -51,7 +52,7 @@ public class BookController {
     }
 
     @PutMapping("/books/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") long id, @RequestBody Book book) {
+    public ResponseEntity update(@PathVariable("id") long id, @RequestBody Book book) {
         boolean updated = bookService.update(id, book);
         return updated
                 ? new ResponseEntity<>(HttpStatus.OK)
@@ -59,7 +60,7 @@ public class BookController {
     }
 
     @DeleteMapping("/books/{id}")
-    public ResponseEntity<?> deleteBook(@PathVariable("id") Long id) {
+    public ResponseEntity deleteBook(@PathVariable("id") Long id) {
         bookService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
