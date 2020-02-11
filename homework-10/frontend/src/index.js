@@ -5,11 +5,11 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
-import Book from "./book/book";
+import BookPage from "./bookPage/bookPage";
 
 const app = (<BrowserRouter>
         <Route exact path="/" component={App}/>
-        <Route path ="/book/:id" component={Book}/>
+        <Route path ="/book/:id" component={BookPage}/>
 </BrowserRouter>)
 
 

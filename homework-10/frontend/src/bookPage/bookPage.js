@@ -1,31 +1,14 @@
 import React from 'react';
 import axios from "axios";
 import {Button, Form, FormGroup, Input, Label, Table} from "reactstrap";
+import {BookPageStartState} from "../state/BookPageStartState";
+import Comment from "../component/Comment";
 
-class Book extends React.Component {
-    state = {
-        book: {
-            id: this.props.match.params.id,
-            title: '',
-            author:
-                {
-                    name: ''
-                },
-            genre:
-                {
-                    name: ''
-                }
-        },
-        comments: [],
-        newComment: {
-            id: '',
-            text: '',
-            book: {id: this.props.match.params.id}
-        }
-    };
+class BookPage extends React.Component {
+    state = BookPageStartState;
 
     componentDidMount() {
-        axios.get('http://localhost:8080/books/' + this.state.book.id).then((response) => {
+        axios.get('http://localhost:8080/books/' + this.props.match.params.id).then((response) => {
             this.setState({
                 book: response.data.book,
                 comments: response.data.comments
@@ -56,14 +39,12 @@ class Book extends React.Component {
     render() {
         let comments = this.state.comments.map((comment, index) => {
             return (
-                <tr key={comment.id}>
-                    <td>{index + 1}</td>
-                    <td>{comment.text}</td>
-                    <td>
-                        <Button color="danger" size="small"
-                                onClick={this.deleteComment.bind(this, comment.id)}>Delete</Button>
-                    </td>
-                </tr>
+                <Comment
+                    id = {comment.id}
+                    index = {index}
+                    text = {comment.text}
+                    deleteComment = {this.deleteComment.bind(this,comment.id)}
+                />
             )
         });
         return (
@@ -92,6 +73,7 @@ class Book extends React.Component {
                                    onChange={(e) => {
                                        let newComment = this.state.newComment;
                                        newComment.text = e.target.value;
+                                       newComment.book.id = this.props.match.params.id;
                                        this.setState({newComment});
                                    }}
                             />
@@ -106,4 +88,4 @@ class Book extends React.Component {
     }
 }
 
-export default Book
+export default BookPage

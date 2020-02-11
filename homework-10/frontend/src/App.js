@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import {Button, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader, Table} from 'reactstrap';
+import {Button, Form, FormGroup, Input, Label, Table} from 'reactstrap';
 import axios from "axios";
-import {startState} from './startAppState.js';
-import {Link} from "react-router-dom";
-import {BookApi} from "./api/api.js";
-import {Books} from "./component/books.js"
+import Book from "./component/Book"
+import {AppStartState} from "./state/AppStartState"
+import {Api} from "./api/api";
+import CreateBookForm from "./CreateBookForm";
 
 class App extends Component {
 
@@ -20,7 +20,6 @@ class App extends Component {
         let Id = Number.parseInt(id);
         axios.put('http://localhost:8080/books/' + Id, this.state.editBookData).then((response) => {
             this.setState({
-                editBookModel: !this.state.editBookData,
                 editBookData: {
                     id: '',
                     title: '',
@@ -38,6 +37,39 @@ class App extends Component {
         });
     }
 
+    changeFieldHandler = (e) => {
+        let newBookData = this.state.newBookData;
+        newBookData["title"] = e.target.value;
+        this.setState({newBookData});
+    };
+    changeFieldHandlerAuthor = (e) => {
+        let newBookData = this.state.newBookData;
+        newBookData["author"]["name"] = e.target.value;
+        this.setState({newBookData});
+    };
+    changeFieldHandlerGenre = (e) => {
+        let newBookData = this.state.newBookData;
+        newBookData["genre"]["name"] = e.target.value;
+        this.setState({newBookData});
+    };
+
+    toggleEditBookModel(id, title, authorName, genreName) {
+        this.setState({
+            editBookData: {
+                id: id,
+                title: title,
+                author:
+                    {
+                        name: authorName
+                    },
+                genre:
+                    {
+                        name: genreName
+                    }
+            },
+            editBookForm: !this.state.editBookForm
+        })
+    }
 
     render() {
         return (
@@ -47,5 +79,4 @@ class App extends Component {
         )
     }
 }
-
 export default App;
