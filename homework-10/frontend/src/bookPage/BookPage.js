@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from "axios";
 import {Button, Form, FormGroup, Input, Label, Table} from "reactstrap";
 import {BookPageStartState} from "../state/BookPageStartState";
 import Comment from "../component/Comment";

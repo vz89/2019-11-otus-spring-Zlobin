@@ -8,7 +8,7 @@ export default props => (
             <Label>
                 Title:
                 <Input type="text" name="title" value={props.title}
-                       onChange={(e) => props.changeTitleFieldHandler("newBookData","title", e)}
+                       onChange={(e) => props.changeTitleFieldHandler("newBookData", "title", e)}
                 />
             </Label>
         </FormGroup>
@@ -16,15 +16,15 @@ export default props => (
             <Label>
                 Author:
                 <Input type="text" name="authorname" value={props.authorName}
-                       onChange={(e) => props.changeAuthorGenreFieldHandler("newBookData","author", "name", e)}
+                       onChange={(e) => props.changeAuthorGenreFieldHandler("newBookData", "author", "name", e)}
                 />
             </Label>
         </FormGroup>
-            <FormGroup>
+        <FormGroup>
             <Label>
                 Genre:
                 <Input type="text" name="genrename" value={props.genreName}
-                       onChange={(e) => props.changeAuthorGenreFieldHandler("newBookData","genre", "name", e)}
+                       onChange={(e) => props.changeAuthorGenreFieldHandler("newBookData", "genre", "name", e)}
                 />
             </Label>
         </FormGroup>

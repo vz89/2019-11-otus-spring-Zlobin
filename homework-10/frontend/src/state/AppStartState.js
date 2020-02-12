@@ -24,5 +24,5 @@ export const AppStartState = {
                 name: ''
             }
     },
-    editBookForm:false
+    editBookForm: false
 };

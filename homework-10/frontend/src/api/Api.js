@@ -25,7 +25,7 @@ export class Api {
         return axios.post('http://localhost:8080/comment/', commentData)
     }
 
-    static  deleteComment(id) {
+    static deleteComment(id) {
         return axios.delete('http://localhost:8080/comment/' + id);
     }
 }

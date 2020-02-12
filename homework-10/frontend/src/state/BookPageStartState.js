@@ -17,7 +17,7 @@ export const BookPageStartState =
             id: '',
             text: '',
             book: {
-                id:''
+                id: ''
             }
         }
     };

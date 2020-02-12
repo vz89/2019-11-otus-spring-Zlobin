@@ -11,5 +11,5 @@ export default props => (
                     onClick={props.deleteComment}>Delete</Button>
         </td>
     </tr>
-    )
+)
 
