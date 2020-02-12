@@ -3,12 +3,14 @@ import axios from "axios";
 import {Button, Form, FormGroup, Input, Label, Table} from "reactstrap";
 import {BookPageStartState} from "../state/BookPageStartState";
 import Comment from "../component/Comment";
+import {Link} from "react-router-dom";
+import {Api} from "../api/Api";
 
 class BookPage extends React.Component {
     state = BookPageStartState;
 
     componentDidMount() {
-        axios.get('http://localhost:8080/books/' + this.props.match.params.id).then((response) => {
+        Api.getBook(this.props.match.params.id).then((response) => {
             this.setState({
                 book: response.data.book,
                 comments: response.data.comments
@@ -18,13 +20,13 @@ class BookPage extends React.Component {
 
     deleteComment(id) {
         let Id = Number.parseInt(id);
-        axios.delete('http://localhost:8080/comment/' + Id).then((response) => {
+        Api.deleteComment(Id).then(() => {
             this.componentDidMount();
         })
     };
 
     addComment() {
-        axios.post('http://localhost:8080/comment/', this.state.newComment).then((response) => {
+        Api.addComment(this.state.newComment).then((response) => {
             console.log(response);
             this.setState({
                 newComment: {
@@ -40,10 +42,10 @@ class BookPage extends React.Component {
         let comments = this.state.comments.map((comment, index) => {
             return (
                 <Comment
-                    id = {comment.id}
-                    index = {index}
-                    text = {comment.text}
-                    deleteComment = {this.deleteComment.bind(this,comment.id)}
+                    id={comment.id}
+                    index={index}
+                    text={comment.text}
+                    deleteComment={this.deleteComment.bind(this, comment.id)}
                 />
             )
         });
@@ -53,6 +55,7 @@ class BookPage extends React.Component {
                 <h2>Author: {this.state.book.author.name}</h2>
                 <h2>Genre: {this.state.book.genre.name}</h2>
                 <h3 color="blue">Comments:</h3>
+                <Link to={'/'}>Back to Library</Link>
                 <Table>
                     <thead>
                     <tr>

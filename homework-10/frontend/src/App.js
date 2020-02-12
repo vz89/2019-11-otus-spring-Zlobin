@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import {Button, Form, FormGroup, Input, Label, Table} from 'reactstrap';
-import axios from "axios";
+import {Table} from 'reactstrap';
 import Book from "./component/Book"
 import {AppStartState} from "./state/AppStartState"
-import {Api} from "./api/api";
-import CreateBookForm from "./CreateBookForm";
+import {Api} from "./api/Api";
+import CreateBookForm from "./form/CreateBookForm";
+import EditBookForm from "./form/EditBookForm";
 
 class App extends Component {
 
@@ -18,39 +18,48 @@ class App extends Component {
 
     editBook(id) {
         let Id = Number.parseInt(id);
-        axios.put('http://localhost:8080/books/' + Id, this.state.editBookData).then((response) => {
+        Api.editBook(Id, this.state.editBookData).then(() => {
             this.setState({
-                editBookData: {
-                    id: '',
-                    title: '',
-                    author:
-                        {
-                            name: ''
-                        },
-                    genre:
-                        {
-                            name: ''
-                        }
-                },
+                editBookData: AppStartState.editBookData,
+                editBookForm: !this.state.editBookForm
             });
             this.componentDidMount();
         });
     }
 
-    changeFieldHandler = (e) => {
-        let newBookData = this.state.newBookData;
-        newBookData["title"] = e.target.value;
-        this.setState({newBookData});
+    changeTitleFieldHandler = (datatype, title, e) => {
+        switch (datatype) {
+            case "newBookData": {
+                let newBookData = this.state.newBookData;
+                newBookData[title] = e.target.value;
+                this.setState({newBookData});
+                break;
+            }
+            case "editBookData": {
+                let editBookData = this.state.editBookData;
+                editBookData[title] = e.target.value;
+                this.setState({editBookData});
+                break;
+            }
+        }
     };
-    changeFieldHandlerAuthor = (e) => {
-        let newBookData = this.state.newBookData;
-        newBookData["author"]["name"] = e.target.value;
-        this.setState({newBookData});
-    };
-    changeFieldHandlerGenre = (e) => {
-        let newBookData = this.state.newBookData;
-        newBookData["genre"]["name"] = e.target.value;
-        this.setState({newBookData});
+
+    changeAuthorGenreFieldHandler = (datatype, prop, name, e) => {
+        switch (datatype) {
+            case "newBookData": {
+                let newBookData = this.state.newBookData;
+                newBookData[prop][name] = e.target.value;
+                this.setState({newBookData});
+                break;
+            }
+            case "editBookData": {
+                let editBookData = this.state.editBookData;
+                editBookData[prop][name] = e.target.value;
+                this.setState({editBookData});
+                break;
+            }
+
+        }
     };
 
     toggleEditBookModel(id, title, authorName, genreName) {
@@ -79,4 +88,5 @@ class App extends Component {
         )
     }
 }
+
 export default App;

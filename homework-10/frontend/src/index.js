@@ -5,7 +5,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
-import BookPage from "./bookPage/bookPage";
+import BookPage from "./bookPage/BookPage";
 
 const app = (<BrowserRouter>
         <Route exact path="/" component={App}/>
