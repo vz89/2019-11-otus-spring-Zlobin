@@ -15,15 +15,15 @@ public class CommentController {
     private final CommentService commentService;
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteComment(@PathVariable("id") Long id) {
+    public ResponseEntity<?> deleteComment(@PathVariable("id") Long id) {
         commentService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/")
-    public ResponseEntity createComment(@RequestBody Comment comment) {
+    public ResponseEntity<?> createComment(@RequestBody Comment comment) {
         commentService.addOrSaveComment(comment);
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 
