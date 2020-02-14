@@ -10,7 +10,7 @@ export default props => (
         <td>{props.genrename}</td>
         <td>
             <Button color="success" size="small" className="mr-2"
-                    onClick={props.editBook}>Edit</Button>
+                    onClick={props.toggleEditBookModel}>Edit</Button>
             <Button color="danger" size="small"
                     onClick={props.deleteBook}>Delete</Button>
         </td>

@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import {Table} from 'reactstrap';
-import Book from "./component/Book"
 import {AppStartState} from "./state/AppStartState"
-import {Api} from "./api/Api";
 import CreateBookForm from "./form/CreateBookForm";
 import EditBookForm from "./form/EditBookForm";
+import {Api} from "./api/Api";
+import {BookTable} from "./component/BookTable";
+import {EditBookData} from "./state/EditBookData";
 
 class App extends Component {
     state = AppStartState;
@@ -79,38 +79,14 @@ class App extends Component {
         }
     };
 
-    toggleEditBookModel(id, title, authorName, genreName) {
+    toggleEditBookModel = (id, title, authorName, genreName) => {
         this.setState({
-            editBookData: {
-                id: id,
-                title: title,
-                author:
-                    {
-                        name: authorName
-                    },
-                genre:
-                    {
-                        name: genreName
-                    }
-            },
+            editBookData: EditBookData(id, title, authorName, genreName),
             editBookForm: !this.state.editBookForm
         })
     }
 
     render() {
-        const books = this.state.books.map((book, index) => {
-            return (
-                <Book
-                    id={book.id}
-                    index={index}
-                    title={book.title}
-                    authorname={book.author.name}
-                    genrename={book.genre.name}
-                    editBook={this.toggleEditBookModel.bind(this, book.id, book.title, book.author.name, book.genre.name)}
-                    deleteBook={this.deleteBook.bind(this, book.id)}
-                />
-            )
-        });
         return (
             <div className="App m-3">
                 <h1>Library</h1>
@@ -138,23 +114,13 @@ class App extends Component {
                     editBook={this.editBook.bind(this, this.state.editBookData.id)}
                 />
                 <div>
-                    <Table>
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Title</th>
-                            <th>Author</th>
-                            <th>Genre</th>
-                            <th>Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {books}
-                        </tbody>
-                    </Table>
+                    <BookTable
+                        books={this.state.books}
+                        toggleEditBookModel={this.toggleEditBookModel.bind(this)}
+                        deleteBook={this.deleteBook.bind(this)}
+                    />
                 </div>
             </div>
-
         )
     }
 }
