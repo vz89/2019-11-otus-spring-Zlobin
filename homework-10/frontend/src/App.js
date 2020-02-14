@@ -84,7 +84,7 @@ class App extends Component {
             editBookData: EditBookData(id, title, authorName, genreName),
             editBookForm: !this.state.editBookForm
         })
-    }
+    };
 
     render() {
         return (
