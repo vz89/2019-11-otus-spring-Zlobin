@@ -1,0 +1,5 @@
+Spring:
+  data:
+    mongodb:
+      database: test2
+      port: 0
