@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.test.annotation.DirtiesContext;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
@@ -39,6 +40,7 @@ class BookRepositoryTest {
     private BookRepository repository;
 
     @Test
+    @DirtiesContext
     void shouldSetIdOnSave() {
         Mono<Book> bookMono = repository.save(new Book(BOOK_TITLE, new Author(AUTHOR_NAME), new Genre(GENRE_NAME), null));
 
