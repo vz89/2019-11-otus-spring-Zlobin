@@ -51,9 +51,9 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>com.github.mongobee</groupId>
-            <artifactId>mongobee</artifactId>
-            <version>0.13</version>
+            <groupId>com.github.cloudyrock.mongock</groupId>
+            <artifactId>mongock-spring</artifactId>
+            <version>3.2.1.BETA</version>
         </dependency>
 
     </dependencies>

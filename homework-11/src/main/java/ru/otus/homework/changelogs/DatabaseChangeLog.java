@@ -1,10 +1,14 @@
 package ru.otus.homework.changelogs;
 
-import com.github.mongobee.changeset.ChangeLog;
-import com.github.mongobee.changeset.ChangeSet;
+
+import com.github.cloudyrock.mongock.ChangeLog;
+import com.github.cloudyrock.mongock.ChangeSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import ru.otus.homework.domain.*;
+import ru.otus.homework.domain.Author;
+import ru.otus.homework.domain.Book;
+import ru.otus.homework.domain.Comment;
+import ru.otus.homework.domain.Genre;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +23,7 @@ public class DatabaseChangeLog {
         Genre genre1 = new Genre("genre1");
         Genre genre2 = new Genre("genre2");
         Author author1 = new Author("author1");
-        Author author2 = new Author( "author2");
+        Author author2 = new Author("author2");
         Author author3 = new Author("author3");
         Comment comment1 = new Comment("new comment 1");
         Comment comment2 = new Comment("comment 2");
