@@ -1,5 +1,6 @@
 package ru.otus.homework.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,9 +12,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.otus.homework.service.UserService;
 
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception {
@@ -21,7 +22,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/**").authenticated()
                 .and()
-                .formLogin();
+                .formLogin()
+                    .loginProcessingUrl("/loginPage")
+                    .usernameParameter("security_username")
+                    .passwordParameter("security_password");
     }
 
     @Bean

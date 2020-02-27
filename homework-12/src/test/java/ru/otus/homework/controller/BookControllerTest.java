@@ -14,7 +14,10 @@ import ru.otus.homework.service.BookService;
 import ru.otus.homework.service.CommentService;
 import ru.otus.homework.service.GenreService;
 
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ComponentScan("ru.otus.homework.service")
@@ -25,10 +28,8 @@ class BookControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @WithMockUser(
-            username = "admin",
-            authorities = {"ROLE_ADMIN"}
-    )
+
+    @WithMockUser(username = "admin")
     @Test
     void shouldReturnStartPage() throws Exception {
         mockMvc.perform(get("/"))
@@ -37,13 +38,65 @@ class BookControllerTest {
                 .andExpect(view().name("books"));
     }
 
-    @WithMockUser(
-            username = "admin",
-            authorities = {"ROLE_ADMIN"}
-    )
+    @WithMockUser(username = "admin")
     @Test
     void shouldAddNewBookGet() throws Exception {
         this.mockMvc.perform(get("/addbook")).andExpect(status().isOk());
     }
 
+    @WithMockUser(username = "admin")
+    @Test
+    void isAuthenticated() throws Exception {
+        mockMvc.perform(get("/")).andExpect(authenticated());
+    }
+
+    @WithMockUser(username = "admin")
+    @Test
+    void addBookAuthenticated() throws Exception {
+        mockMvc.perform(post("/addbook")).andExpect(authenticated());
+    }
+
+    @WithMockUser(username = "admin")
+    @Test
+    void deleteBookAuthenticated() throws Exception {
+        mockMvc.perform(post("/delete/1")).andExpect(authenticated());
+    }
+
+    @WithMockUser(username = "admin")
+    @Test
+    void editBookAuthenticated() throws Exception {
+        mockMvc.perform(post("/edit/1")).andExpect(authenticated());
+    }
+
+    @WithMockUser(username = "admin")
+    @Test
+    void showBookAuthenticated() throws Exception {
+        mockMvc.perform(post("/view/1")).andExpect(authenticated());
+    }
+
+
+    @Test
+    void getBooksNotAuthenticated() throws Exception {
+        mockMvc.perform(get("/")).andExpect(unauthenticated());
+    }
+
+    @Test
+    void addBookNotAuthenticated() throws Exception {
+        mockMvc.perform(post("/addbook")).andExpect(unauthenticated());
+    }
+
+    @Test
+    void deleteBookNotAuthenticated() throws Exception {
+        mockMvc.perform(post("/delete/1")).andExpect(unauthenticated());
+    }
+
+    @Test
+    void editBookNotAuthenticated() throws Exception {
+        mockMvc.perform(post("/edit/1")).andExpect(unauthenticated());
+    }
+
+    @Test
+    void showBookNotAuthenticated() throws Exception {
+        mockMvc.perform(post("/view/1")).andExpect(unauthenticated());
+    }
 }
