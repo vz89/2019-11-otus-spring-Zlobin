@@ -1,6 +1,9 @@
 package ru.otus.homework.controller;
 
+import org.apache.logging.log4j.util.Strings;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -44,59 +47,16 @@ class BookControllerTest {
         this.mockMvc.perform(get("/addbook")).andExpect(status().isOk());
     }
 
-    @WithMockUser(username = "admin")
-    @Test
-    void isAuthenticated() throws Exception {
-        mockMvc.perform(get("/")).andExpect(authenticated());
+    @ParameterizedTest
+    @ValueSource(strings = {"/", "/addbook", "/delete/1", "/edit/1", "/view/1"})
+    void parameterizedNotAuthenticated(String value) throws Exception {
+        mockMvc.perform(post(value)).andExpect(unauthenticated());
     }
 
     @WithMockUser(username = "admin")
-    @Test
-    void addBookAuthenticated() throws Exception {
-        mockMvc.perform(post("/addbook")).andExpect(authenticated());
-    }
-
-    @WithMockUser(username = "admin")
-    @Test
-    void deleteBookAuthenticated() throws Exception {
-        mockMvc.perform(post("/delete/1")).andExpect(authenticated());
-    }
-
-    @WithMockUser(username = "admin")
-    @Test
-    void editBookAuthenticated() throws Exception {
-        mockMvc.perform(post("/edit/1")).andExpect(authenticated());
-    }
-
-    @WithMockUser(username = "admin")
-    @Test
-    void showBookAuthenticated() throws Exception {
-        mockMvc.perform(post("/view/1")).andExpect(authenticated());
-    }
-
-
-    @Test
-    void getBooksNotAuthenticated() throws Exception {
-        mockMvc.perform(get("/")).andExpect(unauthenticated());
-    }
-
-    @Test
-    void addBookNotAuthenticated() throws Exception {
-        mockMvc.perform(post("/addbook")).andExpect(unauthenticated());
-    }
-
-    @Test
-    void deleteBookNotAuthenticated() throws Exception {
-        mockMvc.perform(post("/delete/1")).andExpect(unauthenticated());
-    }
-
-    @Test
-    void editBookNotAuthenticated() throws Exception {
-        mockMvc.perform(post("/edit/1")).andExpect(unauthenticated());
-    }
-
-    @Test
-    void showBookNotAuthenticated() throws Exception {
-        mockMvc.perform(post("/view/1")).andExpect(unauthenticated());
+    @ParameterizedTest
+    @ValueSource(strings = {"/", "/addbook", "/delete/1", "/edit/1", "/view/1"})
+    void parameterizedAuthenticated(String value) throws Exception {
+        mockMvc.perform(post(value)).andExpect(authenticated());
     }
 }
