@@ -28,6 +28,13 @@ create table author
     name  varchar(255) unique
 );
 
+drop table if exists user_role;
+create table user_role
+(
+    user_id bigint,
+    roles varchar(255)
+);
+
 drop table if exists user;
 create table user
 (
@@ -35,6 +42,8 @@ create table user
     username  varchar(255) unique,
     password varchar(255)
 );
+
+
 
 
 
@@ -49,3 +58,7 @@ foreign key (author_id) references author(Id);
 alter table comment
 add constraint fk_commentBook
 foreign key (book_id) references book(Id) ON DELETE CASCADE;
+
+alter table user_role
+add constraint fk_user_role_user
+foreign key (user_id) references user(Id);

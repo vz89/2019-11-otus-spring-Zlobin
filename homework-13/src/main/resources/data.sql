@@ -16,3 +16,9 @@ insert into comment (id,text,book_id) values(2,"Very good book",1)
 insert into comment (id,text,book_id) values(3,"Very intresting",4)
 
 insert into user (id,username,password) values(1,"admin","password")
+insert into user (id,username,password) values(2,"user","user")
+insert into user (id,username,password) values(3,"user2","user")
+
+insert into user_role (user_id,roles) values (1,"ADMIN")
+insert into user_role (user_id,roles) values (2,"USER")
+insert into user_role (user_id,roles) values (3,"BANNED_USER")
