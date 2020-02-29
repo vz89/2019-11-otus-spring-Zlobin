@@ -11,9 +11,10 @@ insert into book (id,title,genre_id,author_id) values (2,'Горе от ума',
 insert into book (id,title,genre_id,author_id) values (3,'Шерлок Холмс',3,3)
 insert into book (id,title,genre_id,author_id) values (4,'Бесы',1,1)
 
-insert into comment (id,text,book_id) values(1,"Good book",1)
-insert into comment (id,text,book_id) values(2,"Very good book",1)
-insert into comment (id,text,book_id) values(3,"Very intresting",4)
+insert into comment (id,text,book_id,user_id) values(1,"Good book",1,1)
+insert into comment (id,text,book_id,user_id) values(2,"Very good book",1,1)
+insert into comment (id,text,book_id,user_id) values(3,"Very intresting",1,2)
+insert into comment (id,text,book_id,user_id) values(4,"Very very intresting",1,2)
 
 insert into user (id,username,password) values(1,"admin","password")
 insert into user (id,username,password) values(2,"user","user")

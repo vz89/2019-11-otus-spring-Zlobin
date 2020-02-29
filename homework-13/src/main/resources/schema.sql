@@ -3,7 +3,8 @@ create table comment
 (
     id   bigint primary key auto_increment,
     text varchar(255),
-    book_id bigint
+    book_id bigint,
+    user_id bigint
 );
 drop table if exists book;
 create table book
@@ -57,7 +58,7 @@ foreign key (author_id) references author(Id);
 
 alter table comment
 add constraint fk_commentBook
-foreign key (book_id) references book(Id) ON DELETE CASCADE;
+foreign key (book_id) references book(Id) ON delete CASCADE;
 
 alter table user_role
 add constraint fk_user_role_user

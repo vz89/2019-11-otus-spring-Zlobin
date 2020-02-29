@@ -17,6 +17,7 @@
         <tr>
             <th>#</th>
             <th>Text</th>
+            <th>Author</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -25,6 +26,7 @@
         <tr th:each="comment,itemStat : ${comments}">
             <td th:text="${itemStat.index}+1"></td>
             <td th:text="${comment.text}"></td>
+            <td th:text="${comment.user.getUsername()}"></td>
             <td>
                 <form method="post" th:action="@{/comment/delete/__${comment.id}__}">
                     <a role="button" class="btn btn-secondary btn-sm" href="editBook.html" th:href="@{/comment/edit/__${comment.id}__}">Edit</a>

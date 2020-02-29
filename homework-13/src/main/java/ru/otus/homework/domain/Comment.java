@@ -23,9 +23,14 @@ public class Comment {
     @JoinColumn(name = "book_id")
     private Book book;
 
-    public Comment(String text, Book book) {
+    @ManyToOne()
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public Comment(String text, Book book, User user) {
         this.text = text;
         this.book = book;
+        this.user = user;
     }
 
     @Override

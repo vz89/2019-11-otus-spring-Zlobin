@@ -1,6 +1,7 @@
 package ru.otus.homework.domain;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +13,7 @@ import java.util.Set;
 @Entity
 @Data
 @Table(name = "user")
+@AllArgsConstructor
 public class User implements UserDetails {
 
     @Id
