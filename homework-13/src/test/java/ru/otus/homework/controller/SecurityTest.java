@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ComponentScan("ru.otus.homework.service")
 @WebMvcTest(controllers = BookController.class)
 @MockBeans({@MockBean(BookService.class), @MockBean(AuthorService.class), @MockBean(GenreService.class), @MockBean(CommentService.class), @MockBean(UserRepository.class)})
-class CommentControllerTest {
+class SecurityTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -33,22 +33,41 @@ class CommentControllerTest {
     @WithMockUser(username = "user2", authorities = {"BANNED_USER"})
     @ParameterizedTest
     @ValueSource(strings = {"/comment", "comment/delete/1", "comment/addcomment", "comment/edit/1"})
-    void shouldForbiddenAllPages(String value) throws Exception {
+    void shouldForbiddenAllCommentPages(String value) throws Exception {
         mockMvc.perform(post(value)).andExpect(status().isForbidden());
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"/comment", "comment/delete/1", "comment/addcomment", "comment/edit/1"})
-    void parameterizedNotAuthenticated(String value) throws Exception {
+    void commentParameterizedNotAuthenticated(String value) throws Exception {
         mockMvc.perform(post(value)).andExpect(unauthenticated());
     }
 
     @WithMockUser(username = "admin")
     @ParameterizedTest
     @ValueSource(strings = {"/comment", "comment/delete/1", "comment/addcomment", "comment/edit/1"})
-    void parameterizedAuthenticated(String value) throws Exception {
+    void commentParameterizedAuthenticated(String value) throws Exception {
         mockMvc.perform(post(value)).andExpect(authenticated());
     }
 
+    @WithMockUser(username = "user2", authorities = {"BANNED_USER"})
+    @ParameterizedTest
+    @ValueSource(strings = {"/", "/addbook", "/delete/1", "/edit/1", "/view/1"})
+    void shouldForbiddenAllPages(String value) throws Exception {
+        mockMvc.perform(post(value)).andExpect(status().isForbidden());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"/", "/addbook", "/delete/1", "/edit/1", "/view/1"})
+    void parameterizedNotAuthenticated(String value) throws Exception {
+        mockMvc.perform(post(value)).andExpect(unauthenticated());
+    }
+
+    @WithMockUser(username = "admin")
+    @ParameterizedTest
+    @ValueSource(strings = {"/", "/addbook", "/delete/1", "/edit/1", "/view/1"})
+    void parameterizedAuthenticated(String value) throws Exception {
+        mockMvc.perform(post(value)).andExpect(authenticated());
+    }
 
 }
