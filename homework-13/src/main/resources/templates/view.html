@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>View book</title>
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
+<body>
+<div class="container mt-5">
+    <h1 class="h1">View book</h1>
+    <!--/*@thymesVar id="book" type="ru.otus.homework.domain.Book"*/-->
+    <h3 class="h3" th:text="${book.title}">Наименование</h3>
+    <h3 class="h3" th:text="${book.author.name}">Автор</h3>
+    <h3 class="h3" th:text="${book.genre.name}">Жанр</h3>
+    <table class="table">
+        <thead class="thead-light">
+        <tr>
+            <th>#</th>
+            <th>Text</th>
+            <th>Author</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--/*@thymesVar id="comment" type="ru.otus.homework.domain.Comment"*/-->
+        <tr th:each="comment,itemStat : ${comments}">
+            <td th:text="${itemStat.index}+1"></td>
+            <td th:text="${comment.text}"></td>
+            <td th:text="${comment.user.getUsername()}"></td>
+            <td>
+                <form method="post" th:action="@{/comment/delete/__${comment.id}__}">
+                    <a role="button" class="btn btn-secondary btn-sm" href="editBook.html" th:href="@{/comment/edit/__${comment.id}__}">Edit</a>
+                    <button class="btn btn-secondary btn-sm">Delete</button>
+                </form>
+
+        </tr>
+        </tbody>
+    </table>
+    <form th:action="@{/comment/addcomment}">
+        <input name="bookId" th:value="__${book.id}__" type="hidden">
+        <button class="btn btn-primary">Добавить новый комметарий</button>
+    </form>
+    <a href="/">Вернуться к списку книг</a>
+</div>
+
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</body>
+
+</html>
