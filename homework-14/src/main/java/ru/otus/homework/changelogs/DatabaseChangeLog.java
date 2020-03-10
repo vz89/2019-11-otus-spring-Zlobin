@@ -4,7 +4,6 @@ package ru.otus.homework.changelogs;
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
 import com.mongodb.client.MongoDatabase;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import ru.otus.homework.domain.*;
 
@@ -13,14 +12,11 @@ import java.util.List;
 
 @ChangeLog
 public class DatabaseChangeLog {
-    @Autowired
-    MongoTemplate mongoTemplate;
 
     @ChangeSet(order = "000", id = "dropDB", author = "vladimir", runAlways = true)
     public void dropDB(MongoDatabase database){
         database.drop();
     }
-
 
     @ChangeSet(order = "001", id = "addMoreBooks", author = "vladimir")
     public void insertBooks(MongoTemplate mongoTemplate) {
