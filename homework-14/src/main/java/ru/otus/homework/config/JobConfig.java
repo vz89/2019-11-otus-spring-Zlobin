@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import ru.otus.homework.domain.Author;
+import ru.otus.homework.domain.Genre;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -58,6 +59,37 @@ public class JobConfig {
         return writer;
     }
 
+    @StepScope
+    @Bean
+    public MongoItemReader<Genre> genreMongoItemReader(MongoTemplate mongoTemplate){
+        return new MongoItemReaderBuilder<Genre>()
+                .name("genreMongoItemReader")
+                .template(mongoTemplate)
+                .targetType(Genre.class)
+                .jsonQuery("{}")
+                .sorts(new HashMap<>())
+                .build();
+    }
+
+    @StepScope
+    @Bean
+    public ItemProcessor<Genre,Genre> genreItemProcessor(){
+        return genre ->genre;
+    }
+
+    @StepScope
+    @Bean
+    public JdbcBatchItemWriter<Genre> genreJdbcBatchItemWriter() {
+        JdbcBatchItemWriter<Genre> writer = new JdbcBatchItemWriter<>();
+        writer.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>());
+        writer.setSql("INSERT INTO genre (id,name) VALUES (:id,:name)");
+        writer.setDataSource(dataSource);
+        return writer;
+    }
+
+
+
+
     @Bean
     public Step authorStep(){
         return stepBuilderFactory.get("authorStep")
@@ -67,11 +99,22 @@ public class JobConfig {
                 .writer(authorJdbcBatchItemWriter())
                 .build();
     }
+    @Bean
+    public Step genreStep(){
+        return stepBuilderFactory.get("genreStep")
+                .<Genre,Genre>chunk(10)
+                .reader(genreMongoItemReader(mongoTemplate))
+                .processor(genreItemProcessor())
+                .writer(genreJdbcBatchItemWriter())
+                .build();
+    }
+
 
     @Bean
     public Job migrateMongoToMySql(){
         return jobBuilderFactory.get("migrateMongoToMySql")
                 .start(authorStep())
+                .next(genreStep())
                 .build();
     }
 
