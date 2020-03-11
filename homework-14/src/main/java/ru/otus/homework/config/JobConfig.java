@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import ru.otus.homework.domain.Author;
+import ru.otus.homework.domain.Book;
 import ru.otus.homework.domain.Genre;
 
 import javax.sql.DataSource;
@@ -33,7 +34,7 @@ public class JobConfig {
 
     @StepScope
     @Bean
-    public MongoItemReader<Author> authorMongoItemReader(MongoTemplate mongoTemplate){
+    public MongoItemReader<Author> authorMongoItemReader(MongoTemplate mongoTemplate) {
         return new MongoItemReaderBuilder<Author>()
                 .name("authorItemReaded")
                 .template(mongoTemplate)
@@ -45,8 +46,8 @@ public class JobConfig {
 
     @StepScope
     @Bean
-    public ItemProcessor<Author,Author> authorItemProcessor(){
-        return author ->author;
+    public ItemProcessor<Author, Author> authorItemProcessor() {
+        return author -> author;
     }
 
     @StepScope
@@ -61,7 +62,7 @@ public class JobConfig {
 
     @StepScope
     @Bean
-    public MongoItemReader<Genre> genreMongoItemReader(MongoTemplate mongoTemplate){
+    public MongoItemReader<Genre> genreMongoItemReader(MongoTemplate mongoTemplate) {
         return new MongoItemReaderBuilder<Genre>()
                 .name("genreMongoItemReader")
                 .template(mongoTemplate)
@@ -73,8 +74,8 @@ public class JobConfig {
 
     @StepScope
     @Bean
-    public ItemProcessor<Genre,Genre> genreItemProcessor(){
-        return genre ->genre;
+    public ItemProcessor<Genre, Genre> genreItemProcessor() {
+        return genre -> genre;
     }
 
     @StepScope
@@ -87,34 +88,72 @@ public class JobConfig {
         return writer;
     }
 
+    @StepScope
+    @Bean
+    public MongoItemReader<Book> bookMongoItemReader(MongoTemplate mongoTemplate) {
+        return new MongoItemReaderBuilder<Book>()
+                .name("bookMongoItemReader")
+                .template(mongoTemplate)
+                .targetType(Book.class)
+                .jsonQuery("{}")
+                .sorts(new HashMap<>())
+                .build();
+    }
 
+    @StepScope
+    @Bean
+    public ItemProcessor<Book, Book> bookItemProcessor() {
+        return book -> book;
+    }
+
+    @StepScope
+    @Bean
+    public JdbcBatchItemWriter<Book> bookJdbcBatchItemWriter() {
+        JdbcBatchItemWriter<Book> writer = new JdbcBatchItemWriter<>();
+        writer.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>());
+        writer.setSql("INSERT INTO book (id,title,genre_id,author_id) VALUES (:id,:title,:genre.id,:author.id)");
+        writer.setDataSource(dataSource);
+        return writer;
+    }
 
 
     @Bean
-    public Step authorStep(){
+    public Step authorStep() {
         return stepBuilderFactory.get("authorStep")
-                .<Author,Author>chunk(10)
+                .<Author, Author>chunk(10)
                 .reader(authorMongoItemReader(mongoTemplate))
                 .processor(authorItemProcessor())
                 .writer(authorJdbcBatchItemWriter())
                 .build();
     }
+
     @Bean
-    public Step genreStep(){
+    public Step genreStep() {
         return stepBuilderFactory.get("genreStep")
-                .<Genre,Genre>chunk(10)
+                .<Genre, Genre>chunk(10)
                 .reader(genreMongoItemReader(mongoTemplate))
                 .processor(genreItemProcessor())
                 .writer(genreJdbcBatchItemWriter())
                 .build();
     }
 
+    @Bean
+    public Step bookStep() {
+        return stepBuilderFactory.get("bookStep")
+                .<Book, Book>chunk(10)
+                .reader(bookMongoItemReader(mongoTemplate))
+                .processor(bookItemProcessor())
+                .writer(bookJdbcBatchItemWriter())
+                .build();
+    }
+
 
     @Bean
-    public Job migrateMongoToMySql(){
+    public Job migrateMongoToMySql() {
         return jobBuilderFactory.get("migrateMongoToMySql")
                 .start(authorStep())
                 .next(genreStep())
+                .next(bookStep())
                 .build();
     }
 
