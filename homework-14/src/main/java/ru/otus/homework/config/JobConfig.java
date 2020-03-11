@@ -17,7 +17,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import ru.otus.homework.domain.Author;
 import ru.otus.homework.domain.Book;
+import ru.otus.homework.domain.Comment;
 import ru.otus.homework.domain.Genre;
+import ru.otus.homework.dto.CommentDTO;
+import ru.otus.homework.processor.CommentDTOProcessor;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -30,6 +33,7 @@ public class JobConfig {
     private final StepBuilderFactory stepBuilderFactory;
     private final DataSource dataSource;
     private final MongoTemplate mongoTemplate;
+    private final CommentDTOProcessor commentDTOProcessor;
 
 
     @StepScope
@@ -116,6 +120,34 @@ public class JobConfig {
         return writer;
     }
 
+    @StepScope
+    @Bean
+    public MongoItemReader<Comment> commentMongoItemReader(MongoTemplate mongoTemplate) {
+        return new MongoItemReaderBuilder<Comment>()
+                .name("commentMongoItemReader")
+                .template(mongoTemplate)
+                .targetType(Comment.class)
+                .jsonQuery("{}")
+                .sorts(new HashMap<>())
+                .build();
+    }
+
+    @StepScope
+    @Bean
+    public ItemProcessor<Comment, CommentDTO> commentItemProcessor() {
+        return commentDTOProcessor;
+    }
+
+    @StepScope
+    @Bean
+    public JdbcBatchItemWriter<CommentDTO> commentJdbcBatchItemWriter() {
+        JdbcBatchItemWriter<CommentDTO> writer = new JdbcBatchItemWriter<>();
+        writer.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>());
+        writer.setSql("INSERT INTO comment (id,text,book_id) VALUES (:id,:text,:bookId)");
+        writer.setDataSource(dataSource);
+        return writer;
+    }
+
 
     @Bean
     public Step authorStep() {
@@ -147,6 +179,16 @@ public class JobConfig {
                 .build();
     }
 
+    @Bean
+    public Step commentStep() {
+        return stepBuilderFactory.get("genreStep")
+                .<Comment, CommentDTO>chunk(10)
+                .reader(commentMongoItemReader(mongoTemplate))
+                .processor(commentItemProcessor())
+                .writer(commentJdbcBatchItemWriter())
+                .build();
+    }
+
 
     @Bean
     public Job migrateMongoToMySql() {
@@ -154,6 +196,7 @@ public class JobConfig {
                 .start(authorStep())
                 .next(genreStep())
                 .next(bookStep())
+                .next(commentStep())
                 .build();
     }
 
