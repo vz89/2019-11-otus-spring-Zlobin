@@ -28,6 +28,16 @@ create table author
     name  varchar(255) unique
 );
 
+drop table if exists Batch_JOB_EXECUTION_CONTEXT;
+drop table if exists Batch_JOB_EXECUTION_PARAMS;
+drop table if exists Batch_JOB_EXECUTION_SEQ;
+drop table if exists Batch_JOB_SEQ;
+drop table if exists Batch_STEP_EXECUTION_CONTEXT;
+drop table if exists Batch_STEP_EXECUTION_SEQ;
+drop table if exists Batch_STEP_EXECUTION;
+drop table if exists Batch_JOB_EXECUTION;
+drop table if exists Batch_JOB_INSTANCE;
+
 
 
 alter table book
@@ -40,4 +50,4 @@ foreign key (author_id) references author(Id);
 
 alter table comment
 add constraint fk_commentBook
-foreign key (book_id) references book(Id) ON DELETE CASCADE;
+foreign key (book_id) references book(Id) ON delete CASCADE;
