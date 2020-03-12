@@ -15,6 +15,3 @@ Spring:
     job:
       enabled: false
     initialize-schema: always
-
-server:
-  port: 9000

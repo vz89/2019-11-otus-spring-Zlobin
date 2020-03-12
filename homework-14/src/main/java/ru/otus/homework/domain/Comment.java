@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "comment")
 public class Comment {
     @Transient
-    public static final String SEQUENCE_NAME ="comments_sequence";
+    public static final String SEQUENCE_NAME = "comments_sequence";
 
     @Id
     private long id;

@@ -181,7 +181,7 @@ public class JobConfig {
 
     @Bean
     public Step commentStep() {
-        return stepBuilderFactory.get("genreStep")
+        return stepBuilderFactory.get("commentStep")
                 .<Comment, CommentDTO>chunk(10)
                 .reader(commentMongoItemReader(mongoTemplate))
                 .processor(commentItemProcessor())
@@ -199,5 +199,4 @@ public class JobConfig {
                 .next(commentStep())
                 .build();
     }
-
 }

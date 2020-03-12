@@ -18,9 +18,9 @@ public class BatchCommands {
     private final Job migrateMongoToMySql;
 
     @SneakyThrows
-    @ShellMethod(value = "StartMigrationFromMongoToMysql", key ="s")
-    public void startMigrationFromMongoToMySql(){
-        jobLauncher.run(migrateMongoToMySql,new JobParameters());
+    @ShellMethod(value = "StartMigrationFromMongoToMysql", key = "s")
+    public void startMigrationFromMongoToMySql() {
+        jobLauncher.run(migrateMongoToMySql, new JobParameters());
     }
 
 }

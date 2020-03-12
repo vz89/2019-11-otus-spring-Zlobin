@@ -14,7 +14,7 @@ import java.util.List;
 public class DatabaseChangeLog {
 
     @ChangeSet(order = "000", id = "dropDB", author = "vladimir", runAlways = true)
-    public void dropDB(MongoDatabase database){
+    public void dropDB(MongoDatabase database) {
         database.drop();
     }
 
