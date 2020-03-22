@@ -1,10 +1,11 @@
 package ru.otus.homework.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
 public class Passport {
-    String name;
+    String username;
+    String registrationId;
+    String militaryId;
+    String maritalStatus;
 }
