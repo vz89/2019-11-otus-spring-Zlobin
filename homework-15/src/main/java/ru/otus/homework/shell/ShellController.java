@@ -3,9 +3,11 @@ package ru.otus.homework.shell;
 import lombok.AllArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
-import ru.otus.homework.domain.Task;
+import ru.otus.homework.domain.Passport;
+import ru.otus.homework.domain.User;
 import ru.otus.homework.integration.Work;
 
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @ShellComponent
@@ -13,23 +15,19 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ShellController {
     private static AtomicInteger num = new AtomicInteger(1);
     private final Work work;
+    private static String[] FirstNames = {"John","Martin","Greg","Michael","Keith","James"};
+    private static String[] LastNames = {"Black","White","Brown","Goodwin","Right","Smith"};
 
     @ShellMethod("start")
     public void start() throws InterruptedException {
         while (true) {
-            Thread.sleep(1000);
-
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    Task task = new Task(String.valueOf(num.getAndIncrement()));
-                    System.out.println("Появилась новая проблема №" + task.getName());
-                    Task bugfixed = work.process(task);
-                    System.out.println("Закрыл сообщение о проблеме №" + bugfixed.getName());
-
-                }
+            Thread.sleep(4000);
+            Thread thread = new Thread(() -> {
+                User user = new User(FirstNames[new Random().nextInt(5)] + " " + LastNames[new Random().nextInt(5)]);
+                System.out.println("Появилась новая заявка на замену паспорта №" + num.getAndIncrement() + " " + user.getName());
+                Passport passport = work.process(user);
+                System.out.println("Закрыл заявку: " + passport.toString());
             });
-
             thread.start();
         }
     }

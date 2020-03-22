@@ -30,10 +30,9 @@ public class Config {
     @Bean
     public IntegrationFlow workFlow() {
         return IntegrationFlows.from("userChannel")
-                .handle("programmerService", "findProblem")
-                .handle("programmerService", "fixProblem")
-                .handle("programmerService", "testFixedProblem")
-                .handle("programmerService", "rest")
+                .handle("registrationDepartmentService", "addRegistration")
+                .handle("registryWeddingDepartmentService","addWeddingRegistry")
+                .handle("migrationDepartmentService","addMigrationRegistration")
                 .channel("passportChannel")
                 .get();
     }

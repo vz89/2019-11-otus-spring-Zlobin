@@ -6,6 +6,10 @@ import lombok.Data;
 public class Passport {
     String username;
     String registrationId;
-    String militaryId;
+    String migrationId;
     String maritalStatus;
+
+    public Passport(String username) {
+        this.username = username;
+    }
 }
