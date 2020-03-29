@@ -19,7 +19,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: health,metrics,logfile
   endpoint:
     health:
       show-details: always
