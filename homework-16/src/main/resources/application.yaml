@@ -12,3 +12,19 @@ Spring:
     hibernate:
       ddl-auto: none
     show-sql: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  health:
+    defaults:
+      enabled: true
+    diskspace:
+      enabled: true
+logging:
+  file:
+    name: logfile.txt
