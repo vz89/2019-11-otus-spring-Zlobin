@@ -12,6 +12,9 @@ Spring:
     hibernate:
       ddl-auto: none
     show-sql: true
+  data:
+    rest:
+      base-path: /datarest
 management:
   endpoints:
     web:
