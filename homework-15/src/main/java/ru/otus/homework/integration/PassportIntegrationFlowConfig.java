@@ -1,5 +1,6 @@
 package ru.otus.homework.integration;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.channel.PublishSubscribeChannel;
@@ -9,9 +10,17 @@ import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.MessageChannels;
 import org.springframework.integration.dsl.Pollers;
 import org.springframework.integration.scheduling.PollerMetadata;
+import ru.otus.homework.service.MigrationDepartmentService;
+import ru.otus.homework.service.RegistrationDepartmentService;
+import ru.otus.homework.service.RegistryWeddingDepartmentService;
 
 @Configuration
-public class Config {
+@RequiredArgsConstructor
+public class PassportIntegrationFlowConfig {
+    private final RegistrationDepartmentService registrationDepartmentService;
+    private final RegistryWeddingDepartmentService registryWeddingDepartmentService;
+    private final MigrationDepartmentService migrationDepartmentService;
+
     @Bean
     public QueueChannel userChannel() {
         return MessageChannels.queue(10).get();
@@ -30,9 +39,9 @@ public class Config {
     @Bean
     public IntegrationFlow workFlow() {
         return IntegrationFlows.from("userChannel")
-                .handle("registrationDepartmentService", "addRegistration")
-                .handle("registryWeddingDepartmentService","addWeddingRegistry")
-                .handle("migrationDepartmentService","addMigrationRegistration")
+                .handle(registrationDepartmentService, "addRegistration")
+                .handle(registryWeddingDepartmentService,"addWeddingRegistry")
+                .handle(migrationDepartmentService,"addMigrationRegistration")
                 .channel("passportChannel")
                 .get();
     }
