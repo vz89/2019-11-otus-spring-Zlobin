@@ -1,9 +1,9 @@
 Spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/library?serverTimezone=Europe/Moscow&useSSL=false
-    username: root
-    password: root
+    url: ${DB_URL}
+    username: ${MY_SQL_ROOT_USER}
+    password: ${MY_SQL_ROOT_PASSWORD}
     schema: classpath:schema.sql
     data: classpath:data.sql
     initialization-mode: always
