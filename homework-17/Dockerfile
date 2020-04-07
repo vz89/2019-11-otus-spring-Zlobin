@@ -4,9 +4,13 @@ ENV PROJECT_DIR=/opt/project
 RUN mkdir - p $PROJECT_DIR
 WORKDIR $PROJECT_DIR
 
+COPY ./pom.xml $PROJECT_DIR/pom.xml
+
+RUN mvn -B -s /usr/share/maven/ref/settings-docker.xml dependency:resolve-plugins dependency:resolve clean
+
 COPY . $PROJECT_DIR
 
-RUN mvn clean install -DSkipTests
+RUN mvn -B -s /usr/share/maven/ref/settings-docker.xml clean package
 
 FROM openjdk:11
 
@@ -14,8 +18,8 @@ ENV PROJECT_DIR=/opt/project
 RUN mkdir -p $PROJECT_DIR
 WORKDIR $PROJECT_DIR
 
-COPY --from=0 $PROJECT_DIR/target/homework-1.0-SNAPSHOT.jar $PROJECT_DIR
+COPY --from=0 $PROJECT_DIR/target/HomeworkApplication.jar $PROJECT_DIR
 
 EXPOSE 8080
-CMD ["java","-jar","/opt/project/homework-1.0-SNAPSHOT.jar"]
+CMD ["java","-jar","/opt/project/HomeworkApplication.jar"]
 
