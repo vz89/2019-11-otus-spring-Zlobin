@@ -1,0 +1,33 @@
+Spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL}
+    username: ${MY_SQL_ROOT_USER}
+    password: ${MY_SQL_ROOT_PASSWORD}
+    schema: classpath:schema.sql
+    data: classpath:data.sql
+    initialization-mode: always
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  data:
+    rest:
+      base-path: /datarest
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,logfile
+  endpoint:
+    health:
+      show-details: always
+  health:
+    defaults:
+      enabled: true
+    diskspace:
+      enabled: true
+logging:
+  file:
+    name: logfile.txt
