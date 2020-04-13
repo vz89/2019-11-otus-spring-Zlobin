@@ -11,6 +11,7 @@ import ru.otus.homework.domain.Author;
 import ru.otus.homework.domain.Book;
 import ru.otus.homework.domain.Genre;
 import ru.otus.homework.service.BookService;
+import ru.otus.homework.service.CachedDataService;
 import ru.otus.homework.service.CommentService;
 
 import java.util.ArrayList;
@@ -35,6 +36,9 @@ class BookControllerTest {
 
     @MockBean
     private CommentService commentService;
+
+    @MockBean
+    private CachedDataService cachedDataService;
 
     @Autowired
     private MockMvc mockMvc;

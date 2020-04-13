@@ -23,6 +23,12 @@ public class Comment {
     @JoinColumn(name = "book_id")
     private Book book;
 
+    public Comment(Long id,String text) {
+        this.text = text;
+        this.id = id;
+    }
+
+
     @Override
     public String toString() {
         return "[" + id + "]" + " " + text + ".";
