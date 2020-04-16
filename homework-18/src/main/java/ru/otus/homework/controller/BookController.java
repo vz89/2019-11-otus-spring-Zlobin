@@ -1,7 +1,5 @@
 package ru.otus.homework.controller;
 
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +8,6 @@ import ru.otus.homework.domain.Book;
 import ru.otus.homework.domain.Comment;
 import ru.otus.homework.dto.BookCommentsDTO;
 import ru.otus.homework.service.BookService;
-import ru.otus.homework.service.CachedDataService;
 import ru.otus.homework.service.CommentService;
 
 import java.util.List;
@@ -22,11 +19,8 @@ import java.util.List;
 public class BookController {
     private final BookService bookService;
     private final CommentService commentService;
-    private final CachedDataService cachedDataService;
 
 
-    @HystrixCommand(commandProperties = {@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000")},
-            fallbackMethod = "getCachedBooks")
     @GetMapping("/books")
     public ResponseEntity<List<Book>> readAll() {
         List<Book> books = bookService.findAll();
@@ -41,8 +35,6 @@ public class BookController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @HystrixCommand(commandProperties = {@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000")},
-            fallbackMethod = "getCachedBook")
     @GetMapping("/books/{id}")
     public ResponseEntity<BookCommentsDTO> readBook(@PathVariable("id") long id) {
         try {
@@ -69,12 +61,5 @@ public class BookController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    public ResponseEntity<List<Book>> getCachedBooks() {
-        return new ResponseEntity<List<Book>>(cachedDataService.getCachedBooks(),HttpStatus.OK);
-    }
-
-    public ResponseEntity<BookCommentsDTO> getCachedBook() {
-        return new ResponseEntity<BookCommentsDTO>(new BookCommentsDTO(cachedDataService.getCachedBook(),cachedDataService.getCachedComments()),HttpStatus.OK);
-    }
 
 }

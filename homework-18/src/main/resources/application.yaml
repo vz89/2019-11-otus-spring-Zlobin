@@ -31,3 +31,5 @@ management:
 logging:
   file:
     name: logfile.txt
+hystrix:
+  command.StoreSubmission.execution.isolation.thread.timeoutInMilliseconds: 5

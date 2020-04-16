@@ -6,20 +6,21 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.otus.homework.domain.Author;
 import ru.otus.homework.domain.Book;
 import ru.otus.homework.domain.Genre;
-import ru.otus.homework.repo.BookRepository;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
-    private final BookRepository bookRepository;
     private final AuthorService authorService;
     private final GenreService genreService;
+    private final BookRepositoryService bookRepositoryService;
+
+
 
     @Override
     public List<Book> findAll() {
-        return bookRepository.findAll();
+        return bookRepositoryService.findAll();
     }
 
     @Transactional
@@ -28,15 +29,16 @@ public class BookServiceImpl implements BookService {
         addOrUpdateBook(book);
     }
 
+
     @Override
     public Book findById(long id) {
-        return bookRepository.findById(id).orElse(null);
+        return bookRepositoryService.findById(id);
     }
 
     @Override
     @Transactional
     public boolean update(long id, Book book) {
-        if (bookRepository.findById(id).orElse(null) != null) {
+        if (bookRepositoryService.findById(id) != null) {
             addOrUpdateBook(book);
             return true;
         } else return false;
@@ -45,7 +47,7 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public void deleteById(Long id) {
-        bookRepository.deleteBookById(id);
+        bookRepositoryService.deleteBookById(id);
     }
 
     private void addOrUpdateBook(Book book) {
@@ -55,7 +57,7 @@ public class BookServiceImpl implements BookService {
         if (genre == null) genre = new Genre(book.getGenre().getName());
         book.setAuthor(author);
         book.setGenre(genre);
-        bookRepository.save(book);
+        bookRepositoryService.save(book);
     }
 
 

@@ -1,5 +1,6 @@
 package ru.otus.homework.service;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.otus.homework.domain.Book;
@@ -12,7 +13,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
+    private final CachedDataService cachedDataService;
 
+    @HystrixCommand(fallbackMethod = "getCachedComments")
     @Override
     public List<Comment> findAllComments(Book book) {
         return commentRepository.findAllByBook(book);
@@ -27,5 +30,9 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void deleteById(Long id) {
         commentRepository.deleteById(id);
+    }
+
+    private List<Comment> getCachedComments(Book book) {
+        return cachedDataService.getCachedComments();
     }
 }
