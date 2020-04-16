@@ -14,14 +14,14 @@ public class BookRepositoryServiceImpl implements BookRepositoryService {
     private final BookRepository bookRepository;
     private final CachedDataService cachedDataService;
 
-    @HystrixCommand(fallbackMethod = "getCachedBooks")
+    @HystrixCommand(groupKey = "BookRepo", fallbackMethod = "getCachedBooks", commandKey = "findAllBooks")
     @Override
     public List<Book> findAll() {
         return bookRepository.findAll();
 
     }
 
-    @HystrixCommand(fallbackMethod = "getCachedBookById")
+    @HystrixCommand( groupKey = "BookRepo", fallbackMethod = "getCachedBookById", commandKey = "findBookById")
     @Override
     public Book findById(Long id) {
         return bookRepository.findById(id).orElse(null);

@@ -15,7 +15,7 @@ public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
     private final CachedDataService cachedDataService;
 
-    @HystrixCommand(fallbackMethod = "getCachedComments")
+    @HystrixCommand(groupKey = "CommentService", commandKey = "findAllCommentByBook", fallbackMethod = "getCachedComments")
     @Override
     public List<Comment> findAllComments(Book book) {
         return commentRepository.findAllByBook(book);
