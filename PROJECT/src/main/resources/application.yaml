@@ -6,6 +6,7 @@ Spring:
     password: root
     initialization-mode: always
     schema: classpath:schema.sql
+    data: classpath:data.sql
   jpa:
     generate-ddl: false
     hibernate:
