@@ -1,6 +1,5 @@
 package com.project.holyvacation.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +10,7 @@ import java.time.LocalDate;
 @Table(name = "vacation")
 @Data
 @NoArgsConstructor
+@NamedEntityGraph(name = "user_country_entity_graph", attributeNodes = {@NamedAttributeNode("user"),@NamedAttributeNode("country")})
 public class Vacation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
