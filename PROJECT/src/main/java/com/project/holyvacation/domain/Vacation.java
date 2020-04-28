@@ -1,5 +1,6 @@
 package com.project.holyvacation.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -30,14 +31,25 @@ public class Vacation {
     @Column(name = "end_date", columnDefinition = "DATE")
     private LocalDate endDate;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "country_id")
     private Country country;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER )
     @JoinColumn(name = "user_id")
     private User user;
 
     @Column(name = "is_public")
     private boolean isPublic;
+
+    public Vacation(String title, String description, LocalDate createdDate, LocalDate startDate, LocalDate endDate, Country country, User user, boolean isPublic) {
+        this.title = title;
+        this.description = description;
+        this.createdDate = createdDate;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.country = country;
+        this.user = user;
+        this.isPublic = isPublic;
+    }
 }
