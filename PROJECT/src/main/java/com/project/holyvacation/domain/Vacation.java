@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
@@ -11,7 +12,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @NamedEntityGraph(name = "user_country_entity_graph", attributeNodes = {@NamedAttributeNode("user"),@NamedAttributeNode("country")})
-public class Vacation {
+public class Vacation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

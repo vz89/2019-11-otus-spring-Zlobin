@@ -40,7 +40,7 @@ public class VacationMapperImpl implements VacationMapper {
                 vacationDTO.getStartDate(),
                 vacationDTO.getEndDate(),
                 countryRepo.getByNiceName(vacationDTO.getCountry()),
-                userRepo.getByUsername(vacationDTO.getUsername()),
+                userRepo.findByUsername(vacationDTO.getUsername()),
                 vacationDTO.isPublic()
                 );
     }

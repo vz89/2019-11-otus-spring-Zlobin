@@ -4,7 +4,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table (name = "user")
@@ -34,7 +36,15 @@ public class User {
     @Column(name = "joined_date", columnDefinition = "DATE")
     private LocalDate joinedDate;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private Status status;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name ="user_role",
+    joinColumns = {@JoinColumn(name = "user_id",referencedColumnName = "id")},
+    inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
+    private List<Role> roles;
 
 
 

@@ -12,17 +12,34 @@ create table vacation
     is_public boolean
 );
 
+drop table if exists user_role;
+create table user_role
+(
+    user_id bigint,
+    role_id bigint
+);
+
+drop table if exists role;
+create table role
+(
+    id bigint primary key auto_increment,
+    name varchar(50)
+);
+
 drop table if exists user;
 create table user
 (
     id   bigint primary key auto_increment,
-    username varchar(50),
+    username varchar(50) unique,
     password varchar(255),
     first_name varchar(255),
     last_name varchar(255),
     email varchar(320),
-    joined_date DATE
+    joined_date DATE,
+    status varchar(20)
 );
+
+
 
 
 drop table if exists country;
@@ -40,8 +57,16 @@ create table country
 
 alter table vacation
 add constraint fk_vacationUser
-foreign key (user_id) references user(id) ON DELETE CASCADE;
+foreign key (user_id) references user(id) ON delete CASCADE;
 
 alter table vacation
 add constraint fk_vacationCountry
 foreign key (country_id) references country(id);
+
+alter table user_role
+add constraint fk_user_roleUser
+foreign key (user_id) references user(id);
+
+alter table user_role
+add constraint fk_user_roleRole
+foreign key (role_id) references role(id);
