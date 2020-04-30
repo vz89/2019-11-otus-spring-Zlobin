@@ -9,7 +9,9 @@ create table vacation
     end_date DATE,
     country_id smallint,
     user_id bigint,
-    is_public boolean
+    city_id bigint,
+    is_public boolean,
+    enable_notification boolean
 );
 
 drop table if exists user_role;
@@ -29,7 +31,7 @@ create table role
 drop table if exists user;
 create table user
 (
-    id   bigint primary key auto_increment,
+    id bigint primary key auto_increment,
     username varchar(50) unique,
     password varchar(255),
     first_name varchar(255),
@@ -42,17 +44,12 @@ create table user
 
 create table if not exists city
 (
-    city text,
-    city_ascii text,
+    city_name text,
     lat double,
     lng double,
-    country text,
     iso2 char(2),
     iso3 char(3),
-    admin_name text,
-    capital text,
-    population double,
-    id int
+    id bigint
 );
 
 drop table if exists country;
@@ -75,6 +72,10 @@ foreign key (user_id) references user(id) ON delete CASCADE;
 alter table vacation
 add constraint fk_vacationCountry
 foreign key (country_id) references country(id);
+
+alter table vacation
+add constraint fk_vacationCity
+foreign key (city_id) references city(id);
 
 alter table user_role
 add constraint fk_user_roleUser

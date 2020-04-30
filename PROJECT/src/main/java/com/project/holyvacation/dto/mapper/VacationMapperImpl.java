@@ -2,6 +2,7 @@ package com.project.holyvacation.dto.mapper;
 
 import com.project.holyvacation.domain.Vacation;
 import com.project.holyvacation.dto.VacationDTO;
+import com.project.holyvacation.repo.CityRepo;
 import com.project.holyvacation.repo.CountryRepo;
 import com.project.holyvacation.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 public class VacationMapperImpl implements VacationMapper {
     private final UserRepo userRepo;
     private final CountryRepo countryRepo;
+    private final CityRepo cityRepo;
 
 
     @Override
@@ -27,7 +29,9 @@ public class VacationMapperImpl implements VacationMapper {
                 vacation.getEndDate(),
                 vacation.getCountry().getNiceName(),
                 vacation.getUser().getUsername(),
-                vacation.isPublic()
+                vacation.getCity().getCity(),
+                vacation.isPublic(),
+                vacation.isEnableNotification()
         );
     }
 
@@ -41,7 +45,9 @@ public class VacationMapperImpl implements VacationMapper {
                 vacationDTO.getEndDate(),
                 countryRepo.getByNiceName(vacationDTO.getCountry()),
                 userRepo.findByUsername(vacationDTO.getUsername()),
-                vacationDTO.isPublic()
-                );
+                cityRepo.findByCity(vacationDTO.getCity()),
+                vacationDTO.isPublic(),
+                vacationDTO.isEnableNotification()
+        );
     }
 }

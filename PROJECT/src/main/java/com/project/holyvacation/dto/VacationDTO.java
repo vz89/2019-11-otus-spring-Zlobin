@@ -27,6 +27,10 @@ public class VacationDTO {
 
     private String username;
 
+    private String city;
+
     private boolean isPublic;
+
+    private boolean enableNotification;
 
 }

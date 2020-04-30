@@ -4,15 +4,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "vacation")
 @Data
 @NoArgsConstructor
-@NamedEntityGraph(name = "user_country_entity_graph", attributeNodes = {@NamedAttributeNode("user"),@NamedAttributeNode("country")})
-public class Vacation implements Serializable {
+@NamedEntityGraph(name = "user_country_entity_graph", attributeNodes = {@NamedAttributeNode("user"), @NamedAttributeNode("country")})
+public class Vacation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,14 +35,21 @@ public class Vacation implements Serializable {
     @JoinColumn(name = "country_id")
     private Country country;
 
-    @ManyToOne(fetch = FetchType.EAGER )
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "city_id")
+    private City city;
 
     @Column(name = "is_public")
     private boolean isPublic;
 
-    public Vacation(String title, String description, LocalDate createdDate, LocalDate startDate, LocalDate endDate, Country country, User user, boolean isPublic) {
+    @Column(name = "enable_notification")
+    private boolean enableNotification;
+
+    public Vacation(String title, String description, LocalDate createdDate, LocalDate startDate, LocalDate endDate, Country country, User user, City city, boolean isPublic, boolean enableNotification) {
         this.title = title;
         this.description = description;
         this.createdDate = createdDate;
@@ -51,6 +57,8 @@ public class Vacation implements Serializable {
         this.endDate = endDate;
         this.country = country;
         this.user = user;
+        this.city = city;
         this.isPublic = isPublic;
+        this.enableNotification = enableNotification;
     }
 }
