@@ -4,5 +4,5 @@ import com.project.holyvacation.domain.Country;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CountryRepo extends JpaRepository<Country, Long> {
-    Country getByNiceName(String name);
+    Country findByNiceName(String name);
 }

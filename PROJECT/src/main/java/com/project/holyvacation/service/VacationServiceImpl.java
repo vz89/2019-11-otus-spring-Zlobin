@@ -31,5 +31,21 @@ public class VacationServiceImpl implements VacationService {
         vacationRepo.save(vacationMapper.toEntity(vacationDTO));
     }
 
+    @Override
+    public VacationDTO findById(Long id) {
+
+        return vacationMapper.toDTO(vacationRepo.findById(id).orElse(null));
+    }
+
+    @Override
+    public void update(Vacation vacation, VacationDTO vacationDTO) {
+        vacationRepo.save(vacationMapper.updateEntity(vacation, vacationDTO));
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        vacationRepo.deleteById(id);
+    }
+
 
 }

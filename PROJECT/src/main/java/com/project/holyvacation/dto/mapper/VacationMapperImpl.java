@@ -43,11 +43,22 @@ public class VacationMapperImpl implements VacationMapper {
                 LocalDate.now(),
                 vacationDTO.getStartDate(),
                 vacationDTO.getEndDate(),
-                countryRepo.getByNiceName(vacationDTO.getCountry()),
+                countryRepo.findByNiceName(vacationDTO.getCountry()),
                 userRepo.findByUsername(vacationDTO.getUsername()),
                 cityRepo.findByCity(vacationDTO.getCity()),
                 vacationDTO.isPublic(),
                 vacationDTO.isEnableNotification()
         );
+    }
+
+    @Override
+    public Vacation updateEntity(Vacation vacation, VacationDTO vacationDTO) {
+        vacation.setTitle(vacationDTO.getTitle());
+        vacation.setDescription(vacationDTO.getDescription());
+        vacation.setStartDate(vacationDTO.getStartDate());
+        vacation.setEndDate(vacationDTO.getEndDate());
+        vacation.setCountry(countryRepo.findByNiceName(vacationDTO.getCountry()));
+        vacation.setCity(cityRepo.findByCity(vacationDTO.getCity()));
+        return vacation;
     }
 }

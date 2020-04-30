@@ -3,6 +3,8 @@ package com.project.holyvacation.service;
 import com.project.holyvacation.domain.Role;
 import com.project.holyvacation.domain.Status;
 import com.project.holyvacation.domain.User;
+import com.project.holyvacation.dto.UserDTO;
+import com.project.holyvacation.dto.mapper.UserMapper;
 import com.project.holyvacation.repo.RoleRepo;
 import com.project.holyvacation.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepo userRepo;
     private final RoleRepo roleRepo;
     private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
 
     @Override
     public User register(User user) {
@@ -53,5 +56,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(Long id) {
         userRepo.deleteById(id);
+    }
+
+    @Override
+    public void update(UserDTO userDTO, String name) {
+        userRepo.save(userMapper.updateEntity(userDTO,userRepo.findByUsername(name)));
+    }
+
+    @Override
+    public UserDTO getUser(String name) {
+        return userMapper.toDTO(userRepo.findByUsername(name));
     }
 }

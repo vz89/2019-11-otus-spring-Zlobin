@@ -2,14 +2,15 @@ package com.project.holyvacation.controller;
 
 
 import com.project.holyvacation.domain.User;
+import com.project.holyvacation.dto.UserDTO;
 import com.project.holyvacation.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/")
@@ -17,6 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserService userService;
+
+    @GetMapping("/user")
+    public ResponseEntity<UserDTO> getUser(Principal principal) {
+        return new ResponseEntity<>(userService.getUser(principal.getName()), HttpStatus.OK);
+    }
 
     @PostMapping("/user")
     public ResponseEntity<String> registerUser(@RequestBody User user) {
@@ -27,5 +33,16 @@ public class UserController {
         return new ResponseEntity<>("username " + user.getUsername() + " is already used", HttpStatus.CONFLICT);
     }
 
+    @PutMapping("/user")
+    public ResponseEntity<String> editUser(@RequestBody UserDTO userDTO, Principal principal) {
+        userService.update(userDTO, principal.getName());
+        return new ResponseEntity<>("updated", HttpStatus.OK);
+    }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/user/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable("id") Long id) {
+        userService.delete(id);
+        return new ResponseEntity<>("deleted", HttpStatus.OK);
+    }
 }
