@@ -6,16 +6,14 @@ import com.project.holyvacation.domain.User;
 import com.project.holyvacation.repo.RoleRepo;
 import com.project.holyvacation.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
@@ -31,10 +29,8 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(roles);
         user.setStatus(Status.ACTIVE);
-        User registeredUser = userRepo.save(user);
-
-        log.info("USER SERVICE.register --- success", registeredUser);
-        return registeredUser;
+        user.setCreatedDate(LocalDate.now());
+        return userRepo.save(user);
     }
 
     @Override

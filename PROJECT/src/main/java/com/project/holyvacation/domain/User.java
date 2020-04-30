@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -33,8 +32,8 @@ public class User {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "joined_date", columnDefinition = "DATE")
-    private LocalDate joinedDate;
+    @Column(name = "created_date")
+    private LocalDate createdDate;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")

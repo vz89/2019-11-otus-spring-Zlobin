@@ -35,12 +35,25 @@ create table user
     first_name varchar(255),
     last_name varchar(255),
     email varchar(320),
-    joined_date DATE,
+    created_date DATE,
     status varchar(20)
 );
 
 
-
+create table if not exists city
+(
+    city text,
+    city_ascii text,
+    lat double,
+    lng double,
+    country text,
+    iso2 char(2),
+    iso3 char(3),
+    admin_name text,
+    capital text,
+    population double,
+    id int
+);
 
 drop table if exists country;
 create table country

@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -24,10 +25,10 @@ public class VacationController {
                 ? new ResponseEntity<>(vacations, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    // ПОМЕНЯТЬ НА PRINCIPAL в дальнейшем
-    @GetMapping("/vacations/{username}")
-    public ResponseEntity<List<VacationDTO>> getVacations(@PathVariable String username) {
-        List<VacationDTO> vacations = vacationService.getVacations(username);
+
+    @GetMapping("/vacations")
+    public ResponseEntity<List<VacationDTO>> getVacations(Principal principal) {
+        List<VacationDTO> vacations = vacationService.getVacations(principal.getName());
         return vacations!=null && !vacations.isEmpty()
                 ? new ResponseEntity<>(vacations, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -35,7 +36,8 @@ public class VacationController {
 
 
     @PostMapping("/vacations")
-    public ResponseEntity<?> createVacation(@RequestBody VacationDTO vacationDTO) {
+    public ResponseEntity<?> createVacation(@RequestBody VacationDTO vacationDTO, Principal principal) {
+        vacationDTO.setUsername(principal.getName());
         vacationService.save(vacationDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
