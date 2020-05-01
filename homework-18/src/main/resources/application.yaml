@@ -1,0 +1,36 @@
+Spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/library?serverTimezone=Europe/Moscow&useSSL=false
+    username: root
+    password: root
+    schema: classpath:schema.sql
+    data: classpath:data.sql
+    initialization-mode: always
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  data:
+    rest:
+      base-path: /datarest
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,logfile
+  endpoint:
+    health:
+      show-details: always
+  health:
+    defaults:
+      enabled: true
+    diskspace:
+      enabled: true
+logging:
+  file:
+    name: logfile.txt
+hystrix.command.findAllBooks.execution.isolation.thread.timeoutInMilliseconds: 5000
+hystrix.command.findBookById.execution.isolation.thread.timeoutInMilliseconds: 5000
+hystrix.command.findAllCommentByBook.execution.isolation.thread.timeoutInMilliseconds: 5000
