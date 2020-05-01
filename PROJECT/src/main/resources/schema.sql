@@ -49,7 +49,7 @@ create table if not exists city
     lng double,
     iso2 char(2),
     iso3 char(3),
-    id bigint
+    id bigint primary key auto_increment
 );
 
 drop table if exists country;
