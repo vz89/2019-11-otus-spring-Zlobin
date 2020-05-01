@@ -1,15 +1,18 @@
 package com.project.holyvacation.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 @Table(name = "vacation")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @NamedEntityGraph(name = "user_country_entity_graph", attributeNodes = {@NamedAttributeNode("user"), @NamedAttributeNode("country")})
 public class Vacation {
     @Id
@@ -49,6 +52,9 @@ public class Vacation {
     @Column(name = "enable_notification")
     private boolean enableNotification;
 
+    @Transient
+    private Long daysLeft;
+
     public Vacation(String title, String description, LocalDate createdDate, LocalDate startDate, LocalDate endDate, Country country, User user, City city, boolean isPublic, boolean enableNotification) {
         this.title = title;
         this.description = description;
@@ -60,5 +66,11 @@ public class Vacation {
         this.city = city;
         this.isPublic = isPublic;
         this.enableNotification = enableNotification;
+        this.daysLeft = ChronoUnit.DAYS.between(LocalDate.now(),this.startDate);
+    }
+
+    @PostLoad
+    public void setDaysLeft() {
+        this.daysLeft = ChronoUnit.DAYS.between(LocalDate.now(),this.startDate);
     }
 }

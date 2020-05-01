@@ -25,6 +25,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
+    private static final String USERNAME = "username";
+    private static final String TOKEN = "token";
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
@@ -41,8 +43,8 @@ public class AuthenticationController {
 
             String token = jwtTokenProvider.createToken(username, user.getRoles());
             Map<Object, Object> response = new HashMap<>();
-            response.put("username", username);
-            response.put("token", token);
+            response.put(USERNAME, username);
+            response.put(TOKEN, token);
             return ResponseEntity.ok(response);
         }
         catch (AuthenticationException e){

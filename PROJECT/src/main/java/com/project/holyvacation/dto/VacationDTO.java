@@ -33,4 +33,6 @@ public class VacationDTO {
 
     private boolean enableNotification;
 
+    private Long daysLeft;
+
 }

@@ -17,4 +17,8 @@ public interface VacationService {
     void update(Vacation vacation, VacationDTO vacationDTO);
 
     void deleteById(Long id);
+
+    public void VacationDaysLeftNotificationToEmail(List<Vacation> vacations);
+
+    List<Vacation> findAllForNotification();
 }

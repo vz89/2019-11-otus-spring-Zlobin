@@ -12,8 +12,15 @@ Spring:
     hibernate:
       ddl-auto: none
     show-sql: true
-
+  mail:
+    host: smtp.mail.ru
+    username: holyvacationtest@mail.ru
+    password: otusspring123
+    protocol: smtps
+    port: 465
 jwt:
   token:
     secret: jwtsecret
     expired: 3600000
+notification:
+  days-left: 5

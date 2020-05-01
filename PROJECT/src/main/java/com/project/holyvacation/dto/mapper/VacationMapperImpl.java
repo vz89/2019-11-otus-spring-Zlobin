@@ -31,7 +31,8 @@ public class VacationMapperImpl implements VacationMapper {
                 vacation.getUser().getUsername(),
                 vacation.getCity().getCity(),
                 vacation.isPublic(),
-                vacation.isEnableNotification()
+                vacation.isEnableNotification(),
+                vacation.getDaysLeft()
         );
     }
 

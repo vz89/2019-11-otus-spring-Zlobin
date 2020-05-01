@@ -1,6 +1,6 @@
 insert into user (id, username, password, first_name, last_name, email, created_date, status) values
-(1, 'admin', '$2a$10$Z5Pcdu/RnKN.mWDcVoTJJur0z1pB3k9Ip/a.W7rvr/ud.g9rBzeYy', 'Андрей', 'Привет', '123@m.ru', '2020-04-20', 'ACTIVE'),
-(2, 'user', '$2a$10$Z5Pcdu/RnKN.mWDcVoTJJur0z1pB3k9Ip/a.W7rvr/ud.g9rBzeYy', 'Антон', 'Иванов', '1421@m532.ru', '2020-04-22', 'ACTIVE');
+(1, 'admin', '$2a$10$Z5Pcdu/RnKN.mWDcVoTJJur0z1pB3k9Ip/a.W7rvr/ud.g9rBzeYy', 'Андрей', 'Привет', 'vzlobin2003@list.ru', '2020-04-20', 'ACTIVE'),
+(2, 'user', '$2a$10$Z5Pcdu/RnKN.mWDcVoTJJur0z1pB3k9Ip/a.W7rvr/ud.g9rBzeYy', 'Антон', 'Иванов', 'vzlobin2003@list.ru', '2020-04-22', 'ACTIVE');
 
 
 
@@ -264,7 +264,7 @@ insert into country (id, iso, name, nicename, iso3, numcode, phonecode) values
 
 insert into vacation (id, title, description, created_date, start_date, end_date, country_id, user_id, city_id, is_public, enable_notification) values
 (1, 'first vacation', '2 weeks on Canary sandy beaches', '2020-04-27', '2020-06-01','2020-06-14', 199, 1, 1724501748, true, true),
-(2, 'свадебное путешествие', 'отдыхать на Мальдивы после свадьбы', '2020-04-28', '2020-07-05','2020-08-04', 130, 2, 1462000004, true, true),
+(2, 'свадебное путешествие', 'отдыхать на Мальдивы после свадьбы', '2020-04-28', '2020-05-05','2020-05-24', 130, 2, 1462000004, true, true),
 (3, 'антарктика!!', 'научная экспедиция в Аргентину', '2020-04-29', '2020-10-01','2020-10-14', 10, 2, 1032717330, true, true),
 (4, 'Посещение Бобруйска', 'Just fun', '2020-04-30', '2020-05-10','2020-05-10',20, 2,1112573808, false, true);
 

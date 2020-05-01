@@ -21,6 +21,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String ADMIN_ENDPOINT = "/api/admin";
     private static final String LOGIN_ENDPOINT = "/api/auth/login/**";
     private static final String REGISTER_USER_ENDPOINT = "/api/user/";
+    public static final String ROLE_ADMIN = "ADMIN";
 
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -38,9 +39,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET,REGISTER_USER_ENDPOINT).permitAll()
+                .antMatchers(HttpMethod.POST,REGISTER_USER_ENDPOINT).permitAll()
                 .antMatchers(LOGIN_ENDPOINT, API_PUBLIC_VACATIONS_ENDPOINT).permitAll()
-                .antMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
+                .antMatchers(ADMIN_ENDPOINT).hasRole(ROLE_ADMIN)
                 .anyRequest().authenticated()
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));

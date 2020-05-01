@@ -14,4 +14,6 @@ public interface VacationRepo extends JpaRepository<Vacation, Long> {
     @EntityGraph(value = "user_country_entity_graph")
     List<Vacation> findAll();
 
+    //@Query("select v from Vacation v where v.enableNotification='true' and DATEDIFF(NOW(),v.startDate)<=5")
+    List<Vacation> findAllByEnableNotificationTrue();
 }
