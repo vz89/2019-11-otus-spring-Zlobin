@@ -32,12 +32,12 @@ public class AuthenticationController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody AuthenticationRequestDTO requestDTO) {
+    public ResponseEntity<?> login(@RequestBody AuthenticationRequestDTO requestDTO) {
         try {
             String username = requestDTO.getUsername();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, requestDTO.getPassword()));
             User user = userService.findByUsername(username);
-            if (user == null ) {
+            if (user == null) {
                 throw new UsernameNotFoundException("User with username + " + username + " not found");
             }
 
@@ -46,10 +46,9 @@ public class AuthenticationController {
             response.put(USERNAME, username);
             response.put(TOKEN, token);
             return ResponseEntity.ok(response);
-        }
-        catch (AuthenticationException e){
+        } catch (AuthenticationException e) {
             //throw new BadCredentialsException("Invalid username or password");
-            return new ResponseEntity("Invalid username or password",HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>("Invalid username or password", HttpStatus.UNAUTHORIZED);
         }
     }
 

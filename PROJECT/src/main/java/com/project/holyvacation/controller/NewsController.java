@@ -1,6 +1,5 @@
 package com.project.holyvacation.controller;
 
-import com.project.holyvacation.dto.ArticleDTO;
 import com.project.holyvacation.dto.NewsDTO;
 import com.project.holyvacation.service.NewsService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +20,7 @@ public class NewsController {
     @GetMapping("/news/{iso}")
     public ResponseEntity<NewsDTO> findNews(@PathVariable("iso") String iso) {
         NewsDTO newsDTO = newsService.findAllNewsByIso(iso);
-        return newsDTO !=null
+        return newsDTO != null
                 ? new ResponseEntity<>(newsDTO, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

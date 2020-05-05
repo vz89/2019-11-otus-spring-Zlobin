@@ -31,17 +31,17 @@ public class NewsRestClientImpl implements NewsRestClient {
 
     private ResponseEntity<NewsDTO> getNewsDTOResponseEntity(UriComponentsBuilder builder, HttpEntity<?> entity) {
         return restTemplate.exchange(
-                    builder.toUriString(),
-                    HttpMethod.GET,
-                    entity,
-                    NewsDTO.class
-            );
+                builder.toUriString(),
+                HttpMethod.GET,
+                entity,
+                NewsDTO.class
+        );
     }
 
     private UriComponentsBuilder getUriComponentsBuilder(String iso) {
         return UriComponentsBuilder
-                    .fromHttpUrl(serverUrl)
-                    .queryParam("country",iso);
+                .fromHttpUrl(serverUrl)
+                .queryParam("country", iso);
     }
 
     private HttpHeaders getHttpHeaders() {

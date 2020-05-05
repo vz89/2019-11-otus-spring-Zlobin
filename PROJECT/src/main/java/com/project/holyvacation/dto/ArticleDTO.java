@@ -11,5 +11,5 @@ public class ArticleDTO {
     private String url;
     private String urlToImage;
     private String publishedAt;
-    public String content;
+    private String content;
 }

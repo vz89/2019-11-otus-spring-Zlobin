@@ -24,7 +24,7 @@ public class VacationController {
     @GetMapping("/public-vacations")
     public ResponseEntity<List<VacationDTO>> getPublicVacations() {
         List<VacationDTO> vacations = vacationService.getPublicVacations();
-        return vacations!=null && !vacations.isEmpty()
+        return vacations != null && !vacations.isEmpty()
                 ? new ResponseEntity<>(vacations, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -32,7 +32,7 @@ public class VacationController {
     @GetMapping("/vacations")
     public ResponseEntity<List<VacationDTO>> getVacations(Principal principal) {
         List<VacationDTO> vacations = vacationService.getVacations(principal.getName());
-        return vacations!=null && !vacations.isEmpty()
+        return vacations != null && !vacations.isEmpty()
                 ? new ResponseEntity<>(vacations, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -47,19 +47,19 @@ public class VacationController {
     @PreAuthorize("principal.username == #vacation.user.username")
     @GetMapping("/vacations/{id}")
     public ResponseEntity<VacationDTO> getVacation(@PathVariable("id") Vacation vacation) {
-        return new ResponseEntity<>(vacationMapper.toDTO(vacation),HttpStatus.OK);
+        return new ResponseEntity<>(vacationMapper.toDTO(vacation), HttpStatus.OK);
     }
 
     @PreAuthorize("principal.username == #vacation.user.username")
     @PutMapping("/vacations/{id}")
     public ResponseEntity<?> updateVacation(@PathVariable("id") Vacation vacation, @RequestBody VacationDTO vacationDTO) {
-        vacationService.update(vacation,vacationDTO);
+        vacationService.update(vacation, vacationDTO);
         return new ResponseEntity<>("updated", HttpStatus.OK);
     }
 
     @PreAuthorize("principal.username == #vacation.user.username")
     @DeleteMapping("/vacations/{id}")
-    public ResponseEntity<?> deleteVacation(@PathVariable("id") Vacation vacation){
+    public ResponseEntity<?> deleteVacation(@PathVariable("id") Vacation vacation) {
         vacationService.deleteById(vacation.getId());
         return new ResponseEntity<>("deleted", HttpStatus.OK);
     }
