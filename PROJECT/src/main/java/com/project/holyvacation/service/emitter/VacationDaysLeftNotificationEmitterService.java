@@ -1,7 +1,8 @@
-package com.project.holyvacation.service;
+package com.project.holyvacation.service.emitter;
 
 import com.project.holyvacation.domain.Vacation;
 import com.project.holyvacation.integration.VacationDaysLeftNotificationGateway;
+import com.project.holyvacation.service.VacationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;

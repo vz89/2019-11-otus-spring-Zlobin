@@ -28,3 +28,6 @@ api:
   news:
     serverUrl: http://newsapi.org/v2/top-headlines
     apiKey: 432c585bc9ba4ddd935864463e96d85e
+  weather:
+    serverUrl: http://api.openweathermap.org/data/2.5/onecall
+    apiKey: 28683db7f76ae747c2c55d6af934a023

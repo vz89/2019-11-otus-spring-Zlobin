@@ -2,20 +2,19 @@ package com.project.holyvacation.controller;
 
 import com.project.holyvacation.dto.NewsDTO;
 import com.project.holyvacation.service.NewsService;
+import com.project.holyvacation.service.WeatherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/")
 @RequiredArgsConstructor
-public class NewsController {
+public class ApiController {
 
     private final NewsService newsService;
+    private final WeatherService weatherService;
 
     @GetMapping("/news/{iso}")
     public ResponseEntity<NewsDTO> findNews(@PathVariable("iso") String iso) {
@@ -24,4 +23,14 @@ public class NewsController {
                 ? new ResponseEntity<>(newsDTO, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    @GetMapping(value = "/weather", params = {"lat", "lon"})
+    public ResponseEntity<Object> getWeather(@RequestParam("lat") double lat, @RequestParam("lon") double lon) {
+        Object object = weatherService.getWeatherByLatLon(lat, lon);
+        return object != null
+                ? new ResponseEntity<>(object, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+
 }
