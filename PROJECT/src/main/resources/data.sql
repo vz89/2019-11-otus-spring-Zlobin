@@ -260,13 +260,6 @@ insert into country (id, iso, name, nicename, iso3, numcode, phonecode) values
 (253, 'SS', 'SOUTH SUDAN', 'South Sudan', 'SSD', 728, 211);
 
 
-insert into city (city_name, lat, lng, iso2, iso3, id) values
-('Las Palmas de Gran Canaria',28.1,-15.43,'ES','ESP',1724501748),
-('Thulusdhoo',4.3742,73.6517,'MV','MDV',1462000004),
-('Buenos Aires',-34.6025,-58.3975,'AR','ARG',1032717330),
-('Babruysk',53.1266;29.1928,'BY','BLR',1112573808);
-
-
 insert into vacation (id, title, description, created_date, start_date, end_date, country_id, user_id, city_id, is_public, enable_notification) values
 (1, 'first vacation', '2 weeks on Canary sandy beaches', '2020-04-27', '2020-06-01','2020-06-14', 199, 1, 1724501748, true, true),
 (2, 'свадебное путешествие', 'отдыхать на Мальдивы после свадьбы', '2020-04-28', '2020-05-05','2020-05-24', 130, 2, 1462000004, true, true),

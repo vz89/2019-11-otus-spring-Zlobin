@@ -13,7 +13,7 @@ import java.time.temporal.ChronoUnit;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@NamedEntityGraph(name = "user_country_entity_graph", attributeNodes = {@NamedAttributeNode("user"), @NamedAttributeNode("country")})
+@NamedEntityGraph(name = "user_country_city_entity_graph", attributeNodes = {@NamedAttributeNode("user"), @NamedAttributeNode("country"), @NamedAttributeNode("city")})
 public class Vacation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

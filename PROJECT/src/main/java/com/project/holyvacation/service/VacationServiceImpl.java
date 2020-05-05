@@ -15,13 +15,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class VacationServiceImpl implements VacationService {
 
-    public static final String NOTIFICATION_SUBJECT = "Уведомление о скорой поездке";
-    public static final String NOTIFICATION_MESSAGE = "Осталось совсем мало дней ";
+    private static final String NOTIFICATION_SUBJECT = "Уведомление о скорой поездке";
+    private static final String NOTIFICATION_MESSAGE = "Осталось совсем мало дней ";
+    private static final int NULL_DAYS = 0;
     private final VacationRepo vacationRepo;
     private final VacationMapper vacationMapper;
     private final MailSender mailSender;
 
-    @Value("${notification.days-left}")
+    @Value("${notification.daysLeft}")
     private Long notificationDaysLeft;
 
     @Override
@@ -64,7 +65,7 @@ public class VacationServiceImpl implements VacationService {
 
     @Override
     public List<Vacation> findAllForNotification() {
-        return vacationRepo.findAllByEnableNotificationTrue().stream().filter(vacation -> vacation.getDaysLeft() <= notificationDaysLeft).collect(Collectors.toList());
+        return vacationRepo.findAllByEnableNotificationTrue().stream().filter(vacation -> vacation.getDaysLeft() <= notificationDaysLeft && vacation.getDaysLeft() > NULL_DAYS).collect(Collectors.toList());
     }
 
 }

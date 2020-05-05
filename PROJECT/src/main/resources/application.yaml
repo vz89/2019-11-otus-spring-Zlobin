@@ -23,4 +23,8 @@ jwt:
     secret: jwtsecret
     expired: 3600000
 notification:
-  days-left: 5
+  daysLeft: 5
+api:
+  news:
+    serverUrl: http://newsapi.org/v2/top-headlines
+    apiKey: 432c585bc9ba4ddd935864463e96d85e
