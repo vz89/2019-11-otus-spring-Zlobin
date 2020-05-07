@@ -69,8 +69,8 @@ public class Vacation {
         this.daysLeft = ChronoUnit.DAYS.between(LocalDate.now(),this.startDate);
     }
 
-    @PostLoad
-    public void setDaysLeft() {
-        this.daysLeft = ChronoUnit.DAYS.between(LocalDate.now(),this.startDate);
+    public Long getDaysLeft() {
+        return this.daysLeft = ChronoUnit.DAYS.between(LocalDate.now(),this.startDate);
     }
+
 }

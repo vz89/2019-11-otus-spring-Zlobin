@@ -1,8 +1,8 @@
 package com.project.holyvacation.integration;
 
 
-import com.project.holyvacation.repo.VacationRepo;
-import com.project.holyvacation.service.VacationService;
+import com.project.holyvacation.service.EmailMessageService;
+import com.project.holyvacation.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,9 +18,11 @@ import org.springframework.messaging.PollableChannel;
 @RequiredArgsConstructor
 public class IntegrationConfig {
 
-    private static final String VACATION_DAYS_LEFT_NOTIFICATION_TO_EMAIL = "VacationDaysLeftNotificationToEmail";
+    private static final String CREATE_NOTIFICATION_MESSAGE_FROM_VACATION = "createNotificationMessageFromVacation";
+    private static final String SEND_EMAIL_MESSAGE = "sendEmailMessage";
 
-    private final VacationService vacationService;
+    private final NotificationService notificationService;
+    private final EmailMessageService emailMessageService;
 
     @Bean
     public PollableChannel VacationDaysLeftNotificationInChannel() {
@@ -34,7 +36,8 @@ public class IntegrationConfig {
 
     @Bean
     public IntegrationFlow VacationDaysLeftNotificationFlow() {
-        return f->f.channel(VacationDaysLeftNotificationInChannel())
-                .handle(vacationService, VACATION_DAYS_LEFT_NOTIFICATION_TO_EMAIL);
+        return f -> f.channel(VacationDaysLeftNotificationInChannel())
+                .handle(emailMessageService, CREATE_NOTIFICATION_MESSAGE_FROM_VACATION)
+                .handle(notificationService, SEND_EMAIL_MESSAGE);
     }
 }

@@ -18,7 +18,7 @@ public interface VacationService {
 
     void deleteById(Long id);
 
-    public void VacationDaysLeftNotificationToEmail(List<Vacation> vacations);
-
     List<Vacation> findAllForNotification();
+
+
 }

@@ -15,9 +15,9 @@ public class VacationDaysLeftNotificationEmitterService {
     private final VacationDaysLeftNotificationGateway vacationDaysLeftNotificationGateway;
     private final VacationService vacationService;
 
-    @Scheduled(initialDelay = 1000, fixedDelay = 86400000)
+    @Scheduled(cron = "0 0 9 * * *")
     public void emitVacationDaysLeftNotification(){
         List<Vacation> vacations = vacationService.findAllForNotification();
-        vacationDaysLeftNotificationGateway.process(vacations);
+        vacations.forEach(vacationDaysLeftNotificationGateway::process);
     }
 }

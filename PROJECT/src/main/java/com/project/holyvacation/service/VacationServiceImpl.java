@@ -15,8 +15,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class VacationServiceImpl implements VacationService {
 
-    private static final String NOTIFICATION_SUBJECT = "Уведомление о скорой поездке";
-    private static final String NOTIFICATION_MESSAGE = "Осталось совсем мало дней ";
+
     private static final int NULL_DAYS = 0;
     private final VacationRepo vacationRepo;
     private final VacationMapper vacationMapper;
@@ -56,16 +55,11 @@ public class VacationServiceImpl implements VacationService {
         vacationRepo.deleteById(id);
     }
 
-    @Override
-    public void VacationDaysLeftNotificationToEmail(List<Vacation> vacations) {
-        vacations.forEach(vacation -> {
-            mailSender.send(vacation.getUser().getEmail(), NOTIFICATION_SUBJECT, NOTIFICATION_MESSAGE + vacation.getDaysLeft());
-        });
-    }
 
     @Override
     public List<Vacation> findAllForNotification() {
-        return vacationRepo.findAllByEnableNotificationTrue().stream().filter(vacation -> vacation.getDaysLeft() <= notificationDaysLeft && vacation.getDaysLeft() > NULL_DAYS).collect(Collectors.toList());
+        //return vacationRepo.findAllByEnableNotificationTrue().stream().filter(vacation -> vacation.getDaysLeft() <= notificationDaysLeft && vacation.getDaysLeft() > NULL_DAYS).collect(Collectors.toList());
+        return vacationRepo.findAllByEnableNotificationTrue();
     }
 
 }
