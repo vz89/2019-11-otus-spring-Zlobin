@@ -9,10 +9,7 @@ import org.springframework.web.client.RestTemplate;
 public class NewsRestClientImpl implements NewsRestClient {
 
     private final RestTemplate restTemplate;
-
-
     private String serverUrl;
-
     private String apiKey;
 
     public NewsRestClientImpl(RestTemplate restTemplate, @Value("${api.news.serverUrl}") String serverUrl, @Value("${api.news.apiKey}") String apiKey) {
@@ -21,15 +18,8 @@ public class NewsRestClientImpl implements NewsRestClient {
         this.apiKey = apiKey;
     }
 
-
     @Override
     public NewsDTO getAllNewsByIso(String iso) {
-        return restTemplate.getForObject(createUrl(serverUrl, iso, apiKey), NewsDTO.class);
+        return restTemplate.getForObject(serverUrl + "?" + "country=" + iso + '&' + "apiKey=" + apiKey, NewsDTO.class);
     }
-
-    private String createUrl(String serverUrl, String iso, String apiKey) {
-        return serverUrl + "?" + "country=" + iso + '&' + "apiKey="+apiKey;
-    }
-
-
 }
