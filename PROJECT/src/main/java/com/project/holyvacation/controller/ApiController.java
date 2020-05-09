@@ -9,14 +9,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping
 @RequiredArgsConstructor
 public class ApiController {
 
     private final NewsService newsService;
     private final WeatherService weatherService;
 
-    @GetMapping("/news/{iso}")
+    @GetMapping("/api/news/{iso}")
     public ResponseEntity<NewsDTO> findNews(@PathVariable("iso") String iso) {
         NewsDTO newsDTO = newsService.findAllNewsByIso(iso);
         return newsDTO != null
@@ -24,9 +24,9 @@ public class ApiController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping(value = "/weather", params = {"lat", "lon"})
-    public ResponseEntity<Object> getWeather(@RequestParam("lat") double lat, @RequestParam("lon") double lon) {
-        Object object = weatherService.getWeatherByLatLon(lat, lon);
+    @GetMapping(value = "/api/weather", params = {"lat", "lon"})
+    public ResponseEntity<String> getWeather(@RequestParam("lat") double lat, @RequestParam("lon") double lon) {
+        String object = weatherService.getWeatherByLatLon(lat, lon);
         return object != null
                 ? new ResponseEntity<>(object, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);

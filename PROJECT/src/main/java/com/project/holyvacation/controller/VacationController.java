@@ -14,14 +14,14 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping
 @RequiredArgsConstructor
 public class VacationController {
     private final VacationService vacationService;
     private final VacationMapper vacationMapper;
 
 
-    @GetMapping("/public-vacations")
+    @GetMapping("/api/public-vacations")
     public ResponseEntity<List<VacationDTO>> getPublicVacations() {
         List<VacationDTO> vacations = vacationService.getPublicVacations();
         return vacations != null && !vacations.isEmpty()
@@ -29,7 +29,7 @@ public class VacationController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/vacations")
+    @GetMapping("/api/vacations")
     public ResponseEntity<List<VacationDTO>> getVacations(Principal principal) {
         List<VacationDTO> vacations = vacationService.getVacations(principal.getName());
         return vacations != null && !vacations.isEmpty()
@@ -37,7 +37,7 @@ public class VacationController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/vacations")
+    @PostMapping("/api/vacations")
     public ResponseEntity<?> createVacation(@RequestBody VacationDTO vacationDTO, Principal principal) {
         vacationDTO.setUsername(principal.getName());
         vacationService.save(vacationDTO);
@@ -45,20 +45,20 @@ public class VacationController {
     }
 
     @PreAuthorize("principal.username == #vacation.user.username")
-    @GetMapping("/vacations/{id}")
+    @GetMapping("/api/vacations/{id}")
     public ResponseEntity<VacationDTO> getVacation(@PathVariable("id") Vacation vacation) {
         return new ResponseEntity<>(vacationMapper.toDTO(vacation), HttpStatus.OK);
     }
 
     @PreAuthorize("principal.username == #vacation.user.username")
-    @PutMapping("/vacations/{id}")
+    @PutMapping("/api/vacations/{id}")
     public ResponseEntity<?> updateVacation(@PathVariable("id") Vacation vacation, @RequestBody VacationDTO vacationDTO) {
         vacationService.update(vacation, vacationDTO);
         return new ResponseEntity<>("updated", HttpStatus.OK);
     }
 
     @PreAuthorize("principal.username == #vacation.user.username")
-    @DeleteMapping("/vacations/{id}")
+    @DeleteMapping("/api/vacations/{id}")
     public ResponseEntity<?> deleteVacation(@PathVariable("id") Vacation vacation) {
         vacationService.deleteById(vacation.getId());
         return new ResponseEntity<>("deleted", HttpStatus.OK);
