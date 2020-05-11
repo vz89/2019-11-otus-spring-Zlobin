@@ -4,9 +4,6 @@ Spring:
     url: jdbc:mysql://localhost:3306/holyvacation?serverTimezone=Europe/Moscow&useSSL=false
     username: root
     password: root
-    initialization-mode: always
-    schema: classpath:schema.sql
-    data: classpath:data.sql
   jpa:
     generate-ddl: false
     hibernate:

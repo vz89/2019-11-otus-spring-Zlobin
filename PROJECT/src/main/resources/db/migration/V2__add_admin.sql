@@ -1,0 +1,2 @@
+insert into user (id, username, password, first_name, last_name, email, created_date, status) values
+(1, 'admin', '$2a$10$Z5Pcdu/RnKN.mWDcVoTJJur0z1pB3k9Ip/a.W7rvr/ud.g9rBzeYy', 'Андрей', 'Привет', 'vzlobin2003@list.ru', '2020-04-20', 'ACTIVE');
