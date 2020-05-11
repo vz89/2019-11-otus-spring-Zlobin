@@ -1,7 +1,6 @@
 package com.project.holyvacation.security;
 
 import com.project.holyvacation.domain.User;
-import com.project.holyvacation.security.jwt.JwtUser;
 import com.project.holyvacation.security.jwt.JwtUserFactory;
 import com.project.holyvacation.service.UserService;
 import lombok.RequiredArgsConstructor;

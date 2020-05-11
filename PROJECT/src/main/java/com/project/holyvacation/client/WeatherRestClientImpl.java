@@ -8,8 +8,8 @@ import org.springframework.web.client.RestTemplate;
 public class WeatherRestClientImpl implements WeatherRestClient {
 
     private final RestTemplate restTemplate;
-    private String serverUrl;
-    private String apiKey;
+    private final String serverUrl;
+    private final String apiKey;
 
     public WeatherRestClientImpl(RestTemplate restTemplate, @Value("${api.weather.serverUrl}") String serverUrl, @Value("${api.weather.apiKey}") String apiKey) {
         this.restTemplate = restTemplate;

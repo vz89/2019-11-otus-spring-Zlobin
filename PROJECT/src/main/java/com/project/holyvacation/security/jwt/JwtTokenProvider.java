@@ -4,7 +4,6 @@ import com.project.holyvacation.domain.Role;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,7 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -23,27 +21,17 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-@RequiredArgsConstructor
 public class JwtTokenProvider {
 
-    @Value("${jwt.token.secret}")
-    private String secret;
-    @Value("${jwt.token.expired}")
-    private Long validityInMilliseconds;
+    private final String secret;
+    private final Long validityInMilliseconds;
+    private final UserDetailsService userDetailsService;
 
-    @Autowired
-    private UserDetailsService userDetailsService;
-
-    @PostConstruct
-    protected void init() {
-        secret = Base64.getEncoder().encodeToString(secret.getBytes());
+    public JwtTokenProvider(@Value("${jwt.token.secret}") String secret, @Value("${jwt.token.expired}") Long validityInMilliseconds, UserDetailsService userDetailsService) {
+        this.secret = Base64.getEncoder().encodeToString(secret.getBytes());
+        this.validityInMilliseconds = validityInMilliseconds;
+        this.userDetailsService = userDetailsService;
     }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
 
     public String createToken(String username, List<Role> roles) {
 

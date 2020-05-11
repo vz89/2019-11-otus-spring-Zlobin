@@ -25,8 +25,8 @@ public class IntegrationConfig {
     private final EmailMessageService emailMessageService;
 
     @Bean
-    public PollableChannel VacationDaysLeftNotificationInChannel() {
-        return MessageChannels.queue("VacationDaysLeftNotificationInChannel", 100).get();
+    public PollableChannel vacationDaysLeftNotificationInChannel() {
+        return MessageChannels.queue("vacationDaysLeftNotificationInChannel", 100).get();
     }
 
     @Bean(name = PollerMetadata.DEFAULT_POLLER)
@@ -35,8 +35,8 @@ public class IntegrationConfig {
     }
 
     @Bean
-    public IntegrationFlow VacationDaysLeftNotificationFlow() {
-        return f -> f.channel(VacationDaysLeftNotificationInChannel())
+    public IntegrationFlow vacationDaysLeftNotificationFlow() {
+        return f -> f.channel(vacationDaysLeftNotificationInChannel())
                 .handle(emailMessageService, CREATE_NOTIFICATION_MESSAGE_FROM_VACATION)
                 .handle(notificationService, SEND_EMAIL_MESSAGE);
     }

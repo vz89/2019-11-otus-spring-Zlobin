@@ -7,7 +7,7 @@ import org.springframework.integration.annotation.MessagingGateway;
 @MessagingGateway
 public interface VacationDaysLeftNotificationGateway {
 
-    @Gateway(requestChannel = "VacationDaysLeftNotificationInChannel")
+    @Gateway(requestChannel = "vacationDaysLeftNotificationInChannel")
     void process(Vacation vacation);
 
 }

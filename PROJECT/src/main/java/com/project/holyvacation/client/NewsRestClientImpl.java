@@ -9,8 +9,8 @@ import org.springframework.web.client.RestTemplate;
 public class NewsRestClientImpl implements NewsRestClient {
 
     private final RestTemplate restTemplate;
-    private String serverUrl;
-    private String apiKey;
+    private final String serverUrl;
+    private final String apiKey;
 
     public NewsRestClientImpl(RestTemplate restTemplate, @Value("${api.news.serverUrl}") String serverUrl, @Value("${api.news.apiKey}") String apiKey) {
         this.restTemplate = restTemplate;
