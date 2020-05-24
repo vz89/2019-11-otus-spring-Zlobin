@@ -12,17 +12,17 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
+@CrossOrigin
 @RestController
 @RequestMapping
 @RequiredArgsConstructor
+
 public class AuthenticationController {
 
     private static final String USERNAME = "username";
@@ -51,5 +51,13 @@ public class AuthenticationController {
             return new ResponseEntity<>("Invalid username or password", HttpStatus.UNAUTHORIZED);
         }
     }
+
+
+    @GetMapping("/api/auth/check")
+    public ResponseEntity<?> checkUsername(Principal principal) {
+        if (principal.getName() != null) return new ResponseEntity<>(principal.getName(), HttpStatus.OK);
+        else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
 
 }

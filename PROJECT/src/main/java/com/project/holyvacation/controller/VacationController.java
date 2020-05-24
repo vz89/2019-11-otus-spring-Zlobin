@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping
 @RequiredArgsConstructor
@@ -32,6 +33,7 @@ public class VacationController {
     @GetMapping("/api/vacations")
     public ResponseEntity<List<VacationDTO>> getVacations(Principal principal) {
         List<VacationDTO> vacations = vacationService.getVacations(principal.getName());
+
         return vacations != null && !vacations.isEmpty()
                 ? new ResponseEntity<>(vacations, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
