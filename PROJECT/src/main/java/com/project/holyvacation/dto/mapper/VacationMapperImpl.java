@@ -46,7 +46,7 @@ public class VacationMapperImpl implements VacationMapper {
                 vacationDTO.getEndDate(),
                 countryRepo.findByNiceName(vacationDTO.getCountry()),
                 userRepo.findByUsername(vacationDTO.getUsername()),
-                cityRepo.findByCity(vacationDTO.getCity()),
+                cityRepo.findFirstByCity(vacationDTO.getCity()),
                 vacationDTO.isPublic(),
                 vacationDTO.isEnableNotification()
         );
@@ -59,7 +59,7 @@ public class VacationMapperImpl implements VacationMapper {
         vacation.setStartDate(vacationDTO.getStartDate());
         vacation.setEndDate(vacationDTO.getEndDate());
         vacation.setCountry(countryRepo.findByNiceName(vacationDTO.getCountry()));
-        vacation.setCity(cityRepo.findByCity(vacationDTO.getCity()));
+        vacation.setCity(cityRepo.findFirstByCity(vacationDTO.getCity()));
         return vacation;
     }
 }

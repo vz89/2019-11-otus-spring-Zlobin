@@ -11,7 +11,7 @@ public class WeatherServiceImpl implements WeatherService {
     private final WeatherRestClient weatherRestClient;
 
     @Override
-    public String getWeatherByLatLon(double lat, double lon) {
+    public Object getWeatherByLatLon(double lat, double lon) {
         return weatherRestClient.getWeatherByLatLon(lat,lon);
     }
 }

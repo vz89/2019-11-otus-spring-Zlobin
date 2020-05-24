@@ -4,5 +4,5 @@ import com.project.holyvacation.domain.City;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CityRepo extends JpaRepository<City, Integer> {
-    City findByCity(String cityName);
+    City findFirstByCity(String cityName);
 }

@@ -18,7 +18,7 @@ public class WeatherRestClientImpl implements WeatherRestClient {
     }
 
     @Override
-    public String getWeatherByLatLon(double lat, double lon) {
+    public Object getWeatherByLatLon(double lat, double lon) {
         return restTemplate.getForObject(serverUrl + "?" + "lat=" + lat + "&" + "lon=" + lon + "&" + "exclude=minutely,hourly" + "&" + "appid=" + apiKey, String.class);
     }
 

@@ -27,8 +27,8 @@ public class ApiController {
     }
 
     @GetMapping(value = "/api/weather", params = {"lat", "lon"})
-    public ResponseEntity<String> getWeather(@RequestParam("lat") double lat, @RequestParam("lon") double lon) {
-        String object = weatherService.getWeatherByLatLon(lat, lon);
+    public ResponseEntity<Object> getWeather(@RequestParam("lat") double lat, @RequestParam("lon") double lon) {
+        Object object = weatherService.getWeatherByLatLon(lat, lon);
         return object != null
                 ? new ResponseEntity<>(object, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);

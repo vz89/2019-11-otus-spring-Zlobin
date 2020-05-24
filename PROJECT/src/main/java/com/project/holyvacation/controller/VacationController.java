@@ -1,9 +1,12 @@
 package com.project.holyvacation.controller;
 
 import com.project.holyvacation.domain.Vacation;
+import com.project.holyvacation.dto.NewsDTO;
 import com.project.holyvacation.dto.VacationDTO;
 import com.project.holyvacation.dto.mapper.VacationMapper;
+import com.project.holyvacation.service.NewsService;
 import com.project.holyvacation.service.VacationService;
+import com.project.holyvacation.service.WeatherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +14,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin
 @RestController
@@ -20,6 +25,8 @@ import java.util.List;
 public class VacationController {
     private final VacationService vacationService;
     private final VacationMapper vacationMapper;
+    private final NewsService newsService;
+    private final WeatherService weatherService;
 
 
     @GetMapping("/api/public-vacations")
@@ -48,8 +55,13 @@ public class VacationController {
 
     @PreAuthorize("principal.username == #vacation.user.username")
     @GetMapping("/api/vacations/{id}")
-    public ResponseEntity<VacationDTO> getVacation(@PathVariable("id") Vacation vacation) {
-        return new ResponseEntity<>(vacationMapper.toDTO(vacation), HttpStatus.OK);
+    public ResponseEntity<Map> getVacation(@PathVariable("id") Vacation vacation) {
+        NewsDTO newsDTO = newsService.findAllNewsByIso(vacation.getCountry().getIso());
+        Object object = weatherService.getWeatherByLatLon(vacation.getCity().getLat(), vacation.getCity().getLng());
+        Map map = new HashMap();
+        map.put("vacation",vacationMapper.toDTO(vacation));
+        map.put("news", newsDTO);
+        return new ResponseEntity<Map>(map, HttpStatus.OK);
     }
 
     @PreAuthorize("principal.username == #vacation.user.username")
