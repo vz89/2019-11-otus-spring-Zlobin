@@ -1,0 +1,43 @@
+Spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/holyvacation?serverTimezone=Europe/Moscow&useSSL=false
+    username: root
+    password: root
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  mail:
+    host: smtp.mail.ru
+    username: holyvacationtest@mail.ru
+    password: otusspring123
+    protocol: smtps
+    port: 465
+jwt:
+  token:
+    secret: jwtsecret
+    expired: 3600000
+notification:
+  daysLeft: 5
+api:
+  news:
+    serverUrl: http://newsapi.org/v2/top-headlines
+    apiKey: 432c585bc9ba4ddd935864463e96d85e
+  weather:
+    serverUrl: http://api.openweathermap.org/data/2.5/onecall
+    apiKey: 28683db7f76ae747c2c55d6af934a023
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  health:
+    defaults:
+      enabled: true
+    diskspace:
+      enabled: true
