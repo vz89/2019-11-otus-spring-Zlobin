@@ -1,6 +1,7 @@
 package com.project.holyvacation.controller;
 
 import com.project.holyvacation.dto.NewsDTO;
+import com.project.holyvacation.dto.weatherDto.WeatherDTO;
 import com.project.holyvacation.service.NewsService;
 import com.project.holyvacation.service.WeatherService;
 import lombok.RequiredArgsConstructor;
@@ -27,10 +28,10 @@ public class ApiController {
     }
 
     @GetMapping(value = "/api/weather", params = {"lat", "lon"})
-    public ResponseEntity<Object> getWeather(@RequestParam("lat") double lat, @RequestParam("lon") double lon) {
-        Object object = weatherService.getWeatherByLatLon(lat, lon);
-        return object != null
-                ? new ResponseEntity<>(object, HttpStatus.OK)
+    public ResponseEntity<WeatherDTO> getWeather(@RequestParam("lat") double lat, @RequestParam("lon") double lon) {
+        WeatherDTO weatherDTO = weatherService.getWeatherByLatLon(lat, lon);
+        return weatherDTO != null
+                ? new ResponseEntity<>(weatherDTO, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 

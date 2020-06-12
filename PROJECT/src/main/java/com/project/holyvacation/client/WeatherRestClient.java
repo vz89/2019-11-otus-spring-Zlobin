@@ -1,5 +1,7 @@
 package com.project.holyvacation.client;
 
+import com.project.holyvacation.dto.weatherDto.WeatherDTO;
+
 public interface WeatherRestClient {
-    Object getWeatherByLatLon(double lat, double lon);
+    WeatherDTO getWeatherByLatLon(double lat, double lon);
 }

@@ -1,5 +1,6 @@
 package com.project.holyvacation.client;
 
+import com.project.holyvacation.dto.weatherDto.WeatherDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -18,8 +19,8 @@ public class WeatherRestClientImpl implements WeatherRestClient {
     }
 
     @Override
-    public Object getWeatherByLatLon(double lat, double lon) {
-        return restTemplate.getForObject(serverUrl + "?" + "lat=" + lat + "&" + "lon=" + lon + "&" + "exclude=minutely,hourly" + "&" + "appid=" + apiKey, String.class);
+    public WeatherDTO getWeatherByLatLon(double lat, double lon) {
+        return restTemplate.getForObject(serverUrl + "?" + "lat=" + lat + "&" + "lon=" + lon + "&" + "exclude=minutely,hourly" + "&" + "appid=" + apiKey, WeatherDTO.class);
     }
 
 }

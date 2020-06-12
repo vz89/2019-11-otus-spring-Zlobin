@@ -1,6 +1,8 @@
 package com.project.holyvacation.service;
 
+import com.project.holyvacation.dto.weatherDto.WeatherDTO;
+
 public interface WeatherService {
-    Object getWeatherByLatLon(double lat, double lon);
+    WeatherDTO getWeatherByLatLon(double lat, double lon);
 
 }
