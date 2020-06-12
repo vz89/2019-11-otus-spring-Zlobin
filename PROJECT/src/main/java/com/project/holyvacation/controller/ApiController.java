@@ -1,7 +1,7 @@
 package com.project.holyvacation.controller;
 
 import com.project.holyvacation.dto.NewsDTO;
-import com.project.holyvacation.dto.weatherDto.WeatherDTO;
+import com.project.holyvacation.dto.WeatherDTO;
 import com.project.holyvacation.service.NewsService;
 import com.project.holyvacation.service.WeatherService;
 import lombok.RequiredArgsConstructor;
