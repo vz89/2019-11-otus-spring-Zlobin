@@ -10,6 +10,8 @@
 -	Lombock
 -	MySQL
 -	Flyway
+
+
 Используемые технологии для написания frontend (находится в каталоге PROJECT-FRONTEND):
 -	React
 -	Redux
