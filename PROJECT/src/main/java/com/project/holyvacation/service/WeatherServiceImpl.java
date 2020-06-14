@@ -1,7 +1,7 @@
 package com.project.holyvacation.service;
 
 import com.project.holyvacation.client.WeatherRestClient;
-import com.project.holyvacation.dto.weatherDto.WeatherDTO;
+import com.project.holyvacation.dto.WeatherDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
