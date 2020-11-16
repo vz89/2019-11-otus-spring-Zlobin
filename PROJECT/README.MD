@@ -9,7 +9,7 @@
 
 Используемые технологии для написания backend:
 -	Spring Boot
--	Spring Security c кастомным jwt-access токеном
+-	Spring Security
 -	Spring Data JPA
 -	Spting Integration
 -	Spring Actuator
